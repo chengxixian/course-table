@@ -82,7 +82,6 @@ class _CourseCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () => showCourseDetail(context, controller, course, animate: false),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -124,8 +123,7 @@ class _CourseCard extends StatelessWidget {
               Row(children: [
                 Text('${course.meetings.length} 个上课时段${course.adjusted ? ' · 含调课' : ''}', style: TextStyle(fontSize: 8.5, color: scheme.onSurfaceVariant)),
                 const Spacer(),
-                Text('查看详情', style: TextStyle(fontSize: 8.5, color: scheme.primary, fontWeight: FontWeight.w600)),
-                Icon(PixelIcons.chevron_right, size: 14, color: scheme.primary),
+                Text('${course.meetings.length} 个时段', style: TextStyle(fontSize: 8.5, color: scheme.onSurfaceVariant)),
               ]),
             ]),
           ),

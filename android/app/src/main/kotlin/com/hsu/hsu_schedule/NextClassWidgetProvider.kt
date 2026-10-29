@@ -95,16 +95,16 @@ class NextClassWidgetProvider : AppWidgetProvider() {
                 return bitmap
             }
             paint.color = secondary
-            paint.textSize = 24f
-            canvas.drawText(fit(paint, listOf(room, teacher).filter { it.isNotEmpty() }.joinToString(" · "), bmpW - pad * 2), pad, 42f, paint)
+            paint.textSize = 28f
+            canvas.drawText(fit(paint, listOf(room, teacher).filter { it.isNotEmpty() }.joinToString(" · "), bmpW - pad * 2), pad, 54f, paint)
             paint.color = onSurface
-            paint.textSize = 56f
-            canvas.drawText(fit(paint, course, bmpW - pad * 2), pad, 112f, paint)
+            paint.textSize = 62f
+            canvas.drawText(fit(paint, course, bmpW - pad * 2), pad, 144f, paint)
             paint.color = accent
-            paint.textSize = 38f
+            paint.textSize = 44f
             paint.typeface = timeTypeface
             val time = if (start.isEmpty()) "" else if (end.isEmpty()) start else "$start–$end"
-            canvas.drawText(time, pad, 172f, paint)
+            canvas.drawText(time, pad, 238f, paint)
             paint.typeface = bodyTypeface
             return bitmap
         }

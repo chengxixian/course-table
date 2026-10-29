@@ -1,7 +1,7 @@
 {
-  "version": "2.0.2",
-  "build": 4,
-  "notes": "修复 2×1 尺寸、新增 2×2 今日小组件、课程详情浮层、时段景观、课间空隙、GPL-3.0。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.2/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.2"
+  "version": "2.0.3",
+  "build": 5,
+  "notes": "课程页移除详情弹层；2×1 小组件填满并放大文字；新增 4×4 周课表、2×2 今日小组件。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.3/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.3"
 }

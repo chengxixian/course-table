@@ -10,5 +10,5 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="false"
         android:contentDescription="@null"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitXY" />
 </FrameLayout>
