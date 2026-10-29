@@ -82,7 +82,7 @@ class _CourseCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () => showCourseDetail(context, controller, course),
+          onTap: () => showCourseDetail(context, controller, course, animate: false),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

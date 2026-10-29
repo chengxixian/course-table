@@ -85,28 +85,27 @@ class NextClassWidgetProvider : AppWidgetProvider() {
             val teacher = json?.optString("nextTeacher", "").orEmpty()
             val empty = course.isEmpty()
             val pad = 22f
-            paint.textSize = 15f
-            paint.color = accent
-            canvas.drawText(if (empty) "课程表" else "下一节", pad, 38f, paint)
-            paint.color = onSurface
-            paint.textSize = if (empty) 34f else 36f
-            canvas.drawText(fit(paint, if (empty) "今天没有更多课" else course, bmpW - pad * 2), pad, 92f, paint)
-            paint.color = accent
+            if (empty) {
+                paint.color = onSurface
+                paint.textSize = 44f
+                canvas.drawText(fit(paint, "今天没有更多课", bmpW - pad * 2), pad, 120f, paint)
+                paint.color = secondary
+                paint.textSize = 24f
+                canvas.drawText("课程表", pad, 172f, paint)
+                return bitmap
+            }
+            paint.color = secondary
             paint.textSize = 24f
+            canvas.drawText(fit(paint, listOf(room, teacher).filter { it.isNotEmpty() }.joinToString(" · "), bmpW - pad * 2), pad, 42f, paint)
+            paint.color = onSurface
+            paint.textSize = 56f
+            canvas.drawText(fit(paint, course, bmpW - pad * 2), pad, 112f, paint)
+            paint.color = accent
+            paint.textSize = 38f
             paint.typeface = timeTypeface
             val time = if (start.isEmpty()) "" else if (end.isEmpty()) start else "$start–$end"
-            canvas.drawText(time, pad, 136f, paint)
+            canvas.drawText(time, pad, 172f, paint)
             paint.typeface = bodyTypeface
-            paint.color = secondary
-            paint.textSize = 17f
-            val meta = listOf(room, teacher).filter { it.isNotEmpty() }.joinToString(" · ")
-            canvas.drawText(fit(paint, meta, bmpW - pad * 2), pad, 174f, paint)
-            paint.color = secondary
-            paint.textSize = 13f
-            canvas.drawText("课程表", pad, 252f, paint)
-            paint.color = accent
-            val open = "打开"
-            canvas.drawText(open, bmpW - pad - paint.measureText(open), 252f, paint)
             return bitmap
         }
 

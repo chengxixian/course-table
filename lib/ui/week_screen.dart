@@ -51,7 +51,7 @@ class _WeekScreenState extends State<WeekScreen> {
           week: w,
           horizontal: _horizontal,
           durationMode: widget.controller.settings.durationMode,
-          onCourseTap: (course) => showCourseDetail(context, widget.controller, course),
+          onCourseTap: (course, rect) => showCourseDetail(context, widget.controller, course, anchor: rect),
         )),
         const SizedBox(height: 10),
         Row(children: [
@@ -82,7 +82,7 @@ class _Timetable extends StatelessWidget {
   final int week;
   final ScrollController horizontal;
   final String durationMode;
-  final void Function(Course course) onCourseTap;
+  final void Function(Course course, Rect rect) onCourseTap;
 
   const _Timetable({
     required this.schedule,
@@ -224,7 +224,7 @@ class _DayColumn extends StatelessWidget {
   final String durationMode;
   final bool isToday;
   final bool isWeekend;
-  final void Function(Course course) onCourseTap;
+  final void Function(Course course, Rect rect) onCourseTap;
 
   const _DayColumn({
     required this.schedule,
@@ -272,7 +272,8 @@ class _DayColumn extends StatelessWidget {
               conflict: schedule.conflicts.any((c) => c.week == week && c.meetingIds.contains(p.meeting.id)),
               compact: p.meeting.periodCount == 1,
               mode: durationMode,
-              onTap: () => onCourseTap(schedule.courseById(p.meeting.courseId)!),
+              onTap: () => onCourseTap(schedule.courseById(p.meeting.courseId)!, Rect.zero),
+              onTapRect: (rect) => onCourseTap(schedule.courseById(p.meeting.courseId)!, rect),
             ),
           ),
         if (isToday && nowTop != null)

@@ -240,6 +240,22 @@ class AppController extends ChangeNotifier {
     );
   }
 
+  Future<void> requestPinTodayWidget() async {
+    if (!Platform.isAndroid) return;
+    await HomeWidget.requestPinWidget(
+      androidName: 'TodayWidgetProvider',
+      qualifiedAndroidName: 'com.hsu.hsu_schedule.TodayWidgetProvider',
+    );
+  }
+
+  Future<void> requestPinWeekWidget() async {
+    if (!Platform.isAndroid) return;
+    await HomeWidget.requestPinWidget(
+      androidName: 'WeekGridWidgetProvider',
+      qualifiedAndroidName: 'com.hsu.hsu_schedule.WeekGridWidgetProvider',
+    );
+  }
+
   void _startDesktopTimer() {
     _desktopTimer?.cancel();
     _desktopTimer = Timer.periodic(const Duration(minutes: 1), (_) {

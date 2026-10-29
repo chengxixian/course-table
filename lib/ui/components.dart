@@ -8,6 +8,7 @@ import '../app_controller.dart';
 import '../calendar_export.dart';
 import '../models.dart';
 import '../pixel_icons.dart';
+import 'motion.dart';
 
 class CoursePalette {
   final Color accent;
@@ -63,6 +64,7 @@ class CourseBlock extends StatelessWidget {
   final Course course;
   final bool conflict;
   final VoidCallback onTap;
+  final void Function(Rect rect)? onTapRect;
   final bool compact;
   final String mode;
 
@@ -72,6 +74,7 @@ class CourseBlock extends StatelessWidget {
     required this.course,
     required this.conflict,
     required this.onTap,
+    this.onTapRect,
     this.compact = false,
     this.mode = '45',
   });
@@ -82,7 +85,14 @@ class CourseBlock extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: () {
+          final box = context.findRenderObject() as RenderBox?;
+          if (box != null && onTapRect != null) {
+            onTapRect!(box.localToGlobal(Offset.zero) & box.size);
+          } else {
+            onTap();
+          }
+        },
         borderRadius: BorderRadius.circular(12),
         child: Container(
           padding: EdgeInsets.fromLTRB(compact ? 6 : 7, compact ? 5 : 6, 5, compact ? 5 : 6),
@@ -338,10 +348,10 @@ class CourseDetailSheet extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(course.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 19)),
+            Text(course.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 16)),
             const SizedBox(height: 2),
             Text('${course.teacher} · ${course.type.isEmpty ? course.category : course.type}${course.credits == null ? '' : ' · ${course.credits} 学分'}',
-                style: TextStyle(fontSize: 10.5, color: scheme.onSurfaceVariant)),
+                style: TextStyle(fontSize: 9.5, color: scheme.onSurfaceVariant)),
           ])),
         ]),
         const SizedBox(height: 15),
@@ -365,8 +375,8 @@ class CourseDetailSheet extends StatelessWidget {
                 Container(width: 6, height: 6, decoration: BoxDecoration(color: palette.accent, shape: BoxShape.circle)),
                 const SizedBox(width: 8),
                 Expanded(child: Text('${m.dayName} 第 ${m.startPeriod}-${m.endPeriod} 节  ${m.startTime}–${m.endTime(controller.settings.durationMode)}',
-                    style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w500))),
-                Text(m.room, style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+                    style: const TextStyle(fontSize: 9.5, fontWeight: FontWeight.w500))),
+                Text(m.room, style: TextStyle(fontSize: 8, color: scheme.onSurfaceVariant)),
               ]),
             )),
         const SizedBox(height: 8),
@@ -510,13 +520,116 @@ class _LoginSheetState extends State<LoginSheet> {
   }
 }
 
-void showCourseDetail(BuildContext context, AppController controller, Course course) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    builder: (_) => CourseDetailSheet(controller: controller, course: course),
+void showCourseDetail(BuildContext context, AppController controller, Course course, {Rect? anchor, bool animate = true}) {
+  final media = MediaQuery.of(context);
+  final screen = media.size;
+  final safeTop = media.padding.top + 8;
+  final safeBottom = screen.height - media.padding.bottom - 12;
+  final popupWidth = (screen.width - 48).clamp(280.0, 320.0);
+  final startRect = anchor ?? Rect.fromCenter(center: Offset(screen.width / 2, screen.height * 0.42), width: 120, height: 80);
+  final popupHeight = (285.0 + course.meetings.length * 50.0).clamp(300.0, 540.0);
+  final left = (startRect.center.dx - popupWidth / 2).clamp(16.0, screen.width - popupWidth - 16);
+  final top = (startRect.center.dy - popupHeight / 2).clamp(safeTop, safeBottom - popupHeight);
+  final targetRect = Rect.fromLTWH(left, top, popupWidth, popupHeight);
+  final origin = Alignment(
+    ((startRect.center.dx - targetRect.left) / popupWidth * 2 - 1).clamp(-1.0, 1.0),
+    ((startRect.center.dy - targetRect.top) / popupHeight * 2 - 1).clamp(-1.0, 1.0),
   );
+  showGeneralDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: '课程详情',
+    barrierColor: Colors.transparent,
+    transitionDuration: Duration.zero,
+    pageBuilder: (dialogContext, _, __) => _AnchoredCoursePopup(
+      startRect: startRect,
+      targetRect: targetRect,
+      origin: origin,
+      animate: animate,
+      child: MediaQuery(
+        data: MediaQuery.of(dialogContext).copyWith(textScaler: TextScaler.linear(1.0)),
+        child: _CoursePopupCard(controller: controller, course: course),
+      ),
+    ),
+  );
+}
+
+class _CoursePopupCard extends StatelessWidget {
+  final AppController controller;
+  final Course course;
+  const _CoursePopupCard({required this.controller, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Material(
+      color: scheme.surfaceContainerHigh,
+      elevation: 3,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 8),
+        child: CourseDetailSheet(controller: controller, course: course),
+      ),
+    );
+  }
+}
+
+class _AnchoredCoursePopup extends StatefulWidget {
+  final Rect startRect;
+  final Rect targetRect;
+  final Alignment origin;
+  final bool animate;
+  final Widget child;
+  const _AnchoredCoursePopup({required this.startRect, required this.targetRect, required this.origin, required this.animate, required this.child});
+
+  @override
+  State<_AnchoredCoursePopup> createState() => _AnchoredCoursePopupState();
+}
+
+class _AnchoredCoursePopupState extends State<_AnchoredCoursePopup> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+  late final Animation<double> _position = CurvedAnimation(parent: _controller, curve: const Cubic(0.05, 0.7, 0.1, 1.0));
+  late final Animation<double> _scale = TweenSequence<double>([
+    TweenSequenceItem(tween: Tween(begin: 0.50, end: 1.02).chain(CurveTween(curve: const Cubic(0.05, 0.7, 0.1, 1.0))), weight: 50),
+    TweenSequenceItem(tween: Tween(begin: 1.02, end: 1.0).chain(CurveTween(curve: const Cubic(0.30, 0.0, 0.33, 1.0))), weight: 50),
+  ]).animate(_controller);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.animate) {
+      _controller.forward();
+    } else {
+      _controller.value = 1;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) {
+        final rect = Rect.lerp(widget.startRect, widget.targetRect, _position.value)!;
+        final opacity = (_controller.value / 0.21).clamp(0.0, 1.0);
+        return Stack(children: [
+          Positioned.fromRect(
+            rect: rect,
+            child: Opacity(
+              opacity: opacity,
+              child: Transform.scale(alignment: widget.origin, scale: _scale.value, child: widget.child),
+            ),
+          ),
+        ]);
+      },
+    );
+  }
 }
 
 Future<void> exportAllCourses(BuildContext context, AppController controller) async {
@@ -581,5 +694,6 @@ class _CountdownTickerState extends State<CountdownTicker> {
   @override
   Widget build(BuildContext context) => widget.builder(context, DateTime.now());
 }
+
 
 

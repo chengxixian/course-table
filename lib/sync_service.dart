@@ -50,6 +50,14 @@ class WidgetBridge {
       androidName: 'NextClassWidgetProvider',
       qualifiedAndroidName: 'com.hsu.hsu_schedule.NextClassWidgetProvider',
     );
+    await HomeWidget.updateWidget(
+      androidName: 'TodayWidgetProvider',
+      qualifiedAndroidName: 'com.hsu.hsu_schedule.TodayWidgetProvider',
+    );
+    await HomeWidget.updateWidget(
+      androidName: 'WeekGridWidgetProvider',
+      qualifiedAndroidName: 'com.hsu.hsu_schedule.WeekGridWidgetProvider',
+    );
   }
 
   static Map<String, dynamic> buildPayload(Schedule schedule, AppSettings settings) {
@@ -87,8 +95,25 @@ class WidgetBridge {
               : '${next.startAt.month}月${next.startAt.day}日 ';
       summary = '下一节 $prefix${next.meeting.startTime}  ${next.meeting.courseName}';
     }
+    final weekCourses = <Map<String, dynamic>>[];
+    if (week > 0) {
+      for (var day = 1; day <= 5; day++) {
+        for (final m in schedule.meetingsFor(week, day)) {
+          weekCourses.add({
+            'day': day,
+            'period': m.startPeriod,
+            'span': m.periodCount,
+            'name': m.courseName,
+            'room': m.room,
+            'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
+          });
+        }
+      }
+    }
     return {
       'week': week > 0 ? '第 $week 周' : '假期',
+      'weekCourses': weekCourses,
+      'periodCount': schedule.periods.length,
       'dateLabel': '${now.month}月${now.day}日 · ${kWeekdays[now.weekday]}',
       'fontStyle': settings.fontStyle,
       'nextSummary': summary,
