@@ -76,6 +76,7 @@ class _Timetable extends StatelessWidget {
   static const double dayWidth = 88;
   static const double timeWidth = 48;
   static const double rowHeight = 56;
+  static const double breakHeight = 4;
 
   final Schedule schedule;
   final int week;
@@ -97,7 +98,7 @@ class _Timetable extends StatelessWidget {
     final periods = schedule.periods.isEmpty ? ScheduleParserProxy.periods : schedule.periods;
     final currentWeek = schedule.currentWeek();
     final today = DateTime.now();
-    final height = periods.length * rowHeight;
+    final height = periods.length * rowHeight + (periods.length - 1) * breakHeight;
     return Container(
       decoration: BoxDecoration(
         color: scheme.surfaceContainerLowest,
@@ -116,7 +117,7 @@ class _Timetable extends StatelessWidget {
                 child: Center(child: Text('节', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant))),
               ),
               Divider(height: 1, color: scheme.outlineVariant),
-              for (final p in periods)
+              for (final p in periods) ...[
                 SizedBox(
                   height: rowHeight,
                   child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -124,6 +125,8 @@ class _Timetable extends StatelessWidget {
                     Text('${p.start}–${p.end}', style: TextStyle(fontSize: 6.5, color: scheme.outline, height: 1.1)),
                   ]),
                 ),
+                if (p.index != periods.last.index) SizedBox(height: breakHeight),
+              ],
             ]),
           ),
           VerticalDivider(width: 1, thickness: 1, color: scheme.outlineVariant),
@@ -252,15 +255,17 @@ class _DayColumn extends StatelessWidget {
       ),
       child: Stack(children: [
         Column(children: [
-          for (var i = 0; i < periodCount; i++)
+          for (var i = 0; i < periodCount; i++) ...[
             Container(height: rowHeight, decoration: BoxDecoration(border: Border(bottom: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.28))))),
+            if (i != periodCount - 1) const SizedBox(height: _Timetable.breakHeight),
+          ],
         ]),
         for (final p in placements)
           Positioned(
-            top: (p.meeting.startPeriod - 1) * rowHeight + 2,
+            top: (p.meeting.startPeriod - 1) * (rowHeight + _Timetable.breakHeight) + 2,
             left: p.lane * (width / p.lanes) + 2,
             width: (width / p.lanes) - 4,
-            height: p.meeting.periodCount * rowHeight - 4,
+            height: p.meeting.periodCount * rowHeight + (p.meeting.periodCount - 1) * _Timetable.breakHeight - 4,
             child: CourseBlock(
               meeting: p.meeting,
               course: schedule.courseById(p.meeting.courseId)!,
@@ -289,12 +294,12 @@ class _DayColumn extends StatelessWidget {
       final start = Schedule.parseMinutes(p.start);
       final end = Schedule.parseMinutes(p.end);
       if (start == null || end == null) continue;
-      if (minutes < start) return ((p.index - 1) * rowHeight).toDouble();
+      if (minutes < start) return ((p.index - 1) * (rowHeight + _Timetable.breakHeight)).toDouble();
       if (minutes <= end) {
-        return ((p.index - 1) + (minutes - start) / (end - start)) * rowHeight;
+        return (p.index - 1) * (rowHeight + _Timetable.breakHeight) + ((minutes - start) / (end - start)) * rowHeight;
       }
     }
-    return (periodCount * rowHeight).toDouble();
+    return (periodCount * (rowHeight + _Timetable.breakHeight) - _Timetable.breakHeight).toDouble();
   }
 
   List<_Placement> _place(List<Meeting> meetings) {
