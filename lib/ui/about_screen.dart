@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_meta.dart';
@@ -102,7 +102,16 @@ class AboutScreen extends StatelessWidget {
                 ),
               ]),
             ),
-            const SizedBox(height: 26),
+            const SizedBox(height: 10),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(PixelIcons.menu_book_outlined, size: 19),
+              title: const Text('开源许可', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              subtitle: const Text('GNU General Public License v3.0', style: TextStyle(fontSize: 9)),
+              trailing: Icon(PixelIcons.chevron_right, size: 16),
+              onTap: () => showLicensePage(context: context, applicationName: AppMeta.name, applicationVersion: AppMeta.version),
+            ),
+            const SizedBox(height: 16),
             Text('赞赏', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 8),
             Text('如果这个课表工具帮到了你，可以请作者喝杯饮料。感谢每一份支持。',
@@ -200,3 +209,4 @@ class _DonateCard extends StatelessWidget {
     );
   }
 }
+

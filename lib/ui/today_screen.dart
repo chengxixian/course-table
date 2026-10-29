@@ -4,6 +4,7 @@ import '../app_controller.dart';
 import '../calendar_export.dart';
 import '../models.dart';
 import 'components.dart';
+import 'time_scene.dart';
 import '../pixel_icons.dart';
 
 class TodayScreen extends StatelessWidget {
@@ -100,13 +101,20 @@ class _TodayNextCard extends StatelessWidget {
     final nextClass = next!;
     final m = nextClass.meeting;
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26),
-        gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [scheme.primary, Color.lerp(scheme.primary, Colors.black, 0.34)!]),
-        boxShadow: [BoxShadow(color: scheme.primary.withValues(alpha: 0.2), blurRadius: 24, offset: const Offset(0, 12))],
+        boxShadow: [BoxShadow(color: scheme.primary.withValues(alpha: 0.18), blurRadius: 24, offset: const Offset(0, 12))],
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(26),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: TimeScene(time: DateTime.now(), blur: 14, scrimOpacity: 0.36),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           Icon(nextClass.ongoing ? PixelIcons.play_circle_outline : PixelIcons.auto_awesome, size: 14, color: Colors.white70),
           const SizedBox(width: 5),
@@ -150,7 +158,11 @@ class _TodayNextCard extends StatelessWidget {
             ),
           ]),
         ),
-      ]),
+              ]),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
