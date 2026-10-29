@@ -1,0 +1,468 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:window_manager/window_manager.dart';
+
+import '../app_controller.dart';
+import '../calendar_export.dart';
+import '../google_calendar_import.dart';
+import '../models.dart';
+import 'components.dart';
+import '../pixel_icons.dart';
+import '../ui_theme.dart';
+import 'about_screen.dart';
+import 'import_web_screen.dart';
+import '../imported_source.dart';
+
+class SettingsScreen extends StatelessWidget {
+  final AppController controller;
+  final VoidCallback onLogin;
+  const SettingsScreen({super.key, required this.controller, required this.onLogin});
+
+  @override
+  Widget build(BuildContext context) {
+    final schedule = controller.schedule;
+    final profile = schedule?.student;
+    final scheme = Theme.of(context).colorScheme;
+    final settings = controller.settings;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
+      children: [
+        PageHeader(
+          kicker: '偏好与数据',
+          title: '设置',
+          subtitle: '管理同步、桌面小组件与 Google 日历。',
+          actions: [
+            FilledButton.icon(
+              onPressed: controller.syncing ? null : () => _sync(context),
+              icon: controller.syncing
+                  ? const SizedBox(width: 15, height: 15, child: CircularProgressIndicator(strokeWidth: 2))
+                  : Icon(PixelIcons.sync, size: 17),
+              label: Text(controller.syncing ? '同步中' : '立即同步'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        SectionCard(
+          kicker: 'ACCOUNT',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Container(
+                width: 54, height: 54,
+                decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(18)),
+                alignment: Alignment.center,
+                child: Text((profile?.name.isNotEmpty ?? false) ? profile!.name.substring(0, 1) : '同',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, color: scheme.onPrimaryContainer)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(profile?.name ?? '同学', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 2),
+                Text([profile?.className, profile?.college].where((e) => e != null && e.isNotEmpty).join(' · '),
+                    style: TextStyle(fontSize: 10.5, color: scheme.onSurfaceVariant)),
+                Text('学号 ${profile?.id ?? '—'}', style: TextStyle(fontSize: 9, color: scheme.outline)),
+              ])),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: controller.credentialsSaved ? scheme.primaryContainer : scheme.tertiaryContainer,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(controller.credentialsSaved ? PixelIcons.check : PixelIcons.warning_amber_rounded,
+                      size: 11, color: controller.credentialsSaved ? scheme.onPrimaryContainer : scheme.onTertiaryContainer),
+                  const SizedBox(width: 3),
+                  Text(controller.credentialsSaved ? '已连接' : '待登录',
+                      style: TextStyle(fontSize: 8.5, fontWeight: FontWeight.w600, color: controller.credentialsSaved ? scheme.onPrimaryContainer : scheme.onTertiaryContainer)),
+                ]),
+              ),
+            ]),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: scheme.surfaceContainerLowest, borderRadius: BorderRadius.circular(14), border: Border.all(color: scheme.outlineVariant)),
+              child: Row(children: [
+                Expanded(child: _Fact(label: '上次同步', value: formatLastSync(controller.lastSync))),
+                Expanded(child: _Fact(label: '数据来源', value: '教务管理系统')),
+                Expanded(child: _Fact(label: '本学期', value: schedule?.semester.name ?? '—')),
+              ]),
+            ),
+            if (controller.error != null) ...[
+              const SizedBox(height: 9),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(color: scheme.errorContainer, borderRadius: BorderRadius.circular(10)),
+                child: Text('同步失败：${controller.error}', style: TextStyle(fontSize: 9.5, color: scheme.onErrorContainer)),
+              ),
+            ],
+            const SizedBox(height: 10),
+            Wrap(spacing: 8, runSpacing: 6, children: [
+              OutlinedButton.icon(onPressed: onLogin, icon: Icon(PixelIcons.lock_outline, size: 16), label: Text(controller.credentialsSaved ? '修改登录信息' : '登录')),
+              TextButton.icon(
+                onPressed: () => launchUrl(Uri.parse('https://mwx.hsu.edu.cn/zhxy/home'), mode: LaunchMode.externalApplication),
+                icon: Icon(PixelIcons.open_in_new, size: 15),
+                label: const Text('打开信息门户'),
+              ),
+            ]),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'IMPORT',
+          title: '导入网页课表',
+          subtitle: '适用于其他学校：在应用内打开课表网页，登录并操作到课表页面，然后读取当前页面导入。',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.tonalIcon(
+                onPressed: () => _importWeb(context),
+                icon: Icon(PixelIcons.open_in_new, size: 18),
+                label: const Text('打开网页并导入课表'),
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text('导入后会保存页面地址与登录状态 Cookie，用于以后刷新；不会记录密码。登录过期时需要重新打开网页导入。',
+                style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'AUTOMATION',
+          title: '自动同步',
+          subtitle: '每天在指定时间从教务系统重新抓取一次。Android 使用 WorkManager 在后台执行，Windows 在应用运行时执行。',
+          child: Column(children: [
+            SettingRow(
+              title: '每日自动更新',
+              subtitle: '应用在后台或托盘运行时生效',
+              trailing: Switch(value: settings.autoSync, onChanged: (v) => controller.updateSettings(settings.copyWith(autoSync: v))),
+            ),
+            Divider(height: 1, color: scheme.outlineVariant),
+            SettingRow(
+              title: '更新时间',
+              subtitle: '建议在上午第一节课前完成',
+              trailing: TextButton(
+                onPressed: () => _pickTime(context, settings),
+                child: Text(settings.refreshTime, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'WIDGET',
+          title: '桌面小组件',
+          subtitle: Platform.isAndroid ? 'Material 3 风格的桌面小组件，展示下一节课与今日课程。' : '将主窗口切换为悬浮小组件，始终置顶在桌面。',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Row(children: [
+              Expanded(child: Text(
+                Platform.isAndroid ? '支持 4×3 尺寸，可在桌面长按添加，也可以直接点击下方按钮。' : '悬浮模式会隐藏导航与侧栏，只保留下一节课与今日课程。',
+                style: TextStyle(fontSize: 10, height: 1.5, color: scheme.onSurfaceVariant),
+              )),
+              const SizedBox(width: 10),
+              FilledButton.tonalIcon(
+                onPressed: () async {
+                  if (Platform.isAndroid) {
+                    await controller.requestPinWidget();
+                  } else {
+                    await _enterCompact(context);
+                  }
+                },
+                icon: Icon(Platform.isAndroid ? PixelIcons.widgets_outlined : PixelIcons.picture_in_picture_alt_outlined, size: 17),
+                label: Text(Platform.isAndroid ? '添加小组件' : '悬浮模式'),
+              ),
+            ]),
+            if (Platform.isAndroid) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: OutlinedButton.icon(
+                  onPressed: () => controller.requestPinNextWidget(),
+                  icon: Icon(PixelIcons.add, size: 15),
+                  label: const Text('添加 2×1 下一节小组件'),
+                ),
+              ),
+            ],
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'CALENDAR',
+          title: 'Google 日历',
+          subtitle: Platform.isAndroid
+              ? '一次写入本学期全部课程到手机上的 Google 日历账号，不需要逐节课添加。首次使用会请求日历权限。'
+              : '一次性生成本学期全部课程事件（.ics），再导入 Google 日历。不会一节课一节课添加。',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: controller.schedule == null ? null : () => _importAll(context),
+                icon: Icon(PixelIcons.event_available_outlined, size: 18),
+                label: Text(Platform.isAndroid ? '导入全部课程到 Google 日历' : '导出全部课程到 Google 日历'),
+              ),
+            ),
+            const SizedBox(height: 7),
+            Row(children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => CalendarExport.openGoogleImport(),
+                  icon: Icon(PixelIcons.open_in_new, size: 15),
+                  label: const Text('打开 Google 日历导入页'),
+                ),
+              ),
+              const SizedBox(width: 7),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () async {
+                    final ok = await controller.addNextToGoogle();
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? '已打开下一节课的 Google 日历事件' : '接下来没有课程')));
+                  },
+                  icon: Icon(PixelIcons.add, size: 16),
+                  label: const Text('只添加下一节'),
+                ),
+              ),
+            ]),
+            const SizedBox(height: 8),
+            Text('提示：Android 会直接写入已登录的 Google 日历（需要日历权限）。每节按 45 分钟计算，连续两节为 90 分钟。重复导入会自动跳过已存在的事件。',
+                style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'APPEARANCE',
+          title: '外观',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('主题', style: TextStyle(fontSize: 9, letterSpacing: 1, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, children: [
+              for (final entry in [('light', '浅色'), ('dark', '深色'), ('system', '跟随系统')])
+                ChoiceChip(
+                  label: Text(entry.$2),
+                  selected: settings.theme == entry.$1,
+                  onSelected: (_) => controller.updateSettings(settings.copyWith(theme: entry.$1)),
+                ),
+            ]),
+            const SizedBox(height: 12),
+            Text('配色风格', style: TextStyle(fontSize: 9, letterSpacing: 1, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, runSpacing: 6, children: [
+              for (final entry in HsuTheme.palettes.entries)
+                ChoiceChip(
+                  label: Text(entry.value),
+                  selected: settings.palette == entry.key,
+                  onSelected: (_) => controller.updateSettings(settings.copyWith(palette: entry.key)),
+                ),
+            ]),
+            const SizedBox(height: 12),
+            Text('字体', style: TextStyle(fontSize: 9, letterSpacing: 1, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, children: [
+              ChoiceChip(
+                label: const Text('仿宋 + Times'),
+                selected: settings.fontStyle != 'pixel',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(fontStyle: 'fangsoong')),
+              ),
+              ChoiceChip(
+                label: const Text('像素字体'),
+                selected: settings.fontStyle == 'pixel',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(fontStyle: 'pixel')),
+              ),
+            ]),
+            const SizedBox(height: 12),
+            Text('图标', style: TextStyle(fontSize: 9, letterSpacing: 1, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, children: [
+              ChoiceChip(
+                label: const Text('Material 图标'),
+                selected: settings.iconStyle != 'pixel',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(iconStyle: 'material')),
+              ),
+              ChoiceChip(
+                label: const Text('像素图标'),
+                selected: settings.iconStyle == 'pixel',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(iconStyle: 'pixel')),
+              ),
+            ]),
+            const SizedBox(height: 12),
+            Text('单个课时长度', style: TextStyle(fontSize: 9, letterSpacing: 1, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, children: [
+              ChoiceChip(
+                label: const Text('45 分钟 / 节'),
+                selected: settings.durationMode == '45',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(durationMode: '45')),
+              ),
+              ChoiceChip(
+                label: const Text('按实际课间'),
+                selected: settings.durationMode == 'actual',
+                onSelected: (_) => controller.updateSettings(settings.copyWith(durationMode: 'actual')),
+              ),
+            ]),
+            const SizedBox(height: 6),
+            Text('默认按每节 45 分钟生成日历；连续两节为 90 分钟，不含 10 分钟课间。',
+                style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'ABOUT',
+          title: '关于',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _AboutRow(label: '版本', value: '2.0.0 · Flutter'),
+            _AboutRow(label: '数据', value: '信息门户 / 教务管理系统'),
+            const SizedBox(height: 9),
+            Text('非官方工具，仅用于个人课表查看与日历整理。登录信息只保存在本机。',
+                style: TextStyle(fontSize: 9, height: 1.55, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 10),
+            Row(children: [
+              TextButton.icon(
+                onPressed: () => controller.clearCredentials(),
+                icon: Icon(PixelIcons.logout, size: 15),
+                label: const Text('清除登录信息'),
+              ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AboutScreen())),
+                icon: Icon(PixelIcons.info_outline, size: 15),
+                label: const Text('关于课程表'),
+              ),
+            ]),
+          ]),
+        )
+      ],
+    );
+  }
+
+  Future<void> _importWeb(BuildContext context) async {
+    if (!Platform.isAndroid) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('网页导入目前仅支持 Android')));
+      return;
+    }
+    final source = await Navigator.of(context).push<ImportedSource>(
+      MaterialPageRoute(builder: (_) => const ImportWebScreen()),
+    );
+    if (source == null || !context.mounted) return;
+    try {
+      await controller.applyImportedSource(source);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(seconds: 4),
+        behavior: SnackBarBehavior.floating,
+        content: Text('网页课表已导入'),
+      ));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
+    }
+  }
+
+  Future<void> _sync(BuildContext context) async {
+    await controller.sync();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(controller.error == null ? '课表已同步' : '同步失败：${controller.error}')));
+  }
+
+
+  Future<void> _importAll(BuildContext context) async {
+    final schedule = controller.schedule;
+    if (schedule == null) return;
+    if (!Platform.isAndroid) {
+      try {
+        final path = await CalendarExport.saveIcs(schedule, controller.settings.durationMode);
+        await CalendarExport.openGoogleImport();
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('已导出全部课程：$path\n在 Google 日历导入页选择该文件即可。')));
+      } catch (e) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导出失败：$e')));
+      }
+      return;
+    }
+    try {
+      final result = await GoogleCalendarImport.importAll(schedule, controller.settings.durationMode);
+      if (!context.mounted) return;
+      final skipped = result.skipped > 0 ? '，跳过 ${result.skipped} 个已存在事件' : '';
+      final messenger = ScaffoldMessenger.of(context);
+      messenger.clearSnackBars();
+      messenger.showSnackBar(SnackBar(
+        duration: const Duration(seconds: 4),
+        behavior: SnackBarBehavior.floating,
+        content: Text('已写入 ${result.inserted} 个课程事件到 ${result.calendarName}$skipped。'),
+      ));
+    } on CalendarPermissionException catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('未导入：${e.message}')));
+    } on NoWritableCalendarException catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
+    }
+  }
+
+  Future<void> _shareAll(BuildContext context) async {
+    try {
+      final schedule = controller.schedule;
+      if (schedule == null) return;
+      final count = await CalendarExport.shareAll(schedule, controller.settings.durationMode);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('已生成 $count 个课程事件（全部课程），请选择 Google 日历。')));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导出失败：$e')));
+    }
+  }
+
+  Future<void> _pickTime(BuildContext context, AppSettings settings) async {
+    final parts = settings.refreshTime.split(':');
+    final initial = TimeOfDay(hour: int.tryParse(parts.first) ?? 7, minute: int.tryParse(parts.length > 1 ? parts[1] : '') ?? 30);
+    final picked = await showTimePicker(context: context, initialTime: initial, helpText: '每天自动同步时间');
+    if (picked == null) return;
+    final text = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+    await controller.updateSettings(settings.copyWith(refreshTime: text));
+  }
+
+  Future<void> _enterCompact(BuildContext context) async {
+    if (!Platform.isWindows) return;
+    await controller.setCompactMode(true);
+    await windowManager.setAlwaysOnTop(true);
+    await windowManager.setSkipTaskbar(true);
+    await windowManager.setResizable(false);
+    await windowManager.setSize(const Size(400, 620));
+    await windowManager.center();
+  }
+}
+
+class _Fact extends StatelessWidget {
+  final String label;
+  final String value;
+  _Fact({required this.label, required this.value});
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(label, style: TextStyle(fontSize: 8.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      const SizedBox(height: 2),
+      Text(value, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, height: 1.3)),
+    ]);
+  }
+}
+
+class _AboutRow extends StatelessWidget {
+  final String label;
+  final String value;
+  _AboutRow({required this.label, required this.value});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(children: [
+        Text(label, style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        const Spacer(),
+        Text(value, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
+      ]),
+    );
+  }
+}

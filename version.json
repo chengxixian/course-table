@@ -1,0 +1,7 @@
+{
+  "version": "2.0.1",
+  "build": 3,
+  "notes": "修复顶栏周切换、字体/图标可选、关于页与隐私清理。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.1/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.1"
+}

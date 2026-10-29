@@ -1,0 +1,111 @@
+# ---------------------------------------------------------------------------
+# 课程表 · Git ignore
+# 仅忽略构建产物、IDE 缓存、本地密钥与开发期工具产物；assets/ 必须保留。
+# ---------------------------------------------------------------------------
+
+# ---- Flutter / Dart -------------------------------------------------------
+.dart_tool/
+.pub-cache/
+.pub/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+/build/
+/coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+app.*.symbols
+app.*.map.json
+.widget_preview/
+*.dill
+*.snapshot
+
+# ---- IDE / 编辑器 ---------------------------------------------------------
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+.history/
+.atom/
+.buildlog/
+*.class
+
+# ---- Android --------------------------------------------------------------
+android/.gradle/
+android/local.properties
+android/key.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/app/build/
+android/build/
+**/GeneratedPluginRegistrant.java
+*.apk
+*.aab
+*.ap_
+*.jks
+*.keystore
+
+# ---- Windows --------------------------------------------------------------
+windows/flutter/ephemeral/
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+windows/flutter/generated_plugins.cmake
+windows/runner/Debug/
+windows/runner/Release/
+windows/runner/Profile/
+*.pdb
+*.ilk
+*.exp
+
+# ---- 日志 / 临时文件 -------------------------------------------------------
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本地密钥 / 私有配置 ---------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+local_secrets.json
+
+# ---- 开发期工具产物（非应用资源） -----------------------------------------
+# 仓库根目录的截图、抓取数据、字体实验与预览文件
+/*.png
+/*.json
+!version.json
+/*.css
+/*.ttf
+/*.woff2
+/font_subsets/
+.skills/
+docs/research/
+__pycache__/
+*.pyc
+.pytest_cache/
+/tool/*.log
+/tool/*.json
+
+# ---- 保留应用资源 ----------------------------------------------------------
+# assets/ 中的图标、赞赏码与字体是运行时资源，必须提交
+!assets/
+!assets/**
+
+/tool/
+/tools_make_icons.py
+/.skills/
+/docs/research/
