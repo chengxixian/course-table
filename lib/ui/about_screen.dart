@@ -11,16 +11,24 @@ class AboutScreen extends StatelessWidget {
 
   Future<void> _checkUpdate(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
-    final info = await UpdateService.check(force: true);
-    if (!context.mounted) return;
-    if (info == null) {
-      messenger.showSnackBar(const SnackBar(
-        duration: Duration(seconds: 3),
-        content: Text('当前已是最新版本'),
+    try {
+      final info = await UpdateService.check(force: true);
+      if (!context.mounted) return;
+      if (info == null) {
+        messenger.showSnackBar(const SnackBar(
+          duration: Duration(seconds: 3),
+          content: Text('当前已是最新版本'),
+        ));
+        return;
+      }
+      await UpdateService.showDialogFor(context, info);
+    } on UpdateCheckException catch (e) {
+      if (!context.mounted) return;
+      messenger.showSnackBar(SnackBar(
+        duration: const Duration(seconds: 5),
+        content: Text('检查更新失败：${e.message}'),
       ));
-      return;
     }
-    await UpdateService.showDialogFor(context, info);
   }
 
   Future<void> _open(BuildContext context, String url) async {

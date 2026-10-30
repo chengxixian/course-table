@@ -1,7 +1,7 @@
 class AppMeta {
   static const name = '课程表';
-  static const version = '2.0.11';
-  static const build = 13;
+  static const version = '2.0.12';
+  static const build = 14;
   static const owner = 'chengxixian';
   static const repo = 'course-table';
   static const githubUrl = 'https://github.com/$owner/$repo';
@@ -11,5 +11,7 @@ class AppMeta {
   static const versionUrl = 'https://cdn.jsdelivr.net/gh/$owner/$repo@main/version.json';
   static const versionUrlFallback = 'https://raw.githubusercontent.com/$owner/$repo/main/version.json';
   static const versionUrlMirror = 'https://ghproxy.net/https://raw.githubusercontent.com/$owner/$repo/main/version.json';
+  static const versionUrlFastly = 'https://fastly.jsdelivr.net/gh/$owner/$repo@main/version.json';
+  static const versionUrlGcore = 'https://gcore.jsdelivr.net/gh/$owner/$repo@main/version.json';
   static const releasesUrl = '$githubUrl/releases';
 }

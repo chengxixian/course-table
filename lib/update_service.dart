@@ -22,6 +22,13 @@ class UpdateInfo {
   });
 }
 
+class UpdateCheckException implements Exception {
+  final String message;
+  const UpdateCheckException(this.message);
+  @override
+  String toString() => message;
+}
+
 class UpdateService {
   static const _lastCheckKey = 'last_update_check';
 
@@ -34,7 +41,7 @@ class UpdateService {
       }
     }
     Object? lastError;
-    for (final url in [AppMeta.versionUrl, AppMeta.versionUrlFallback, AppMeta.versionUrlMirror]) {
+    for (final url in [AppMeta.versionUrl, AppMeta.versionUrlFastly, AppMeta.versionUrlGcore, AppMeta.versionUrlFallback, AppMeta.versionUrlMirror]) {
       try {
         final body = await _get(url);
         final data = jsonDecode(body) as Map<String, dynamic>;
@@ -54,7 +61,7 @@ class UpdateService {
       }
     }
     debugPrint('update check failed: $lastError');
-    return null;
+    throw UpdateCheckException('无法连接更新服务器，请检查网络后重试');
   }
 
   static Future<String> _get(String url) async {
