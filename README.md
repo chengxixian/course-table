@@ -49,8 +49,6 @@
 [**前往 Releases 下载最新 APK**](https://github.com/chengxixian/course-table/releases/latest)
 
 - Android 8.0+
-- 首次安装不预置任何学号或课表
-- 赞赏二维码仅存在于应用内「关于」页，不在 README 中展示
 
 ## 构建
 
