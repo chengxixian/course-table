@@ -125,6 +125,8 @@ class AppController extends ChangeNotifier {
     notifyListeners();
     try {
       await storage.writeCredentials(Credentials(username.trim(), password));
+      await storage.setSourceMode('native');
+      await storage.clearImportedSource();
       await storage.setLoginDismissed(false);
       credentialsSaved = true;
       showLogin = false;
@@ -206,6 +208,26 @@ class AppController extends ChangeNotifier {
   Future<void> clearImportedSource() async {
     await _storage?.clearImportedSource();
     schedule = _storage?.loadSchedule();
+    notifyListeners();
+  }
+
+  Future<void> useNativeSource() async {
+    final storage = _storage;
+    if (storage == null) return;
+    await storage.setSourceMode('native');
+    await storage.clearImportedSource();
+    schedule = storage.loadSchedule();
+    notifyListeners();
+  }
+
+  Future<void> clearAllCourses() async {
+    final storage = _storage;
+    if (storage == null) return;
+    await storage.clearCourses();
+    schedule = null;
+    lastSync = null;
+    settings = storage.settings.copyWith(lastSync: null);
+    await WidgetBridge.clear();
     notifyListeners();
   }
 

@@ -113,6 +113,20 @@ class SettingsScreen extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SectionCard(
+          kicker: 'DATA',
+          title: '课程数据',
+          subtitle: '清空本机保存的课表、网页导入源和小组件显示；不会删除登录账号。',
+          child: SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => _clearAllCourses(context),
+              icon: const Icon(Icons.delete_outline, size: 17),
+              label: const Text('一键清除所有课程信息'),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
           kicker: 'ADAPTED',
           title: '已适配高校',
           subtitle: '点击学校名称直接进入对应登录页；黄山学院保留原生同步。',
@@ -414,11 +428,18 @@ class SettingsScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(pr == null ? '已提交导入流程' : '已提交 PR：$pr')));
     } catch (e) {
       if (!context.mounted) return;
+      final networkError = e is HandshakeException || e is SocketException || e is HttpException;
+      final issueUrl = Uri.https('github.com', '/chengxixian/course-table/issues/new', {
+        'title': '新增高校导入流程：$schoolName',
+        'body': '学校：$schoolName\n课表网址：${source.url}\n\n由课程表 App 提交。',
+      });
       await showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('上传通道未配置'),
-          content: Text('$e\n\nGitHub 不允许匿名写入，需要先配置中转接口。当前可复制学校名称和课表网址，稍后配置。'),
+          title: Text(networkError ? '上传通道连接失败' : '上传未完成'),
+          content: Text(networkError
+              ? '当前网络无法完成 TLS 握手，常见原因是 VPN 或网络拦截。请关闭 VPN 后重试；也可以先在 GitHub 手动提交。'
+              : '$e\n\n可以复制信息后到 GitHub 提交。'),
           actions: [
             TextButton(
               onPressed: () {
@@ -427,7 +448,13 @@ class SettingsScreen extends StatelessWidget {
               },
               child: const Text('复制信息'),
             ),
-            FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('知道了')),
+            FilledButton(
+              onPressed: () {
+                launchUrl(issueUrl, mode: LaunchMode.externalApplication);
+                Navigator.pop(ctx);
+              },
+              child: const Text('去 GitHub 提交'),
+            ),
           ],
         ),
       );
@@ -481,6 +508,24 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
     query.dispose();
+  }
+
+  Future<void> _clearAllCourses(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('清除所有课程信息？'),
+        content: const Text('会删除本机课表、网页导入源和小组件显示，保留登录账号，之后可重新同步。此操作不可撤销。'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('清除')),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) return;
+    await controller.clearAllCourses();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('课程信息已清除')));
   }
 
   Future<void> _sync(BuildContext context) async {

@@ -38,6 +38,16 @@ class SyncService {
 class WidgetBridge {
   static const widgetDataKey = 'schedule_widget';
 
+  static Future<void> clear() async {
+    await HomeWidget.saveWidgetData<String>('schedule_widget', '{}');
+    for (final name in ['ScheduleWidgetProvider', 'NextClassWidgetProvider', 'TodayWidgetProvider', 'WeekGridWidgetProvider']) {
+      await HomeWidget.updateWidget(
+        androidName: name,
+        qualifiedAndroidName: 'com.hsu.hsu_schedule.$name',
+      );
+    }
+  }
+
   static Future<void> update(Schedule schedule, AppSettings settings) async {
     if (!Platform.isAndroid) return;
     final payload = buildPayload(schedule, settings);

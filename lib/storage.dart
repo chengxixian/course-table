@@ -63,6 +63,13 @@ class AppStorage {
     await prefs.remove('source_mode');
   }
 
+  Future<void> clearCourses() async {
+    await prefs.remove(_rawKey);
+    await prefs.remove('imported_source');
+    await prefs.remove('source_mode');
+    await prefs.remove('last_sync');
+  }
+
   DateTime? get lastSync {
     final text = prefs.getString('last_sync');
     return text == null ? null : DateTime.tryParse(text);

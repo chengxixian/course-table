@@ -67,7 +67,10 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   }
 
   Future<void> _maybeShowLogin({bool force = false}) async {
-    if (force) controller.openLogin();
+    if (force) {
+      await controller.useNativeSource();
+      controller.openLogin();
+    }
     if (!mounted || _loginOpen || !controller.showLogin) return;
     _loginOpen = true;
     await showModalBottomSheet<void>(
