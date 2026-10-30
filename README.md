@@ -81,7 +81,9 @@ assets/            字体、图标、赞赏码
 
 ## 致谢
 
-感谢 **茨畔耕夫**、**润泽江海** 对项目的帮助与支持。
+感谢 **茨畔耕夫**、**润泽江海**、**Yearn Justly** 对项目的帮助与支持。
+
+致谢名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护，应用内「关于」页会从仓库读取；读取失败时使用内置兜底名单。
 
 也感谢 Flutter、Material 3、`dynamic_color`、`home_widget`、`webview_flutter`、`m3e_core`、`flutoryx` 及所有开源作者。
 
