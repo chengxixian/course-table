@@ -81,7 +81,7 @@ assets/            字体、图标、赞赏码
 
 ## 致谢
 
-感谢 **茨畔耕夫**、**润泽江海**、**Yearn Justly** 对项目的帮助与支持。
+感谢 **茨畔耕夫**、**润泽江海**、**Yearn Justly**、**曼你个der啊** 对项目的帮助与支持。
 
 致谢名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护，应用内「关于」页会从仓库读取；读取失败时使用内置兜底名单。
 

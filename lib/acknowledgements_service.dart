@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 class AcknowledgementsService {
-  static const fallback = <String>['茨畔耕夫', '润泽江海', 'Yearn Justly'];
+  static const fallback = <String>['茨畔耕夫', '润泽江海', 'Yearn Justly', '曼你个der啊'];
   static Future<List<String>>? _cached;
 
   static Future<List<String>> load() => _cached ??= _fetch();
