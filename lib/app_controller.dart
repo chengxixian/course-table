@@ -187,12 +187,22 @@ class AppController extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get usingImportedSource => _storage?.sourceMode == 'imported';
+
   Future<void> applyImportedSource(ImportedSource source) async {
     final storage = _storage;
     if (storage == null) return;
+    final host = Uri.tryParse(source.url)?.host ?? '';
+    if (host.contains('hsu.edu.cn')) {
+      throw const ImportException('黄山学院请使用“已适配高校”里的黄山学院入口登录同步，不要从未适配网页导入。');
+    }
     final parsed = ImportedScheduleService.parse(source);
     if (parsed == null) {
       throw ImportException(lastParseError ?? '没有识别到课表，请确认当前页面显示了完整课程表');
+    }
+    final missingRoom = parsed.meetings.where((m) => m.room.trim().isEmpty).length;
+    if (missingRoom > 0) {
+      throw ImportException('识别到 $missingRoom 个上课时段缺少教室，已拒绝导入，避免覆盖原课表。请确认页面显示完整教室后再导入。');
     }
     await storage.saveImportedSource(source);
     schedule = parsed;

@@ -1,7 +1,7 @@
 {
-  "version": "2.0.6",
-  "build": 8,
-  "notes": "恢复黄山学院原生门户同步；新增一键清除课程信息；上传通道失败提示与 GitHub 兜底。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.6/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.6"
+  "version": "2.0.7",
+  "build": 9,
+  "notes": "拒绝黄山学院走未适配导入；缺教室的解析拒绝覆盖；可恢复原生课表。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.7/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.7"
 }

@@ -116,14 +116,26 @@ class SettingsScreen extends StatelessWidget {
           kicker: 'DATA',
           title: '课程数据',
           subtitle: '清空本机保存的课表、网页导入源和小组件显示；不会删除登录账号。',
-          child: SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: () => _clearAllCourses(context),
-              icon: const Icon(Icons.delete_outline, size: 17),
-              label: const Text('一键清除所有课程信息'),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(controller.usingImportedSource ? '当前来源：未适配网页导入' : '当前来源：黄山学院门户', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 8),
+            if (controller.usingImportedSource) ...[
+              SizedBox(width: double.infinity, child: FilledButton.tonalIcon(
+                onPressed: () async { await controller.useNativeSource(); },
+                icon: const Icon(Icons.restore, size: 17),
+                label: const Text('恢复黄山学院原生课表'),
+              )),
+              const SizedBox(height: 6),
+            ],
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _clearAllCourses(context),
+                icon: const Icon(Icons.delete_outline, size: 17),
+                label: const Text('一键清除所有课程信息'),
+              ),
             ),
-          ),
+          ]),
         ),
         const SizedBox(height: 12),
         SectionCard(

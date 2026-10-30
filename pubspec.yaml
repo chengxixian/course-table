@@ -1,7 +1,7 @@
 name: hsu_schedule
 description: "课程表 · Material 3 课程表与桌面小组件（Android / Windows）"
 publish_to: 'none'
-version: 2.0.6+8
+version: 2.0.7+9
 
 environment:
   sdk: ^3.13.4
