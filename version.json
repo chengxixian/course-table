@@ -1,7 +1,7 @@
 {
-  "version": "2.0.8",
-  "build": 10,
-  "notes": "空状态支持黄山学院登录或其他学校网页导入；启动不强制登录。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.8/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.8"
+  "version": "2.0.9",
+  "build": 11,
+  "notes": "AI 兜底解析、AI 周次导航、全学期多周采集；空状态双入口；原生同步恢复。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.9/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.9"
 }

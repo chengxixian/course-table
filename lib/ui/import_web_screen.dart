@@ -1,8 +1,11 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:m3e_core/m3e_core.dart';
+import '../ai_import_service.dart';
+import '../ai_nav_service.dart';
 
 import '../generic_html_parser.dart';
 import '../imported_source.dart';
@@ -20,6 +23,8 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
   late final TextEditingController _url;
   WebViewController? _web;
   bool _loading = true;
+  bool _aiBusy = false;
+  String _aiStatus = 'AI 正在识别课表…';
   int _progress = 0;
   String? _error;
 
@@ -88,14 +93,7 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
     setState(() => _loading = true);
     try {
       final raw = await web.runJavaScriptReturningResult('document.documentElement.outerHTML');
-      var html = raw?.toString() ?? '';
-      if (html.length >= 2 && html.startsWith('"') && html.endsWith('"')) {
-        try {
-          html = jsonDecode(html) as String;
-        } catch (_) {
-          html = html.substring(1, html.length - 1);
-        }
-      }
+      final html = _decodeJs(raw);
       if (html.isEmpty) throw const FormatException('页面内容为空');
       final url = await web.currentUrl() ?? _url.text;
       final cookies = <String, String>{};
@@ -105,17 +103,38 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
           cookies[c.name] = c.value;
         }
       } catch (_) {}
-      final source = ImportedSource(url: url, cookies: cookies, html: html, savedAt: DateTime.now());
-      final preview = parseImportedHtml(html, url);
+      var source = ImportedSource(url: url, cookies: cookies, html: html, savedAt: DateTime.now());
+      var preview = parseImportedHtml(html, url);
+      final host = Uri.tryParse(url)?.host ?? '';
+      final missingRoom = preview != null && preview.meetings.any((m) => m.room.trim().isEmpty);
+      if ((preview == null || missingRoom) && !host.contains('hsu.edu.cn')) {
+        final rawText = await web.runJavaScriptReturningResult('document.body.innerText');
+        final text = _decodeJs(rawText);
+        if (text.trim().length >= 20) {
+          setState(() => _aiBusy = true);
+          try {
+            final aiSource = await AiImportService.parse(text: text, url: url, cookies: cookies);
+            final aiPreview = parseImportedHtml(aiSource.html, url);
+            if (aiPreview != null) {
+              source = aiSource;
+              preview = aiPreview;
+            }
+          } finally {
+            if (mounted) setState(() => _aiBusy = false);
+          }
+        }
+      }
       if (preview == null) {
-        throw FormatException(lastParseError ?? '没有在当前页面识别到课表');
+        throw FormatException(host.contains('hsu.edu.cn')
+            ? '黄山学院请使用已适配高校入口，不要从未适配网页导入。'
+            : (lastParseError ?? '没有在当前页面识别到课表'));
       }
       if (!mounted) return;
       final ok = await showDialog<bool>(
         context: context,
         builder: (dialogContext) => AlertDialog(
           title: const Text('导入这份课表？'),
-          content: Text('识别到 ${preview.courses.length} 门课程、${preview.meetings.length} 个上课时段。\n\n导入后会把当前页面地址和登录状态保存在本机，用于以后刷新课表；不会上传到服务器。'),
+          content: Text('识别到 ${preview!.courses.length} 门课程、${preview.meetings.length} 个上课时段。\n\n导入后会保存当前页面地址和本地登录状态，用于以后刷新；页面文本可能发送到 AI 识别服务，但不会发送账号密码或 Cookie。'),
           actions: [
             TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('再看看')),
             FilledButton(onPressed: () => Navigator.pop(dialogContext, true), child: const Text('确定导入')),
@@ -125,9 +144,130 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
       if (ok == true && mounted) Navigator.of(context).pop(source);
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = e.toString().replaceFirst('FormatException: ', ''));
+      setState(() => _error = e.toString().replaceFirst('FormatException: ', '').replaceFirst('StateError: ', ''));
     } finally {
       if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  String _decodeJs(Object? raw) {
+    var value = raw?.toString() ?? '';
+    if (value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
+      try {
+        value = jsonDecode(value) as String;
+      } catch (_) {
+        value = value.substring(1, value.length - 1);
+      }
+    }
+    return value;
+  }
+
+  Future<String> _pageText() async {
+    final raw = await _web?.runJavaScriptReturningResult('document.body.innerText');
+    return _decodeJs(raw);
+  }
+
+  Future<bool> _clickNextWeek() async {
+    final raw = await _web?.runJavaScriptReturningResult(r'''(() => {
+      const all = [...document.querySelectorAll('a,button,[role=button],li,span,select')]
+        .filter(e => { const r = e.getBoundingClientRect(); return r.width > 4 && r.height > 4; })
+        .slice(0, 80);
+      window.__aiNavNodes = all;
+      all.forEach((e, i) => e.setAttribute('data-ai-nav', String(i)));
+      return JSON.stringify(all.map((e, i) => ({
+        index: i,
+        tag: e.tagName,
+        type: e.getAttribute('type') || '',
+        text: (e.innerText || e.value || '').trim().slice(0, 80),
+        aria: e.getAttribute('aria-label') || '',
+        title: e.getAttribute('title') || '',
+      })));
+    })()''');
+    final text = _decodeJs(raw);
+    var decoded = <Map<String, dynamic>>[];
+    try {
+      final list = jsonDecode(text);
+      if (list is List) decoded = list.whereType<Map>().map((m) => m.cast<String, dynamic>()).toList();
+    } catch (_) {}
+    final pageText = await _pageText();
+    final index = await AiNavService.nextIndex(text: pageText, controls: decoded);
+    if (index >= 0) {
+      await _web?.runJavaScriptReturningResult('window.__aiNavNodes?.[$index]?.click(); true');
+      return true;
+    }
+    final fallback = await _web?.runJavaScriptReturningResult(r'''(() => {
+      const all = [...document.querySelectorAll('a,button,[role=button],li,span')];
+      const el = all.find(e => /涓嬩竴鍛▅涓嬪懆|鍚庝竴鍛▅\u203a|\u2192/.test((e.innerText || '').trim()));
+      if (el) { el.click(); return true; }
+      return false;
+    })()''');
+    return fallback?.toString().contains('true') ?? false;
+  }
+
+  Future<void> _importSemester() async {
+    final totalController = TextEditingController(text: '20');
+    final total = await showDialog<int>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('全学期导入'),
+        content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('请先把网页切到第 1 周。App 会自动点击“下一周”逐周抓取，再用 AI 合并。', style: TextStyle(fontSize: 11, height: 1.5)),
+          const SizedBox(height: 10),
+          TextField(controller: totalController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: '总周数', isDense: true)),
+        ]),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, int.tryParse(totalController.text.trim()) ?? 20), child: const Text('开始')),
+        ],
+      ),
+    );
+    totalController.dispose();
+    if (total == null || total < 1 || total > 30) return;
+    final web = _web;
+    if (web == null) return;
+    setState(() { _aiBusy = true; _aiStatus = '正在读取第 1 周…'; _error = null; });
+    try {
+      final chunks = <String>[];
+      var reached = 1;
+      for (var week = 1; week <= total; week++) {
+        if (!mounted) return;
+        setState(() => _aiStatus = '正在读取第 $week 周…');
+        final text = await _pageText();
+        if (text.trim().isNotEmpty) chunks.add('--- 第$week周 ---\n$text');
+        reached = week;
+        if (week == total) break;
+        final moved = await _clickNextWeek();
+        if (!moved) break;
+        await Future<void>.delayed(const Duration(milliseconds: 1400));
+      }
+      if (chunks.isEmpty) throw const FormatException('没有读取到页面文本');
+      final url = await web.currentUrl() ?? _url.text;
+      final cookies = <String, String>{};
+      try {
+        final list = await WebViewCookieManager().getCookies(domain: Uri.parse(url));
+        for (final c in list) cookies[c.name] = c.value;
+      } catch (_) {}
+      setState(() => _aiStatus = 'AI 正在合并 $reached 周课表…');
+      final source = await AiImportService.parse(text: chunks.join('\n'), url: url, cookies: cookies);
+      final preview = parseImportedHtml(source.html, url);
+      if (preview == null) throw FormatException(lastParseError ?? 'AI 合并失败');
+      if (!mounted) return;
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('导入整学期课表？'),
+          content: Text('读取到 $reached 周，识别 ${preview.courses.length} 门课程、${preview.meetings.length} 个时段。\n\n只保存识别后的课表，不会上传 Cookie/密码。'),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('再看看')),
+            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('导入')),
+          ],
+        ),
+      );
+      if (ok == true && mounted) Navigator.of(context).pop(source);
+    } catch (e) {
+      if (mounted) setState(() => _error = e.toString().replaceFirst('FormatException: ', '').replaceFirst('StateError: ', ''));
+    } finally {
+      if (mounted) setState(() => _aiBusy = false);
     }
   }
 
@@ -139,7 +279,8 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
         title: const Text('导入网页课表'),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(PixelIcons.chevron_left)),
       ),
-      body: Column(children: [
+      body: Stack(children: [
+        Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
           child: Row(children: [
@@ -203,9 +344,18 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
-                    onPressed: _loading ? null : _importCurrent,
+                    onPressed: _loading || _aiBusy ? null : _importCurrent,
                     icon: Icon(PixelIcons.event_available_outlined, size: 18),
                     label: const Text('读取当前页面并导入'),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _loading || _aiBusy ? null : _importSemester,
+                    icon: const Icon(Icons.auto_awesome, size: 18),
+                    label: const Text('全学期导入（从第 1 周自动翻周）'),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -215,7 +365,26 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
             ),
           ),
         ],
+        ]),
+        if (_aiBusy)
+          Positioned.fill(
+            child: ColoredBox(
+              color: Colors.black.withValues(alpha: 0.55),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(22),
+                  decoration: BoxDecoration(color: scheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(22)),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const M3ELoadingIndicator(constraints: BoxConstraints.tightFor(width: 44, height: 44)),
+                    const SizedBox(height: 12),
+                    Text(_aiStatus, style: TextStyle(fontSize: 11)),
+                  ]),
+                ),
+              ),
+            ),
+          ),
       ]),
     );
   }
 }
+
