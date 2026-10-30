@@ -2,6 +2,7 @@
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_meta.dart';
+import '../acknowledgements_service.dart';
 import '../pixel_icons.dart';
 import '../update_service.dart';
 
@@ -137,8 +138,7 @@ class AboutScreen extends StatelessWidget {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('致谢', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
                 const SizedBox(height: 8),
-                Text('感谢 茨畔耕夫、润泽江海 对项目的帮助与支持。',
-                    style: TextStyle(fontSize: 11, height: 1.6, color: scheme.onSurface)),
+                const _AcknowledgementsText(),
               ]),
             ),
             const SizedBox(height: 22),
@@ -210,3 +210,21 @@ class _DonateCard extends StatelessWidget {
   }
 }
 
+
+
+class _AcknowledgementsText extends StatelessWidget {
+  const _AcknowledgementsText();
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return FutureBuilder<List<String>>(
+      future: AcknowledgementsService.load(),
+      builder: (context, snapshot) {
+        final names = snapshot.data ?? AcknowledgementsService.fallback;
+        return Text('感谢 ${names.join('、')} 对项目的帮助与支持。',
+            style: TextStyle(fontSize: 11, height: 1.6, color: scheme.onSurface));
+      },
+    );
+  }
+}
