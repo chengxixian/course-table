@@ -1,6 +1,7 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -14,6 +15,8 @@ import '../ui_theme.dart';
 import 'about_screen.dart';
 import 'import_web_screen.dart';
 import '../imported_source.dart';
+import '../schools.dart';
+import '../flow_upload_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   final AppController controller;
@@ -110,20 +113,51 @@ class SettingsScreen extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SectionCard(
-          kicker: 'IMPORT',
-          title: '导入网页课表',
-          subtitle: '适用于其他学校：在应用内打开课表网页，登录并操作到课表页面，然后读取当前页面导入。',
+          kicker: 'ADAPTED',
+          title: '已适配高校',
+          subtitle: '点击学校名称直接进入对应登录页；黄山学院保留原生同步。',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Expanded(child: Text('已适配 ${kSchoolPresets.length} 所高校', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant))),
+              IconButton(
+                tooltip: '搜索高校',
+                onPressed: () => _searchSchool(context),
+                icon: Icon(PixelIcons.search, size: 19),
+              ),
+            ]),
+            for (final school in kSchoolPresets)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Container(
+                  width: 38, height: 38,
+                  decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
+                  child: Icon(Icons.school_outlined, size: 20, color: scheme.onPrimaryContainer),
+                ),
+                title: Text(school.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                subtitle: Text(school.note, style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+                trailing: Icon(PixelIcons.chevron_right, size: 18),
+                onTap: () => school.native
+                    ? onLogin()
+                    : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name),
+              ),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'UNADAPTED',
+          title: '未适配高校导入',
+          subtitle: '适用于课表有网页版的学校：记录你的登录与操作流程，导入成功后询问是否上传。',
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
               width: double.infinity,
               child: FilledButton.tonalIcon(
-                onPressed: () => _importWeb(context),
+                onPressed: () => _importWeb(context, allowFlowUpload: true),
                 icon: Icon(PixelIcons.open_in_new, size: 18),
-                label: const Text('打开网页并导入课表'),
+                label: const Text('打开空白网页开始导入'),
               ),
             ),
             const SizedBox(height: 7),
-            Text('导入后会保存页面地址与登录状态 Cookie，用于以后刷新；不会记录密码。登录过期时需要重新打开网页导入。',
+            Text('不会记录账号密码；只保存页面地址、操作路径与登录 Cookie。上传需要配置中转接口，GitHub 不允许匿名写入。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
           ]),
         ),
@@ -335,13 +369,13 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _importWeb(BuildContext context) async {
+  Future<void> _importWeb(BuildContext context, {String? initialUrl, String? schoolName, bool allowFlowUpload = false}) async {
     if (!Platform.isAndroid) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('网页导入目前仅支持 Android')));
       return;
     }
     final source = await Navigator.of(context).push<ImportedSource>(
-      MaterialPageRoute(builder: (_) => const ImportWebScreen()),
+      MaterialPageRoute(builder: (_) => ImportWebScreen(initialUrl: initialUrl)),
     );
     if (source == null || !context.mounted) return;
     try {
@@ -352,10 +386,101 @@ class SettingsScreen extends StatelessWidget {
         behavior: SnackBarBehavior.floating,
         content: Text('网页课表已导入'),
       ));
+      if (allowFlowUpload) {
+        await _askUploadFlow(context, source, schoolName: schoolName ?? '未命名高校');
+      }
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
     }
+  }
+
+  Future<void> _askUploadFlow(BuildContext context, ImportedSource source, {required String schoolName}) async {
+    final upload = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('上传这份导入流程？'),
+        content: const Text('提交后由维护者审核合并；合并后其他用户可以在“已适配高校”里搜索到这所学校。\n\n只上传学校名称、课表网址和版本号；不会上传账号、密码或 Cookie。'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('暂不上传')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('上传')),
+        ],
+      ),
+    );
+    if (upload != true || !context.mounted) return;
+    try {
+      final pr = await FlowUploadService.upload(school: schoolName, source: source);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(pr == null ? '已提交导入流程' : '已提交 PR：$pr')));
+    } catch (e) {
+      if (!context.mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('上传通道未配置'),
+          content: Text('$e\n\nGitHub 不允许匿名写入，需要先配置中转接口。当前可复制学校名称和课表网址，稍后配置。'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: '${schoolName}\n${source.url}'));
+                Navigator.pop(ctx);
+              },
+              child: const Text('复制信息'),
+            ),
+            FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('知道了')),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<void> _searchSchool(BuildContext context) async {
+    final query = TextEditingController();
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) {
+          final filtered = kSchoolPresets.where((s) => s.name.contains(query.text.trim())).toList();
+          return AlertDialog(
+            title: const Text('搜索已适配高校'),
+            content: SizedBox(
+              width: 360,
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                TextField(
+                  controller: query,
+                  autofocus: true,
+                  decoration: const InputDecoration(hintText: '输入高校名称', prefixIcon: Icon(Icons.search)),
+                  onChanged: (_) => setDialogState(() {}),
+                ),
+                const SizedBox(height: 12),
+                if (filtered.isEmpty)
+                  const Padding(padding: EdgeInsets.all(16), child: Text('没有匹配的高校'))
+                else
+                  Flexible(
+                    child: ListView(shrinkWrap: true, children: [
+                      for (final school in filtered)
+                        ListTile(
+                          title: Text(school.name),
+                          subtitle: Text(school.note),
+                          onTap: () {
+                            Navigator.pop(ctx);
+                            if (school.native) {
+                              onLogin();
+                            } else {
+                              _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name);
+                            }
+                          },
+                        ),
+                    ]),
+                  ),
+              ]),
+            ),
+            actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('关闭'))],
+          );
+        },
+      ),
+    );
+    query.dispose();
   }
 
   Future<void> _sync(BuildContext context) async {
@@ -466,3 +591,4 @@ class _AboutRow extends StatelessWidget {
     );
   }
 }
+

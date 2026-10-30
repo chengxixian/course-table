@@ -1,0 +1,13 @@
+name = "course-table-flow"
+main = "src.js"
+compatibility_date = "2026-10-30"
+
+# 在 Cloudflare 控制台设置：
+# GITHUB_TOKEN = 细粒度 token，仅 Contents: Read/Write + Pull requests: Read/Write
+# GITHUB_REPO  = "chengxixian/course-table"
+# GITHUB_BRANCH = "main"
+#
+# 可选 KV 限流绑定：
+# [[kv_namespaces]]
+# binding = "FLOW_RATE_LIMIT"
+# id = "<KV_NAMESPACE_ID>"

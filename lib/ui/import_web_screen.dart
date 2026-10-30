@@ -26,7 +26,7 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
   @override
   void initState() {
     super.initState();
-    _url = TextEditingController(text: widget.initialUrl ?? 'https://mwx.hsu.edu.cn/zhxy/home');
+    _url = TextEditingController(text: widget.initialUrl ?? '');
     if (!Platform.isAndroid) return;
     _web = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -49,8 +49,13 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
             if (err.isForMainFrame == true) _error = err.description;
           });
         },
-      ))
-      ..loadRequest(Uri.parse(_url.text));
+      ));
+    final initial = _url.text.trim();
+    if (initial.isNotEmpty) {
+      _web!.loadRequest(Uri.parse(initial));
+    } else {
+      _loading = false;
+    }
   }
 
   @override
@@ -61,7 +66,10 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
 
   Future<void> _openUrl() async {
     final value = _url.text.trim();
-    if (value.isEmpty) return;
+    if (value.isEmpty) {
+      setState(() => _error = '请先输入学校课表网页地址');
+      return;
+    }
     var uri = Uri.tryParse(value);
     if (uri == null || !uri.hasScheme) {
       uri = Uri.tryParse('https://$value');
@@ -151,6 +159,15 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
             FilledButton.tonal(onPressed: _openUrl, child: const Text('打开')),
           ]),
         ),
+        if (Platform.isAndroid && _url.text.trim().isEmpty)
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(color: scheme.surfaceContainerLow, borderRadius: BorderRadius.circular(16)),
+            child: Text('先输入学校教务系统或课表网页的完整网址，点「打开」登录并操作到课表页面，再读取导入。',
+                style: TextStyle(fontSize: 10, height: 1.55, color: scheme.onSurfaceVariant)),
+          ),
         if (!Platform.isAndroid)
           Expanded(
             child: Center(

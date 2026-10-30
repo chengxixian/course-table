@@ -80,6 +80,19 @@ class WidgetBridge {
         'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
       };
     }).toList();
+
+    final morningRows = today.where((m) {
+      final start = Schedule.parseMinutes(m.startTime);
+      return start != null && start < 12 * 60;
+    }).take(4).map((m) {
+      return {
+        'time': m.startTime,
+        'end': m.endTime(settings.durationMode),
+        'name': m.courseName,
+        'room': m.room.isEmpty ? (m.teacher.isEmpty ? '' : m.teacher) : m.room,
+        'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
+      };
+    }).toList();
     String summary;
     if (next == null) {
       summary = week > 0 ? '今日课程已结束' : '假期中';
@@ -123,6 +136,7 @@ class WidgetBridge {
       'nextRoom': next?.meeting.room ?? '',
       'nextTeacher': next?.meeting.teacher ?? '',
       'rows': rows,
+      'morningRows': morningRows,
       'footer': today.isEmpty ? '今天没有课 · 课程表' : '今日 ${today.length} 节 · 课程表',
       'updatedAt': now.toIso8601String(),
     };

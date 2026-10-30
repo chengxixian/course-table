@@ -145,7 +145,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             val footerSize = 8f * density
             val bodyTop = dividerY + 6f * density
             val bodyBottom = footerBaseline - 9f * density
-            val rows = json?.optJSONArray("rows")
+            val rows = json?.optJSONArray("morningRows") ?: json?.optJSONArray("rows")
             if (rows == null || rows.length() == 0) {
                 text.textSize = 13f * density
                 text.color = onSurface
@@ -154,7 +154,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 text.color = secondary
                 canvas.drawText("打开应用同步课表", pad, bodyTop + 38f * density, text)
             } else {
-                val count = minOf(rows.length(), 3)
+                val count = minOf(rows.length(), 4)
                 val rowHeight = (bodyBottom - bodyTop) / count
                 for (i in 0 until count) {
                     val row = rows.optJSONObject(i) ?: continue

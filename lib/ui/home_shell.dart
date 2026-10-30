@@ -66,7 +66,8 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     setState(() {});
   }
 
-  Future<void> _maybeShowLogin() async {
+  Future<void> _maybeShowLogin({bool force = false}) async {
+    if (force) controller.openLogin();
     if (!mounted || _loginOpen || !controller.showLogin) return;
     _loginOpen = true;
     await showModalBottomSheet<void>(
@@ -124,7 +125,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       ),
       TodayScreen(controller: controller),
       CoursesScreen(controller: controller),
-      SettingsScreen(controller: controller, onLogin: _maybeShowLogin),
+      SettingsScreen(controller: controller, onLogin: () => _maybeShowLogin(force: true)),
     ];
     final isDesktop = MediaQuery.sizeOf(context).width >= 900;
     if (isDesktop) {

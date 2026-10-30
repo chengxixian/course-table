@@ -109,3 +109,10 @@ __pycache__/
 /tools_make_icons.py
 /.skills/
 /docs/research/
+
+.secrets/
+
+
+/.wrangler/
+/.playwright-cli/
+

@@ -1,7 +1,7 @@
 {
-  "version": "2.0.3",
-  "build": 5,
-  "notes": "课程页移除详情弹层；2×1 小组件填满并放大文字；新增 4×4 周课表、2×2 今日小组件。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.3/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.3"
+  "version": "2.0.5",
+  "build": 7,
+  "notes": "黄山学院登录修复；自定义高校流程上传通道；最大组件仅上午；空白网页导入。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.5/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.5"
 }
