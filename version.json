@@ -1,7 +1,7 @@
 {
-  "version": "2.0.9",
-  "build": 11,
-  "notes": "AI 兜底解析、AI 周次导航、全学期多周采集；空状态双入口；原生同步恢复。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.9/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.9"
+  "version": "2.0.10",
+  "build": 12,
+  "notes": "单按钮 AI 自动翻周并合并整学期；原生同步与清除功能保留。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.10/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.10"
 }

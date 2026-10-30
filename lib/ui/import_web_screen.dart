@@ -205,24 +205,7 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
   }
 
   Future<void> _importSemester() async {
-    final totalController = TextEditingController(text: '20');
-    final total = await showDialog<int>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('全学期导入'),
-        content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('请先把网页切到第 1 周。App 会自动点击“下一周”逐周抓取，再用 AI 合并。', style: TextStyle(fontSize: 11, height: 1.5)),
-          const SizedBox(height: 10),
-          TextField(controller: totalController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: '总周数', isDense: true)),
-        ]),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, int.tryParse(totalController.text.trim()) ?? 20), child: const Text('开始')),
-        ],
-      ),
-    );
-    totalController.dispose();
-    if (total == null || total < 1 || total > 30) return;
+    const total = 20;
     final web = _web;
     if (web == null) return;
     setState(() { _aiBusy = true; _aiStatus = '正在读取第 1 周…'; _error = null; });
@@ -344,22 +327,13 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
-                    onPressed: _loading || _aiBusy ? null : _importCurrent,
+                    onPressed: _loading || _aiBusy ? null : _importSemester,
                     icon: Icon(PixelIcons.event_available_outlined, size: 18),
                     label: const Text('读取当前页面并导入'),
                   ),
                 ),
-                const SizedBox(height: 5),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: _loading || _aiBusy ? null : _importSemester,
-                    icon: const Icon(Icons.auto_awesome, size: 18),
-                    label: const Text('全学期导入（从第 1 周自动翻周）'),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text('请先在网页里登录并操作到完整课表页面，再点上方按钮。登录状态只保存在本机。',
+
+                Text('请先登录并切到第 1 周；点击后 AI 会自动翻周、识别并合并整学期课表。登录状态只保存在本机。',
                     textAlign: TextAlign.center, style: TextStyle(fontSize: 8.5, color: scheme.onSurfaceVariant)),
               ]),
             ),
