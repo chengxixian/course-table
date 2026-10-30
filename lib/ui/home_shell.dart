@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import '../imported_source.dart';
+import 'import_web_screen.dart';
 import 'package:flutoryx/flutoryx.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -66,6 +68,23 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     setState(() {});
   }
 
+  Future<void> _openOtherImport() async {
+    if (!Platform.isAndroid) return;
+    final source = await Navigator.of(context).push<ImportedSource>(
+      MaterialPageRoute(builder: (_) => const ImportWebScreen()),
+    );
+    if (source == null || !mounted) return;
+    try {
+      await controller.applyImportedSource(source);
+      if (!mounted) return;
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('网页课表已导入')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
+    }
+  }
+
   Future<void> _maybeShowLogin({bool force = false}) async {
     if (force) {
       await controller.useNativeSource();
@@ -108,13 +127,21 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
             const SizedBox(width: 4),
           ],
         ),
-        body: AppEmptyState(
-          icon: Icons.event_available_outlined,
-          title: '还没有课表数据',
-          subtitle: '请登录信息门户并同步一次课表。',
-          actionLabel: '登录并同步',
-          onActionPressed: _maybeShowLogin,
-        ),
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          AppEmptyState(
+            icon: Icons.event_available_outlined,
+            title: '还没有课表数据',
+            subtitle: '黄山学院用户登录门户同步；其他学校可直接网页导入。',
+            actionLabel: '黄山学院登录同步',
+            onActionPressed: () => _maybeShowLogin(force: true),
+          ),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: _openOtherImport,
+            icon: const Icon(Icons.language, size: 18),
+            label: const Text('其他学校网页导入'),
+          ),
+        ]),
       );
     }
     final currentWeek = controller.schedule!.currentWeek();

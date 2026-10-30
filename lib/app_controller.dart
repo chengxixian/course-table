@@ -50,7 +50,7 @@ class AppController extends ChangeNotifier {
         debugPrint('widget init update failed: $e');
       }
     }
-    showLogin = schedule == null && !credentialsSaved && !_storage!.loginDismissed;
+    showLogin = false;
     initialized = true;
     notifyListeners();
     try {
