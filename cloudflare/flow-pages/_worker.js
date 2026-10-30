@@ -1,4 +1,4 @@
-const MAX_BODY = 4096;
+﻿const MAX_BODY = 4096;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json; charset=utf-8' } });
@@ -62,7 +62,7 @@ ${text}`;
       signal: controller.signal,
       headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: env.ZHIPU_MODEL || 'glm-4-flash',
+        model: 'glm-4-flash',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.1,
         max_tokens: 4096,
@@ -88,7 +88,7 @@ ${text}`;
       end: String(c.end || '').trim(),
       weeks: String(c.weeks || '').trim(),
     })).filter((c) => c.name && c.day >= 1 && c.day <= 7 && c.startPeriod >= 1 && c.endPeriod >= c.startPeriod);
-    return json({ courses: clean, model: env.ZHIPU_MODEL || 'glm-4-flash' });
+    return json({ courses: clean, model: 'glm-4-flash' });
   } catch (e) {
     return json({ error: 'AI 请求失败', detail: String(e.message || e).slice(0, 200) }, 502);
   }
@@ -118,7 +118,7 @@ ${list}`;
       method: 'POST',
       headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: env.ZHIPU_MODEL || 'glm-4-flash',
+        model: 'glm-4-flash',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0,
         max_tokens: 120,
@@ -200,3 +200,4 @@ export default {
     }
   },
 };
+
