@@ -11,6 +11,7 @@ import 'imported_schedule_service.dart';
 import 'imported_source.dart';
 import 'models.dart';
 import 'storage.dart';
+import 'school_registry.dart';
 import 'sync_service.dart';
 
 class AppController extends ChangeNotifier {
@@ -51,6 +52,7 @@ class AppController extends ChangeNotifier {
       }
     }
     showLogin = false;
+    unawaited(SchoolRegistry.refresh());
     initialized = true;
     notifyListeners();
     try {

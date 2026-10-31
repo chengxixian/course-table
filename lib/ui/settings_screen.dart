@@ -16,6 +16,7 @@ import 'about_screen.dart';
 import 'import_web_screen.dart';
 import '../imported_source.dart';
 import '../schools.dart';
+import '../school_registry.dart';
 import '../flow_upload_service.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -142,31 +143,34 @@ class SettingsScreen extends StatelessWidget {
           kicker: 'ADAPTED',
           title: '已适配高校',
           subtitle: '点击学校名称直接进入对应登录页；黄山学院保留原生同步。',
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Expanded(child: Text('已适配 ${kSchoolPresets.length} 所高校', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant))),
-              IconButton(
-                tooltip: '搜索高校',
-                onPressed: () => _searchSchool(context),
-                icon: Icon(PixelIcons.search, size: 19),
-              ),
-            ]),
-            for (final school in kSchoolPresets)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Container(
-                  width: 38, height: 38,
-                  decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
-                  child: Icon(Icons.school_outlined, size: 20, color: scheme.onPrimaryContainer),
+          child: ValueListenableBuilder<List<SchoolPreset>>(
+            valueListenable: SchoolRegistry.schools,
+            builder: (_, list, __) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
+                Expanded(child: Text('已适配 ${list.length} 所高校', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant))),
+                IconButton(
+                  tooltip: '搜索高校',
+                  onPressed: () => _searchSchool(context),
+                  icon: Icon(PixelIcons.search, size: 19),
                 ),
-                title: Text(school.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                subtitle: Text(school.note, style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
-                trailing: Icon(PixelIcons.chevron_right, size: 18),
-                onTap: () => school.native
-                    ? onLogin()
-                    : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name),
-              ),
-          ]),
+              ]),
+              for (final school in list)
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Container(
+                    width: 38, height: 38,
+                    decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
+                    child: Icon(Icons.school_outlined, size: 20, color: scheme.onPrimaryContainer),
+                  ),
+                  title: Text(school.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                  subtitle: Text(school.note, style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+                  trailing: Icon(PixelIcons.chevron_right, size: 18),
+                  onTap: () => school.native
+                      ? onLogin()
+                      : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name),
+                ),
+            ]),
+          ),
         ),
         const SizedBox(height: 12),
         SectionCard(
@@ -510,7 +514,7 @@ class SettingsScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) {
-          final filtered = kSchoolPresets.where((s) => s.name.contains(query.text.trim())).toList();
+          final filtered = SchoolRegistry.schools.value.where((s) => s.name.contains(query.text.trim())).toList();
           return AlertDialog(
             title: const Text('搜索已适配高校'),
             content: SizedBox(

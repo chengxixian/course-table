@@ -1,0 +1,16 @@
+{
+  "schools": [
+    {
+      "name": "黄山学院",
+      "loginUrl": "https://mwx.hsu.edu.cn/zhxy/home",
+      "native": true,
+      "note": "校内统一身份认证 · 原生同步"
+    },
+    {
+      "name": "铜陵学院",
+      "loginUrl": "https://auth.tlu.edu.cn/zhxy/home",
+      "native": false,
+      "note": "社区提交 · 网页导入"
+    }
+  ]
+}
