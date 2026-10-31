@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="420" viewBox="0 0 1600 420">
+<defs><pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse"><circle cx="17.0" cy="17.0" r="2.2" fill="#FFFFFF" opacity="0.10"/></pattern></defs><rect width="1600" height="420" fill="#06070A"/><rect width="1600" height="420" fill="url(#dots)"/>
+<circle cx="1450" cy="96" r="12" fill="#D71921"/>
+<circle cx="1450" cy="96" r="30" fill="none" stroke="#D71921" stroke-opacity="0.35" stroke-width="2"/>
+<rect x="96" y="86" width="74" height="4" fill="#D71921"/>
+<text x="96" y="134" fill="#A8B0BC" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="5">HSU · MATERIAL 3 · ANDROID</text>
+<text x="92" y="268" fill="#F7F7F7" font-family="FangSong, 'Songti SC', 'Noto Serif SC', serif" font-size="120" font-weight="700">课程表</text>
+<text x="98" y="318" fill="#A8B0BC" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="25" letter-spacing="4">COURSE TABLE / A CALMER SEMESTER</text>
+<text x="98" y="362" fill="#E8EAED" font-family="FangSong, 'Songti SC', serif" font-size="25">一次同步，整学期课表；一次导入，全部课程进日历。</text>
+<rect x="0" y="410" width="1600" height="10" fill="#D71921"/>
+</svg>
