@@ -28,9 +28,12 @@ async function gh(env, path, init = {}) {
 async function zhipuChat(env, payload) {
   let lastError = 'AI 服务不可用';
   for (const model of ['glm-4.7-flash', 'glm-4-flash']) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 14000);
     try {
       const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
         method: 'POST',
+        signal: controller.signal,
         headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
         body: JSON.stringify({ ...payload, model }),
       });
@@ -39,6 +42,8 @@ async function zhipuChat(env, payload) {
       lastError = data?.error?.message || `HTTP ${response.status}`;
     } catch (e) {
       lastError = String(e.message || e).slice(0, 160);
+    } finally {
+      clearTimeout(timer);
     }
   }
   throw new Error(lastError);

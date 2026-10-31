@@ -1,7 +1,7 @@
 {
-  "version": "2.0.18",
-  "build": 20,
-  "notes": "启动自动拉取 schools/index.json；已适配高校列表与搜索动态更新。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.18/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.18"
+  "version": "2.0.19",
+  "build": 21,
+  "notes": "AI 4.7 超时自动切 4-flash；客户端等待上限提高到 90 秒。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.19/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.19"
 }

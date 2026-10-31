@@ -1,7 +1,7 @@
 class AppMeta {
   static const name = '课程表';
-  static const version = '2.0.18';
-  static const build = 20;
+  static const version = '2.0.19';
+  static const build = 21;
   static const owner = 'chengxixian';
   static const repo = 'course-table';
   static const githubUrl = 'https://github.com/$owner/$repo';

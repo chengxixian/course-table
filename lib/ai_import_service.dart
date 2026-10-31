@@ -15,7 +15,7 @@ class AiImportService {
       final request = await client.postUrl(Uri.parse(AppMeta.aiParseUrl));
       request.headers.contentType = ContentType.json;
       request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text}));
-      final response = await request.close().timeout(const Duration(seconds: 35));
+      final response = await request.close().timeout(const Duration(seconds: 90));
       final body = await response.transform(utf8.decoder).join();
       if (response.statusCode < 200 || response.statusCode >= 300) {
         throw StateError('AI 识别失败：${_error(body)}');
