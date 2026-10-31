@@ -189,6 +189,8 @@ class AppController extends ChangeNotifier {
 
   bool get usingImportedSource => _storage?.sourceMode == 'imported';
 
+  ImportedSource? get currentImportedSource => _storage?.loadImportedSource();
+
   Future<void> applyImportedSource(ImportedSource source) async {
     final storage = _storage;
     if (storage == null) return;

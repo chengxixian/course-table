@@ -182,6 +182,15 @@ class SettingsScreen extends StatelessWidget {
                 label: const Text('打开空白网页开始导入'),
               ),
             ),
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _uploadExistingFlow(context),
+                icon: const Icon(Icons.cloud_upload_outlined, size: 17),
+                label: const Text('上传已导入流程（无需重新导入）'),
+              ),
+            ),
             const SizedBox(height: 7),
             Text('不会记录账号密码；只保存页面地址、操作路径与登录 Cookie。上传需要配置中转接口，GitHub 不允许匿名写入。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
@@ -421,29 +430,51 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _uploadExistingFlow(BuildContext context) async {
+    final source = controller.currentImportedSource;
+    if (source == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('还没有网页导入记录，请先导入一次课表')));
+      return;
+    }
+    await _askUploadFlow(context, source, schoolName: '未命名高校');
+  }
+
   Future<void> _askUploadFlow(BuildContext context, ImportedSource source, {required String schoolName}) async {
+    final host = Uri.tryParse(source.url)?.host ?? '';
+    final defaultName = schoolName == '未命名高校' ? host : schoolName;
+    final nameController = TextEditingController(text: defaultName);
     final upload = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('上传这份导入流程？'),
-        content: const Text('提交后由维护者审核合并；合并后其他用户可以在“已适配高校”里搜索到这所学校。\n\n只上传学校名称、课表网址和版本号；不会上传账号、密码或 Cookie。'),
+        content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('提交后由维护者审核合并；合并后其他用户可以在“已适配高校”里搜索到这所学校。\n\n只上传学校名称和课表网址；不会上传账号、密码或 Cookie。', style: TextStyle(fontSize: 11, height: 1.5)),
+          const SizedBox(height: 10),
+          TextField(controller: nameController, decoration: const InputDecoration(labelText: '学校名称', hintText: '例如：某某大学', isDense: true)),
+        ]),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('暂不上传')),
           FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('上传')),
         ],
       ),
     );
+    final actualName = nameController.text.trim();
+    nameController.dispose();
     if (upload != true || !context.mounted) return;
+    if (actualName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('学校名称不能为空')));
+      return;
+    }
     try {
-      final pr = await FlowUploadService.upload(school: schoolName, source: source);
+      final pr = await FlowUploadService.upload(school: actualName, source: source);
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(pr == null ? '已提交导入流程' : '已提交 PR：$pr')));
     } catch (e) {
       if (!context.mounted) return;
       final networkError = e is HandshakeException || e is SocketException || e is HttpException;
       final issueUrl = Uri.https('github.com', '/chengxixian/course-table/issues/new', {
-        'title': '新增高校导入流程：$schoolName',
-        'body': '学校：$schoolName\n课表网址：${source.url}\n\n由课程表 App 提交。',
+        'title': '新增高校导入流程：$actualName',
+        'body': '学校：$actualName\n课表网址：${source.url}\n\n由课程表 App 提交。',
       });
       await showDialog<void>(
         context: context,
@@ -455,7 +486,7 @@ class SettingsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: '${schoolName}\n${source.url}'));
+                Clipboard.setData(ClipboardData(text: '${actualName}\n${source.url}'));
                 Navigator.pop(ctx);
               },
               child: const Text('复制信息'),

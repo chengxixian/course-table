@@ -25,6 +25,25 @@ async function gh(env, path, init = {}) {
 }
 
 
+async function zhipuChat(env, payload) {
+  let lastError = 'AI 服务不可用';
+  for (const model of ['glm-4.7-flash', 'glm-4-flash']) {
+    try {
+      const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
+        method: 'POST',
+        headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
+        body: JSON.stringify({ ...payload, model }),
+      });
+      const data = await response.json();
+      if (response.ok) return { data, model };
+      lastError = data?.error?.message || `HTTP ${response.status}`;
+    } catch (e) {
+      lastError = String(e.message || e).slice(0, 160);
+    }
+  }
+  throw new Error(lastError);
+}
+
 async function aiParse(request, env) {
   if (!env.ZHIPU_API_KEY) return json({ error: 'AI 未配置' }, 500);
   const len = Number(request.headers.get('content-length') || 0);
@@ -55,23 +74,12 @@ async function aiParse(request, env) {
 页面文本：
 ${text}`;
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 28000);
-    const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
-      method: 'POST',
-      signal: controller.signal,
-      headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
-      body: JSON.stringify({
-        model: 'glm-4-flash',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.1,
-        max_tokens: 4096,
-        response_format: { type: 'json_object' },
-      }),
+    const { data, model } = await zhipuChat(env, {
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.1,
+      max_tokens: 4096,
+      response_format: { type: 'json_object' },
     });
-    clearTimeout(timer);
-    const data = await response.json();
-    if (!response.ok) return json({ error: 'AI 服务错误', detail: data?.error?.message || response.status }, 502);
     let content = data?.choices?.[0]?.message?.content || '';
     content = String(content).trim().replace(/^```(?:json)?\s*/i, '').replace(/```$/i, '').trim();
     let parsed;
@@ -88,7 +96,7 @@ ${text}`;
       end: String(c.end || '').trim(),
       weeks: String(c.weeks || '').trim(),
     })).filter((c) => c.name && c.day >= 1 && c.day <= 7 && c.startPeriod >= 1 && c.endPeriod >= c.startPeriod);
-    return json({ courses: clean, model: 'glm-4-flash' });
+    return json({ courses: clean, model });
   } catch (e) {
     return json({ error: 'AI 请求失败', detail: String(e.message || e).slice(0, 200) }, 502);
   }
@@ -114,19 +122,12 @@ ${page}
 控件列表：
 ${list}`;
   try {
-    const r = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
-      method: 'POST',
-      headers: { authorization: `Bearer ${env.ZHIPU_API_KEY}`, 'content-type': 'application/json' },
-      body: JSON.stringify({
-        model: 'glm-4-flash',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0,
-        max_tokens: 120,
-        response_format: { type: 'json_object' },
-      }),
+    const { data } = await zhipuChat(env, {
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0,
+      max_tokens: 120,
+      response_format: { type: 'json_object' },
     });
-    const data = await r.json();
-    if (!r.ok) return json({ index: -1, error: 'AI 服务错误' }, 502);
     let content = String(data?.choices?.[0]?.message?.content || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/```$/i, '').trim();
     let parsed;
     try { parsed = JSON.parse(content); } catch { return json({ index: -1 }); }
