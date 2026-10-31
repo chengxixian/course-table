@@ -1,7 +1,7 @@
 {
-  "version": "2.0.14",
-  "build": 16,
-  "notes": "可随时上传已导入流程；上传前可填写学校名称；AI 优先 GLM-4.7-Flash。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.14/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.14"
+  "version": "2.0.15",
+  "build": 17,
+  "notes": "更新检查加入 build 级缓存隔离；README 手机端使用 560px SVG。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.15/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.15"
 }
