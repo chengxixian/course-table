@@ -1,7 +1,7 @@
 {
-  "version": "2.0.15",
-  "build": 17,
-  "notes": "更新检查加入 build 级缓存隔离；README 手机端使用 560px SVG。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.15/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.15"
+  "version": "2.0.16",
+  "build": 18,
+  "notes": "更新改为 App 内下载安装，GitHub 源失败自动切镜像；README 手机版 560px SVG。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.16/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.16"
 }
