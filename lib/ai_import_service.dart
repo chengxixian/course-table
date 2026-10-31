@@ -9,12 +9,13 @@ class AiImportService {
     required String text,
     required String url,
     required Map<String, String> cookies,
+    bool strong = false,
   }) async {
     final client = HttpClient();
     try {
       final request = await client.postUrl(Uri.parse(AppMeta.aiParseUrl));
       request.headers.contentType = ContentType.json;
-      request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text}));
+      request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text, 'preferStrong': strong}));
       final response = await request.close().timeout(const Duration(seconds: 90));
       final body = await response.transform(utf8.decoder).join();
       if (response.statusCode < 200 || response.statusCode >= 300) {

@@ -357,6 +357,7 @@ class AppSettings {
   final String fontStyle;
   final String iconStyle;
   final String durationMode;
+  final bool strongAi;
   final DateTime? lastSync;
   final String username;
   const AppSettings({
@@ -367,6 +368,7 @@ class AppSettings {
     this.fontStyle = 'fangsoong',
     this.iconStyle = 'material',
     this.durationMode = '45',
+    this.strongAi = false,
     this.lastSync,
     this.username = '',
   });
@@ -379,6 +381,7 @@ class AppSettings {
     String? fontStyle,
     String? iconStyle,
     String? durationMode,
+    bool? strongAi,
     DateTime? lastSync,
     String? username,
   }) =>
@@ -390,6 +393,7 @@ class AppSettings {
         fontStyle: fontStyle ?? this.fontStyle,
         iconStyle: iconStyle ?? this.iconStyle,
         durationMode: durationMode ?? this.durationMode,
+        strongAi: strongAi ?? this.strongAi,
         lastSync: lastSync ?? this.lastSync,
         username: username ?? this.username,
       );

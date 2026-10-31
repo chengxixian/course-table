@@ -1,7 +1,7 @@
 {
-  "version": "2.0.19",
-  "build": 21,
-  "notes": "AI 4.7 超时自动切 4-flash；客户端等待上限提高到 90 秒。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.19/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.19"
+  "version": "2.0.20",
+  "build": 22,
+  "notes": "默认 AI 用 GLM-4-Flash；设置可开启 GLM-4.7-Flash 增强解析。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.20/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.20"
 }

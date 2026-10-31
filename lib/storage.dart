@@ -83,6 +83,7 @@ class AppStorage {
         fontStyle: prefs.getString('font_style') ?? 'fangsoong',
         iconStyle: prefs.getString('icon_style') ?? 'material',
         durationMode: prefs.getString('duration_mode') ?? '45',
+        strongAi: prefs.getBool('strong_ai') ?? false,
         lastSync: lastSync,
         username: prefs.getString('username') ?? '',
       );
@@ -95,6 +96,7 @@ class AppStorage {
     await prefs.setString('font_style', settings.fontStyle);
     await prefs.setString('icon_style', settings.iconStyle);
     await prefs.setString('duration_mode', settings.durationMode);
+    await prefs.setBool('strong_ai', settings.strongAi);
     await prefs.setString('username', settings.username);
     if (settings.lastSync != null) {
       await prefs.setString('last_sync', settings.lastSync!.toIso8601String());

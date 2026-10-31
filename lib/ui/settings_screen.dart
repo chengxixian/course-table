@@ -196,6 +196,12 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 7),
+            SettingRow(
+              title: 'AI 增强解析',
+              subtitle: '默认 GLM-4-Flash；开启后用 GLM-4.7-Flash，更准但更慢',
+              trailing: Switch(value: settings.strongAi, onChanged: (v) => controller.updateSettings(settings.copyWith(strongAi: v))),
+            ),
+            const SizedBox(height: 7),
             Text('不会记录账号密码；只保存页面地址、操作路径与登录 Cookie。上传需要配置中转接口，GitHub 不允许匿名写入。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
           ]),
@@ -414,7 +420,7 @@ class SettingsScreen extends StatelessWidget {
       return;
     }
     final source = await Navigator.of(context).push<ImportedSource>(
-      MaterialPageRoute(builder: (_) => ImportWebScreen(initialUrl: initialUrl)),
+      MaterialPageRoute(builder: (_) => ImportWebScreen(initialUrl: initialUrl, strongAi: controller.settings.strongAi)),
     );
     if (source == null || !context.mounted) return;
     try {

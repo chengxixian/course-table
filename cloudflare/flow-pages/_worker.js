@@ -25,9 +25,10 @@ async function gh(env, path, init = {}) {
 }
 
 
-async function zhipuChat(env, payload) {
+async function zhipuChat(env, payload, preferStrong = false) {
   let lastError = 'AI 服务不可用';
-  for (const model of ['glm-4.7-flash', 'glm-4-flash']) {
+  const models = preferStrong ? ['glm-4.7-flash', 'glm-4-flash'] : ['glm-4-flash', 'glm-4.7-flash'];
+  for (const model of models) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 14000);
     try {
@@ -55,6 +56,7 @@ async function aiParse(request, env) {
   if (len > 45000) return json({ error: '页面内容过大' }, 413);
   let body;
   try { body = await request.json(); } catch { return json({ error: 'invalid json' }, 400); }
+  const preferStrong = body.preferStrong === true;
   const raw = String(body.text || body.html || '').slice(0, 30000);
   if (raw.trim().length < 20) return json({ error: '页面内容过少' }, 400);
   const text = raw
@@ -84,7 +86,7 @@ ${text}`;
       temperature: 0.1,
       max_tokens: 4096,
       response_format: { type: 'json_object' },
-    });
+    }, preferStrong);
     let content = data?.choices?.[0]?.message?.content || '';
     content = String(content).trim().replace(/^```(?:json)?\s*/i, '').replace(/```$/i, '').trim();
     let parsed;

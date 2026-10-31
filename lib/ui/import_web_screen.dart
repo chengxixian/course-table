@@ -13,7 +13,8 @@ import '../pixel_icons.dart';
 
 class ImportWebScreen extends StatefulWidget {
   final String? initialUrl;
-  const ImportWebScreen({super.key, this.initialUrl});
+  final bool strongAi;
+  const ImportWebScreen({super.key, this.initialUrl, this.strongAi = false});
 
   @override
   State<ImportWebScreen> createState() => _ImportWebScreenState();
@@ -231,7 +232,7 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
         for (final c in list) cookies[c.name] = c.value;
       } catch (_) {}
       setState(() => _aiStatus = 'AI 正在合并 $reached 周课表…');
-      final source = await AiImportService.parse(text: chunks.join('\n'), url: url, cookies: cookies);
+      final source = await AiImportService.parse(text: chunks.join('\n'), url: url, cookies: cookies, strong: widget.strongAi);
       final preview = parseImportedHtml(source.html, url);
       if (preview == null) throw FormatException(lastParseError ?? 'AI 合并失败');
       if (!mounted) return;
