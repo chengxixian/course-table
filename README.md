@@ -12,6 +12,8 @@
 </div>
 
 <picture>
+  <source media="(max-width: 700px) and (prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/board-mobile-dark.svg">
+  <source media="(max-width: 700px)" srcset="docs/assets/readme/m3/board-mobile-light.svg">
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/board-dark.svg">
   <img src="docs/assets/readme/m3/board-light.svg" width="100%" alt="课程表 README：Material 3 设计、功能、导入、小组件、下载、隐私、致谢与许可">
 </picture>
