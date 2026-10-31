@@ -1,8 +1,11 @@
 <div align="center">
 
-<img src="docs/assets/readme/banner.svg" width="100%" alt="课程表 · Material 3 Android" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/banner-dark.svg">
+  <img src="docs/assets/readme/m3/banner-light.svg" width="100%" alt="课程表 · Material 3 Android">
+</picture>
 
-<img src="assets/icon.png" width="84" alt="课程表图标" />
+<img src="assets/icon.png" width="80" alt="课程表图标">
 
 # 课程表
 
@@ -13,13 +16,13 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.47-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Material 3](https://img.shields.io/badge/Material%203-Expressive-6750A4?logo=materialdesign&logoColor=white)](https://m3.material.io)
 [![Android](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white)](https://www.android.com)
-[![AI](https://img.shields.io/badge/AI-GLM--4--Flash-8A5CF6?logo=openai&logoColor=white)](https://bigmodel.cn)
-[![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
+[![AI](https://img.shields.io/badge/AI-GLM--4--Flash-6750A4?logo=openai&logoColor=white)](https://bigmodel.cn)
+[![License](https://img.shields.io/badge/License-GPL--3.0-0B57D0.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/chengxixian/course-table?label=下载&color=0B57D0)](https://github.com/chengxixian/course-table/releases/latest)
 
 **一次同步，整学期课表；一次导入，全部课程进日历。**
 
-[下载 APK](https://github.com/chengxixian/course-table/releases/latest) · [查看更新](https://github.com/chengxixian/course-table/releases) · [问题反馈](https://github.com/chengxixian/course-table/issues)
+[下载 APK](https://github.com/chengxixian/course-table/releases/latest) · [更新记录](https://github.com/chengxixian/course-table/releases) · [问题反馈](https://github.com/chengxixian/course-table/issues)
 
 </div>
 
@@ -29,55 +32,84 @@
 
 | | | |
 |---|---|---|
-| [设计系统](#material-3-设计) | [能力](#能力) | [导入链路](#导入链路) |
-| [桌面小组件](#桌面小组件) | [下载与构建](#下载与构建) | [隐私](#隐私) |
+| [设计语言](#设计语言) | [能力](#能力) | [导入](#导入) |
+| [小组件](#小组件) | [下载与构建](#下载与构建) | [隐私](#隐私) |
 | [已知限制](#已知限制) | [致谢](#致谢) | [许可](#许可) |
 
 ---
 
-<img src="docs/assets/readme/section-design.svg" width="100%" alt="01 Design" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-design-dark.svg">
+  <img src="docs/assets/readme/m3/section-design-light.svg" width="100%" alt="01 Design">
+</picture>
 
-## Material 3 设计
+## 设计语言
 
-> 不是“套一个 Material 主题”，而是把颜色、字体、形状、动效拆成可替换的令牌。
+> 和 App 一样：**Material 3 的柔和表面 + 仿宋的书写感 + Times 的数字感**，而不是另一套海报风格。
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### 两套声音
+### 字体
 
-- **中文**：仿宋 GB2312，标题与正文都保留书写感
-- **英文/数字**：Times New Roman
-- **可选**：像素字体，只用于品牌字与关键数字
+- 中文：仿宋 GB2312
+- 英文/数字：Times New Roman
+- 可选：像素字体，仅用于品牌字和关键数字
 - 小组件同步字体设置
 
 </td>
 <td width="50%" valign="top">
 
-### 可替换外观
+### 颜色
 
+- `ColorScheme.fromSeed`
 - Android 12 动态取色
 - 湖蓝 / 松绿 / 鸢尾紫 / 琥珀橙 / 山茶粉 / 青瓷
-- Material Icons 默认；像素图标可选
-- 按钮 stadium、卡片 12–24、面板 32
+- 浅色与深色都使用同一套语义色
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 形状
+
+- 按钮：stadium
+- 课程卡：12
+- 内容卡：16–24
+- 底部面板：28–32
+- 不使用硬边和重投影
+
+</td>
+<td width="50%" valign="top">
+
+### 动效
+
+- 页面淡入 + 滑动
+- 列表 stagger
+- 按压缩放
+- `m3e_core` 形状加载
+- 课程详情从课程卡矩形展开
 
 </td>
 </tr>
 </table>
 
-| 令牌 | 实现 |
+| 令牌 | 值 |
 |---|---|
-| 主色 | `ColorScheme.fromSeed` + `dynamic_color` |
-| 字体 | `FangSongCN` + `TimesNewRoman` fallback；`FusionPixel` 可选 |
-| 图标 | `PixelIcons` 运行时切换 Material / Pixelarticons |
-| 动效 | 页面淡入滑动、stagger、按压缩放、`m3e_core` 形状加载 |
-| 组件 | `flutoryx` 空状态、`m3e_core` 加载、Material 3 Expressive |
-| 时间 | 每节 `08:00–08:45`，课间有真实空隙 |
+| 主色 | `#0B57D0`（浅色）/ `#A8C7FA`（深色） |
+| 背景 | `#F7F9FC` / `#0F1115` |
+| 卡片 | `#FFFFFF` / `#1B1F24` |
+| 圆角 | 12 / 16 / 24 / 32 |
+| 间距 | 4 / 8 / 12 / 16 / 20 / 24 |
 
 ---
 
-<img src="docs/assets/readme/section-features.svg" width="100%" alt="02 Features" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-features-dark.svg">
+  <img src="docs/assets/readme/m3/section-features-light.svg" width="100%" alt="02 Features">
+</picture>
 
 ## 能力
 
@@ -109,7 +141,7 @@
 
 ### 桌面小组件
 
-- 4×3 今日课程
+- 4×3 今日课程（仅上午）
 - 2×2 今日课程
 - 4×4 周课表
 - 2×1 下一节（大字）
@@ -121,20 +153,21 @@
 
 - `version.json` 版本比对
 - jsDelivr / Fastly / Gcore / Raw 多源
-- 官方源不可用切镜像
+- 官方源不可用时切镜像
 - 下载失败再切 `ghproxy`
 
 </td>
 </tr>
 </table>
 
-> **小组件细节**：最大号 4×3 只显示上午课程；2×1 只显示下一节的时间、课程、教室/老师，避免信息过载。
-
 ---
 
-<img src="docs/assets/readme/section-import.svg" width="100%" alt="03 Import" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-import-dark.svg">
+  <img src="docs/assets/readme/m3/section-import-light.svg" width="100%" alt="03 Import">
+</picture>
 
-## 导入链路
+## 导入
 
 ```mermaid
 flowchart LR
@@ -161,7 +194,7 @@ flowchart LR
 2. 在应用内登录并操作到课表页
 3. 点「读取当前页面并导入」
 4. 本地解析优先；缺字段时 AI 兜底
-5. AI 自动判断“下一周”控件，逐周采集并合并
+5. AI 自动判断「下一周」控件，逐周采集并合并
 6. 预览确认后写入课表
 
 ### AI 边界
@@ -174,9 +207,12 @@ flowchart LR
 
 ---
 
-<img src="docs/assets/readme/section-widgets.svg" width="100%" alt="04 Widgets" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-widgets-dark.svg">
+  <img src="docs/assets/readme/m3/section-widgets-light.svg" width="100%" alt="04 Widgets">
+</picture>
 
-## 桌面小组件
+## 小组件
 
 | 尺寸 | 内容 | 适合 |
 |---|---|---|
@@ -191,7 +227,10 @@ flowchart LR
 
 ---
 
-<img src="docs/assets/readme/section-download.svg" width="100%" alt="05 Download" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-download-dark.svg">
+  <img src="docs/assets/readme/m3/section-download-light.svg" width="100%" alt="05 Download">
+</picture>
 
 ## 下载与构建
 
@@ -235,7 +274,10 @@ assets/                       字体、图标、赞赏码
 
 ---
 
-<img src="docs/assets/readme/section-privacy.svg" width="100%" alt="06 Privacy" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-privacy-dark.svg">
+  <img src="docs/assets/readme/m3/section-privacy-light.svg" width="100%" alt="06 Privacy">
+</picture>
 
 ## 隐私
 
@@ -247,7 +289,10 @@ assets/                       字体、图标、赞赏码
 
 ---
 
-<img src="docs/assets/readme/section-thanks.svg" width="100%" alt="07 Thanks" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-thanks-dark.svg">
+  <img src="docs/assets/readme/m3/section-thanks-light.svg" width="100%" alt="07 Thanks">
+</picture>
 
 ## 致谢
 
@@ -259,7 +304,10 @@ assets/                       字体、图标、赞赏码
 
 ---
 
-<img src="docs/assets/readme/section-license.svg" width="100%" alt="08 License" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/m3/section-license-dark.svg">
+  <img src="docs/assets/readme/m3/section-license-light.svg" width="100%" alt="08 License">
+</picture>
 
 ## 许可
 
@@ -271,8 +319,8 @@ assets/                       字体、图标、赞赏码
 
 ## 已知限制
 
-- 未适配学校的网页结构差异很大；AI 只能处理“页面文本 + 可点击控件”，遇到 Canvas、图片课表或后端加密接口仍需要专用适配。
-- 全学期导入依赖页面能切换周次；如果学校只显示当前周且没有“下一周”控件，只能导入当前页。
+- 未适配学校的网页结构差异很大；AI 只能处理「页面文本 + 可点击控件」，遇到 Canvas、图片课表或后端加密接口仍需要专用适配。
+- 全学期导入依赖页面能切换周次；如果学校只显示当前周且没有「下一周」控件，只能导入当前页。
 - 自动更新是多源 JSON 比对，不是应用内静默安装。
 - 2×1 小组件在不同 Launcher 上可能有 1–2dp 的留白差异。
 

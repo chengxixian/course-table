@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="132" viewBox="0 0 1600 132">
+<defs><linearGradient id="line" x1="0" x2="1"><stop offset="0" stop-color="#0B57D0"/><stop offset="1" stop-color="#6750A4" stop-opacity="0"/></linearGradient></defs>
+<rect width="1600" height="132" fill="#F7F9FC"/>
+<rect x="0" y="0" width="6" height="132" fill="#0B57D0"/>
+<text x="96" y="58" fill="#0B57D0" font-family="ui-monospace, Menlo, monospace" font-size="16" letter-spacing="3">07 /</text>
+<text x="96" y="100" fill="#1F1F1F" font-family="ui-monospace, Menlo, monospace" font-size="34" letter-spacing="2">THANKS</text>
+<text x="1504" y="84" fill="#5F6368" text-anchor="end" font-family="FangSong, 'Noto Serif SC', serif" font-size="24">致谢</text>
+<rect x="96" y="116" width="1408" height="2" fill="url(#line)"/>
+</svg>
