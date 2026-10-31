@@ -71,7 +71,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   Future<void> _openOtherImport() async {
     if (!Platform.isAndroid) return;
     final source = await Navigator.of(context).push<ImportedSource>(
-      MaterialPageRoute(builder: (_) => ImportWebScreen(strongAi: controller.settings.strongAi)),
+      MaterialPageRoute(builder: (_) => ImportWebScreen(strongAi: false)),
     );
     if (source == null || !mounted) return;
     try {

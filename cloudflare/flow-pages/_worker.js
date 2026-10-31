@@ -27,10 +27,10 @@ async function gh(env, path, init = {}) {
 
 async function zhipuChat(env, payload, preferStrong = false) {
   let lastError = 'AI 服务不可用';
-  const models = preferStrong ? ['glm-4.7-flash', 'glm-4-flash'] : ['glm-4-flash', 'glm-4.7-flash'];
+  const models = ['glm-4-flash'];
   for (const model of models) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 14000);
+    const timer = setTimeout(() => controller.abort(), 26000);
     try {
       const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
         method: 'POST',

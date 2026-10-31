@@ -15,7 +15,7 @@ class AiImportService {
     try {
       final request = await client.postUrl(Uri.parse(AppMeta.aiParseUrl));
       request.headers.contentType = ContentType.json;
-      request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text, 'preferStrong': strong}));
+      request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text}));
       final response = await request.close().timeout(const Duration(seconds: 90));
       final body = await response.transform(utf8.decoder).join();
       if (response.statusCode < 200 || response.statusCode >= 300) {
@@ -38,9 +38,13 @@ class AiImportService {
   static String _error(String body) {
     try {
       final data = jsonDecode(body);
-      if (data is Map) return (data['error'] ?? data['detail'] ?? '未知错误').toString();
+      if (data is Map) {
+        final error = (data['error'] ?? '未知错误').toString();
+        final detail = (data['detail'] ?? '').toString();
+        return detail.isEmpty ? error : '$error：$detail';
+      }
     } catch (_) {}
-    return body.length > 160 ? body.substring(0, 160) : body;
+    return body.length > 200 ? body.substring(0, 200) : body;
   }
 
   static String _buildTable(List<_AiCourse> courses) {
