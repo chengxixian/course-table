@@ -73,17 +73,9 @@ class AboutScreen extends StatelessWidget {
             Center(child: Text('课程表', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: scheme.onSurface))),
             const SizedBox(height: 4),
             Center(child: Text('版本 ${AppMeta.version} · Flutter', style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant))),
-            const SizedBox(height: 12),
-            Center(
-              child: TextButton.icon(
-                onPressed: () => _checkUpdate(context),
-                icon: Icon(PixelIcons.sync, size: 16),
-                label: const Text('检查更新'),
-              ),
-            ),
             const SizedBox(height: 20),
             Row(children: [
-              _Action(icon: PixelIcons.auto_awesome, label: '更新', onTap: () => _open(context, AppMeta.releasesUrl)),
+              _Action(icon: PixelIcons.auto_awesome, label: '更新', onTap: () => _checkUpdate(context)),
               _Action(icon: PixelIcons.info_outline, label: '支持', onTap: () => _open(context, '${AppMeta.githubUrl}/issues')),
               _Action(icon: PixelIcons.open_in_new, label: 'GitHub', onTap: () => _open(context, AppMeta.githubUrl)),
             ]),
