@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:m3e_core/m3e_core.dart';
 import '../ai_import_service.dart';
 import '../classy_parser.dart';
+import '../classy_bridge_service.dart';
 import '../ai_nav_service.dart';
 
 import '../generic_html_parser.dart';
@@ -216,22 +217,26 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
         final web = _web;
         if (web != null) {
           final html = _decodeJs(await web.runJavaScriptReturningResult('document.documentElement.outerHTML'));
-          final table = ClassyParser.parseToHtml(html, widget.schoolType);
+          final url = await web.currentUrl() ?? _url.text;
+          final cookies = <String, String>{};
+          try {
+            final list = await WebViewCookieManager().getCookies(domain: Uri.parse(url));
+            for (final c in list) cookies[c.name] = c.value;
+          } catch (_) {}
+          ImportedSource? classySource;
+          try {
+            classySource = await ClassyBridgeService.parse(html: html, type: widget.schoolType, url: url, cookies: cookies);
+          } catch (_) {}
+          final table = classySource?.html ?? ClassyParser.parseToHtml(html, widget.schoolType);
           if (table != null) {
-            final url = await web.currentUrl() ?? _url.text;
-            final cookies = <String, String>{};
-            try {
-              final list = await WebViewCookieManager().getCookies(domain: Uri.parse(url));
-              for (final c in list) cookies[c.name] = c.value;
-            } catch (_) {}
-            final source = ImportedSource(url: url, cookies: cookies, html: table, savedAt: DateTime.now());
+            final source = classySource ?? ImportedSource(url: url, cookies: cookies, html: table, savedAt: DateTime.now());
             final preview = parseImportedHtml(table, url);
             if (preview != null) {
               final ok = await showDialog<bool>(
                 context: context,
                 builder: (ctx) => AlertDialog(
                   title: const Text('导入 Classy 解析结果？'),
-                  content: Text('识别到 ${preview.courses.length} 门课程、${preview.meetings.length} 个时段。\n\n使用 ${widget.schoolType} 解析器，不上传页面。'),
+                  content: Text('识别到 ${preview.courses.length} 门课程、${preview.meetings.length} 个时段。\n\n使用 Classy ${widget.schoolType} 解析器，不上传页面。'),
                   actions: [
                     TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
                     FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('导入')),

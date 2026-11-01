@@ -8,7 +8,7 @@
 - License: GNU General Public License v3.0
 - Used material: `app/src/main/assets/schools.json` school preset data (349 schools).
 
-The school list was transformed into `schools/index.json` for this project. A minimal Dart port of Classy's `JwNewZfParser.kt` exists in `lib/classy_parser.dart` (GPL-3.0); no Compose UI code was copied. Other parser types remain separate and presets use this app's generic web/AI import.
+The school list was transformed into `schools/index.json` for this project. Classy's Kotlin parser layer under `com.imsx3d.classy.data.jw` (38 parser/helper files) is compiled into this Android app and exposed through `ClassyParserBridge`/MethodChannel. Dart also contains a minimal `zf_new` fallback in `lib/classy_parser.dart`. No Compose UI code was copied. Unknown school types fall back to this app's generic web/AI import. All copied code is GPL-3.0; see upstream for original sources.
 
 Classy is licensed under GPL-3.0; this project is also GPL-3.0. See the upstream repository for the original data and license.
 

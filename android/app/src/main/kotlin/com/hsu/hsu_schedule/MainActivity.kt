@@ -35,6 +35,7 @@ class MainActivity : FlutterActivity() {
     private val secureChannelName = "com.hsu.hsu_schedule/secure"
     private val installChannelName = "com.hsu.hsu_schedule/install"
     private val importChannelName = "com.hsu.hsu_schedule/import"
+    private val classyChannelName = "com.hsu.hsu_schedule/classy_parser"
     private var pendingResult: MethodChannel.Result? = null
     private var pendingEvents: List<Map<String, Any>>? = null
     private var pendingCalendarId: Long? = null

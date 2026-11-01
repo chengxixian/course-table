@@ -29,6 +29,7 @@
 | **黄山学院原生同步** | 信息门户登录，抓取课程、教师、教室、周次、调课与冲突；整学期一次同步 |
 | **350 所高校预设** | 学校库可搜索；黄山学院保留原生流程，其他学校打开对应登录页 |
 | **网页导入** | 应用内 WebView 登录并操作到课表页，读取 HTML 导入 |
+| **Classy 解析器桥** | 38 个 Classy Kotlin 解析器编译进 Android，按学校 `type` 直接调用；未知类型回退通用解析/AI |
 | **AI 兜底** | 本地解析缺字段时，发送脱敏页面文本到 Cloudflare Pages，再调用智谱 `glm-4-flash` |
 | **文件导入** | ICS / CSV / 纯文本 / Excel / PDF / 手动添加；Excel 和 PDF 先转文字再解析 |
 | **整学期** | 网页导入会尝试自动翻周、采集并合并整学期 |
@@ -76,7 +77,7 @@
 - Key 只在 Cloudflare Pages 环境变量，不进 APK
 - 缺教室、缺时间、周次异常的结果拒绝导入
 - 页面没有可点击的「下一周」控件、Canvas 课表或加密接口时，无法自动翻周
-- Classy 的 Kotlin 解析器目前只移植了 `zf_new`，其他类型仍走通用网页/AI
+- Classy Kotlin 解析器按协议类型桥接；未收录/未命中类型仍走通用网页/AI
 
 ---
 
@@ -117,14 +118,15 @@ flutter build apk --release
 lib/
   ui/                         Material 3 页面、拖动与动效
   schedule_overlays.dart      手动课程 / 移动覆盖的纯函数合成
-  classy_parser.dart          Classy zf_new 解析器 Dart 移植
+  classy_parser.dart          Classy zf_new 解析器 Dart 兜底
+  classy_bridge_service.dart  Kotlin 解析器桥接
   generic_html_parser.dart    通用网页课表解析
   file_import_service.dart    ICS/CSV/Excel/PDF/文本导入
   ai_import_service.dart      AI 解析兜底
   ai_nav_service.dart         AI 周次导航
   update_service.dart         多源更新 + App 内下载
   sync_service.dart           教务同步 + 小组件
-android/                      原生小组件、系统日历、PDFBox、FileProvider
+android/                      原生小组件、系统日历、PDFBox、Classy Kotlin 解析器桥
 cloudflare/flow-pages/        Pages 中转（流程上传 / AI）
 docs/                         隐私政策、SDK、架构与任务计划
 ```
@@ -149,7 +151,7 @@ docs/                         隐私政策、SDK、架构与任务计划
 
 感谢 **茨畔耕夫**、**润泽江海**、**Yearn Justly**、**曼你个der啊** 对项目的帮助与支持。
 
-学校预设数据来自 [Classy](https://github.com/IMSX3D/Classy)（GPL-3.0）；`zf_new` 解析器已移植为 Dart。名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护。
+学校预设数据来自 [Classy](https://github.com/IMSX3D/Classy)（GPL-3.0）；其 Kotlin 解析器层已编译进 Android，通过 MethodChannel 调用，`zf_new` 另有 Dart 兜底。名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护。
 
 也感谢 Flutter、Material 3、`dynamic_color`、`home_widget`、`webview_flutter`、`m3e_core`、`flutoryx`、PDFBox 及所有开源作者。
 

@@ -9,6 +9,9 @@ import '../update_service.dart';
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
+  static const privacyUrl = '${AppMeta.githubUrl}/blob/main/docs/PRIVACY.md';
+  static const sdkUrl = '${AppMeta.githubUrl}/blob/main/docs/SDK.md';
+
   Future<void> _checkUpdate(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
     try {
@@ -51,6 +54,7 @@ class AboutScreen extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: IconButton.filledTonal(
                 onPressed: () => Navigator.of(context).pop(),
+                tooltip: '返回',
                 icon: Icon(PixelIcons.chevron_left, size: 22),
               ),
             ),
@@ -70,7 +74,7 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            Center(child: Text('课程表', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: scheme.onSurface))),
+            Center(child: Text(AppMeta.name, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: scheme.onSurface))),
             const SizedBox(height: 4),
             Center(child: Text('版本 ${AppMeta.version} · Flutter', style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant))),
             const SizedBox(height: 20),
@@ -82,35 +86,51 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 26),
             Text('开发', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-              decoration: BoxDecoration(color: scheme.surfaceContainerLow, borderRadius: BorderRadius.circular(16)),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 21,
-                  backgroundColor: scheme.primaryContainer,
-                  child: Icon(PixelIcons.open_in_new, size: 20, color: scheme.onPrimaryContainer),
+            Material(
+              color: scheme.surfaceContainerLow,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: scheme.outlineVariant),
+              ),
+              child: InkWell(
+                onTap: () => _open(context, AppMeta.githubUrl),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 15, 10, 15),
+                  child: Row(children: [
+                    CircleAvatar(
+                      radius: 21,
+                      backgroundColor: scheme.primaryContainer,
+                      child: Icon(PixelIcons.open_in_new, size: 20, color: scheme.onPrimaryContainer),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Text(AppMeta.owner, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+                      const SizedBox(height: 2),
+                      Text('开发 / 维护', style: TextStyle(fontSize: 10, color: scheme.onSurfaceVariant)),
+                    ])),
+                    Icon(PixelIcons.chevron_right, size: 18, color: scheme.onSurfaceVariant),
+                    const SizedBox(width: 6),
+                  ]),
                 ),
-                const SizedBox(width: 12),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text('chengxixian', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 2),
-                  Text('开发 / 维护', style: TextStyle(fontSize: 10, color: scheme.onSurfaceVariant)),
-                ])),
-                IconButton(
-                  onPressed: () => _open(context, AppMeta.githubUrl),
-                  icon: Icon(PixelIcons.chevron_right, size: 18),
-                ),
-              ]),
+              ),
             ),
             const SizedBox(height: 10),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(PixelIcons.menu_book_outlined, size: 19),
-              title: const Text('开源许可', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-              subtitle: const Text('GNU General Public License v3.0', style: TextStyle(fontSize: 9)),
-              trailing: Icon(PixelIcons.chevron_right, size: 16),
-              onTap: () => showLicensePage(context: context, applicationName: AppMeta.name, applicationVersion: AppMeta.version),
+            Material(
+              color: scheme.surfaceContainerLow,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: scheme.outlineVariant),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                leading: Icon(PixelIcons.menu_book_outlined, size: 19),
+                title: const Text('开源许可', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                subtitle: const Text('GNU General Public License v3.0', style: TextStyle(fontSize: 9)),
+                trailing: Icon(PixelIcons.chevron_right, size: 16),
+                onTap: () => showLicensePage(context: context, applicationName: AppMeta.name, applicationVersion: AppMeta.version),
+              ),
             ),
             const SizedBox(height: 16),
             Text('赞赏', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
@@ -124,14 +144,14 @@ class AboutScreen extends StatelessWidget {
               Expanded(child: _DonateCard(image: 'assets/donate_alipay.jpg', title: '支付宝', color: const Color(0xFF1677FF))),
             ]),
             const SizedBox(height: 8),
-            Text('长按二维码识别，或保存后在微信 / 支付宝中扫码。',
+            Text('用微信 / 支付宝「扫一扫」扫描二维码，或截图后从相册识别。',
                 style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 28),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: scheme.surfaceContainerLowest,
+                color: scheme.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: scheme.outlineVariant),
               ),
@@ -142,21 +162,23 @@ class AboutScreen extends StatelessWidget {
               ]),
             ),
             const SizedBox(height: 14),
+            Text('隐私与数据', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 4),
             Row(children: [
               TextButton.icon(
-                onPressed: () => _open(context, '${AppMeta.githubUrl}/blob/main/docs/PRIVACY.md'),
+                onPressed: () => _open(context, AboutScreen.privacyUrl),
                 icon: const Icon(Icons.privacy_tip_outlined, size: 15),
                 label: const Text('隐私政策', style: TextStyle(fontSize: 10)),
               ),
               const SizedBox(width: 4),
               TextButton.icon(
-                onPressed: () => _open(context, '${AppMeta.githubUrl}/blob/main/docs/SDK.md'),
+                onPressed: () => _open(context, AboutScreen.sdkUrl),
                 icon: const Icon(Icons.inventory_2_outlined, size: 15),
                 label: const Text('SDK 清单', style: TextStyle(fontSize: 10)),
               ),
             ]),
-            const SizedBox(height: 10),
-            Text('登录信息使用 AES-GCM 加密保存在本机应用私有目录；AI 导入会发送脱敏页面文本，上传流程会公开学校名与网址。',
+            const SizedBox(height: 8),
+            Text('登录信息以 AES-256-GCM 加密保存在本机应用私有存储；AI 导入会把当前页面可见文本（最多约 3 万字）发送到 Cloudflare，再转交智谱 AI 解析，其中 10–12 位数字会在云端脱敏；上传导入流程会在公开 PR 中公开学校名与网址。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 16),
             Center(child: Text('源代码以 GPL-3.0 发布 · 非官方个人工具', style: TextStyle(fontSize: 8.5, color: scheme.outline))),

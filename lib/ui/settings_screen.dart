@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../app_controller.dart';
+import '../app_meta.dart';
 import '../calendar_export.dart';
 import '../google_calendar_import.dart';
 import '../models.dart';
@@ -31,6 +32,9 @@ class SettingsScreen extends StatelessWidget {
     final profile = schedule?.student;
     final scheme = Theme.of(context).colorScheme;
     final settings = controller.settings;
+    final imported = controller.usingImportedSource ? controller.currentImportedSource : null;
+    final isFileImport = (Uri.tryParse(imported?.url ?? '')?.host ?? '') == 'local.import';
+    final sourceLabel = !controller.usingImportedSource ? '教务管理系统' : (isFileImport ? '文件导入' : '网页导入');
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
       children: [
@@ -89,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
               decoration: BoxDecoration(color: scheme.surfaceContainerLowest, borderRadius: BorderRadius.circular(14), border: Border.all(color: scheme.outlineVariant)),
               child: Row(children: [
                 Expanded(child: _Fact(label: '上次同步', value: formatLastSync(controller.lastSync))),
-                Expanded(child: _Fact(label: '数据来源', value: '教务管理系统')),
+                Expanded(child: _Fact(label: '数据来源', value: sourceLabel)),
                 Expanded(child: _Fact(label: '本学期', value: schedule?.semester.name ?? '—')),
               ]),
             ),
@@ -117,9 +121,14 @@ class SettingsScreen extends StatelessWidget {
         SectionCard(
           kicker: 'DATA',
           title: '课程数据',
-          subtitle: '清空本机保存的课表、网页导入源和小组件显示；不会删除登录账号。',
+          subtitle: '清空本机保存的课表、导入源和小组件显示；不会删除登录账号。',
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(controller.usingImportedSource ? '当前来源：未适配网页导入' : '当前来源：黄山学院门户', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant)),
+            Text(
+              controller.usingImportedSource
+                  ? (isFileImport ? '当前来源：本地文件导入' : '当前来源：网页导入（未适配高校）')
+                  : '当前来源：黄山学院门户',
+              style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant),
+            ),
             const SizedBox(height: 8),
             if (controller.usingImportedSource) ...[
               SizedBox(width: double.infinity, child: FilledButton.tonalIcon(
@@ -155,7 +164,7 @@ class SettingsScreen extends StatelessWidget {
           subtitle: '点击学校名称直接进入对应登录页；黄山学院保留原生同步。',
           child: ValueListenableBuilder<List<SchoolPreset>>(
             valueListenable: SchoolRegistry.schools,
-            builder: (_, list, __) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            builder: (_, list, _) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
                 Expanded(child: Text('已适配 ${list.length} 所高校', style: TextStyle(fontSize: 9, color: scheme.onSurfaceVariant))),
                 IconButton(
@@ -263,11 +272,15 @@ class SettingsScreen extends StatelessWidget {
         SectionCard(
           kicker: 'WIDGET',
           title: '桌面小组件',
-          subtitle: Platform.isAndroid ? 'Material 3 风格的桌面小组件，展示下一节课与今日课程。' : '将主窗口切换为悬浮小组件，始终置顶在桌面。',
+          subtitle: Platform.isAndroid
+              ? 'Material 3 桌面小组件：4×3 下一节与今日、4×4 周课表、4×2 两日、2×2 今日、2×1 下一节。'
+              : '将主窗口切换为悬浮小组件，始终置顶在桌面。',
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Row(children: [
               Expanded(child: Text(
-                Platform.isAndroid ? '支持 4×3 尺寸，可在桌面长按添加，也可以直接点击下方按钮。' : '悬浮模式会隐藏导航与侧栏，只保留下一节课与今日课程。',
+                Platform.isAndroid
+                    ? '可在桌面长按添加，也可以直接点击按钮；不同尺寸显示的内容不同，添加后会跟随课表自动刷新。'
+                    : '悬浮模式会隐藏导航与侧栏，只保留下一节课与今日课程。',
                 style: TextStyle(fontSize: 10, height: 1.5, color: scheme.onSurfaceVariant),
               )),
               const SizedBox(width: 10),
@@ -280,19 +293,22 @@ class SettingsScreen extends StatelessWidget {
                   }
                 },
                 icon: Icon(Platform.isAndroid ? PixelIcons.widgets_outlined : PixelIcons.picture_in_picture_alt_outlined, size: 17),
-                label: Text(Platform.isAndroid ? '添加小组件' : '悬浮模式'),
+                label: Text(Platform.isAndroid ? '添加 4×3 小组件' : '悬浮模式'),
               ),
             ]),
             if (Platform.isAndroid) ...[
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: OutlinedButton.icon(
-                  onPressed: () => controller.requestPinNextWidget(),
-                  icon: Icon(PixelIcons.add, size: 15),
-                  label: const Text('添加 2×1 下一节小组件'),
-                ),
-              ),
+              const SizedBox(height: 6),
+              Row(children: [
+                Expanded(child: _WidgetPinButton(label: '4×4 周课表', onPressed: () => controller.requestPinWeekWidget())),
+                const SizedBox(width: 6),
+                Expanded(child: _WidgetPinButton(label: '4×2 两日', onPressed: () => controller.requestPinTwoDayWidget())),
+              ]),
+              const SizedBox(height: 6),
+              Row(children: [
+                Expanded(child: _WidgetPinButton(label: '2×2 今日', onPressed: () => controller.requestPinTodayWidget())),
+                const SizedBox(width: 6),
+                Expanded(child: _WidgetPinButton(label: '2×1 下一节', onPressed: () => controller.requestPinNextWidget())),
+              ]),
             ],
           ]),
         ),
@@ -420,7 +436,7 @@ class SettingsScreen extends StatelessWidget {
           kicker: 'ABOUT',
           title: '关于',
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _AboutRow(label: '版本', value: '2.0.0 · Flutter'),
+            _AboutRow(label: '版本', value: '${AppMeta.version} · Flutter'),
             _AboutRow(label: '数据', value: '信息门户 / 教务管理系统'),
             const SizedBox(height: 9),
             Text('非官方工具，仅用于个人课表查看与日历整理。登录信息只保存在本机。',
@@ -473,8 +489,8 @@ class SettingsScreen extends StatelessWidget {
 
   Future<void> _uploadExistingFlow(BuildContext context) async {
     final source = controller.currentImportedSource;
-    if (source == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('还没有网页导入记录，请先导入一次课表')));
+    if (source == null || source.url.startsWith('https://local.import/')) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('还没有网页导入记录，请先用「未适配高校导入」导入一次课表')));
       return;
     }
     await _askUploadFlow(context, source, schoolName: '未命名高校');
@@ -527,7 +543,7 @@ class SettingsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: '${actualName}\n${source.url}'));
+                Clipboard.setData(ClipboardData(text: '$actualName\n${source.url}'));
                 Navigator.pop(ctx);
               },
               child: const Text('复制信息'),
@@ -554,6 +570,7 @@ class SettingsScreen extends StatelessWidget {
           final q = query.text.trim();
           final filtered = SchoolRegistry.schools.value.where((s) => s.name.contains(q) || s.aliases.any((a) => a.contains(q)) || s.type.contains(q)).toList();
           return AlertDialog(
+            scrollable: true,
             title: Text('搜索已适配高校（${SchoolRegistry.schools.value.length}）'),
             content: SizedBox(
               width: 360,
@@ -644,7 +661,6 @@ class SettingsScreen extends StatelessWidget {
       await controller.applyImportedSource(source);
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('文件课表已导入')));
-      await _askUploadFlow(context, source, schoolName: '未命名高校');
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
@@ -754,10 +770,29 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
+class _WidgetPinButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+  const _WidgetPinButton({required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        visualDensity: VisualDensity.compact,
+      ),
+      icon: Icon(PixelIcons.add, size: 15),
+      label: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 11.5)),
+    );
+  }
+}
+
 class _Fact extends StatelessWidget {
   final String label;
   final String value;
-  _Fact({required this.label, required this.value});
+  const _Fact({required this.label, required this.value});
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -771,7 +806,7 @@ class _Fact extends StatelessWidget {
 class _AboutRow extends StatelessWidget {
   final String label;
   final String value;
-  _AboutRow({required this.label, required this.value});
+  const _AboutRow({required this.label, required this.value});
   @override
   Widget build(BuildContext context) {
     return Padding(

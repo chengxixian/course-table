@@ -1,7 +1,7 @@
 {
-  "version": "3.0.0",
-  "build": 44,
-  "notes": "3.0.0：文件导入、系统日历选择、两日小组件、拖动事务、开源字体、Classy 学校库。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.0.0/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.0.0"
+  "version": "3.1.0",
+  "build": 45,
+  "notes": "Classy Kotlin 解析器桥接；文件导入、系统日历、两日组件。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.0/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.0"
 }
