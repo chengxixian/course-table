@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'credential_vault.dart';
 import 'imported_source.dart';
 import 'models.dart';
+import 'manual_course.dart';
 import 'parser.dart';
 
 class AppStorage {
@@ -68,6 +69,43 @@ class AppStorage {
     await prefs.remove('imported_source');
     await prefs.remove('source_mode');
     await prefs.remove('last_sync');
+    await prefs.remove('meeting_moves');
+  }
+
+  List<ManualCourseEntry> loadManualCourses() {
+    final text = prefs.getString('manual_courses');
+    if (text == null || text.isEmpty) return [];
+    try {
+      final list = jsonDecode(text);
+      if (list is! List) return [];
+      return list.whereType<Map>().map((m) => ManualCourseEntry.fromJson(m.cast<String, dynamic>())).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> saveManualCourses(List<ManualCourseEntry> courses) async {
+    await prefs.setString('manual_courses', jsonEncode(courses.map((e) => e.toJson()).toList()));
+  }
+
+  Future<void> clearManualCourses() async => prefs.remove('manual_courses');
+
+  Future<void> clearMeetingMoves() async => prefs.remove('meeting_moves');
+
+  List<MeetingMove> loadMeetingMoves() {
+    final text = prefs.getString('meeting_moves');
+    if (text == null || text.isEmpty) return [];
+    try {
+      final list = jsonDecode(text);
+      if (list is! List) return [];
+      return list.whereType<Map>().map((m) => MeetingMove.fromJson(m.cast<String, dynamic>())).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> saveMeetingMoves(List<MeetingMove> moves) async {
+    await prefs.setString('meeting_moves', jsonEncode(moves.map((e) => e.toJson()).toList()));
   }
 
   DateTime? get lastSync {

@@ -99,6 +99,31 @@ class Meeting {
   String get dayName => day >= 1 && day <= 7 ? kWeekdays[day] : '';
   int get periodCount => endPeriod - startPeriod + 1;
   String endTime(String mode) => mode == 'actual' ? (endTimeActual.isNotEmpty ? endTimeActual : endTime45) : (endTime45.isNotEmpty ? endTime45 : endTimeActual);
+
+  Meeting copyWith({int? day, int? startPeriod, int? endPeriod, String? startTime, String? endTime45, String? endTimeActual}) => Meeting(
+        id: id,
+        courseId: courseId,
+        courseName: courseName,
+        sectionName: sectionName,
+        teacher: teacher,
+        room: room,
+        campus: campus,
+        day: day ?? this.day,
+        startPeriod: startPeriod ?? this.startPeriod,
+        endPeriod: endPeriod ?? this.endPeriod,
+        weeks: weeks,
+        weeksText: weeksText,
+        startTime: startTime ?? this.startTime,
+        endTime45: endTime45 ?? this.endTime45,
+        endTimeActual: endTimeActual ?? this.endTimeActual,
+        credits: credits,
+        courseCode: courseCode,
+        courseType: courseType,
+        category: category,
+        kind: kind,
+        adjusted: adjusted,
+        adjustNote: adjustNote,
+      );
 }
 
 class Course {

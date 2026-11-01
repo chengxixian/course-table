@@ -31,21 +31,46 @@ class NoWritableCalendarException implements Exception {
   String toString() => message;
 }
 
+class CalendarTargetInfo {
+  final int id;
+  final String name;
+  final String accountName;
+  final String accountType;
+  const CalendarTargetInfo({required this.id, required this.name, required this.accountName, required this.accountType});
+}
+
 class GoogleCalendarImport {
   static const _channel = MethodChannel('com.hsu.hsu_schedule/calendar');
 
-  static Future<CalendarImportResult> importAll(Schedule schedule, String mode) async {
+  static Future<List<CalendarTargetInfo>> listCalendars() async {
+    if (!Platform.isAndroid) return const [];
+    try {
+      final list = await _channel.invokeListMethod<dynamic>('listCalendars');
+      return (list ?? const []).whereType<Map>().map((m) => CalendarTargetInfo(
+        id: (m['id'] as num?)?.toInt() ?? 0,
+        name: m['name']?.toString() ?? '日历',
+        accountName: m['accountName']?.toString() ?? '',
+        accountType: m['accountType']?.toString() ?? '',
+      )).where((c) => c.id > 0).toList();
+    } on PlatformException catch (e) {
+      throw CalendarPermissionException(e.message ?? '读取系统日历失败');
+    } on MissingPluginException {
+      return const [];
+    }
+  }
+
+  static Future<CalendarImportResult> importAll(Schedule schedule, String mode, {int? calendarId}) async {
     if (!Platform.isAndroid) {
       throw const CalendarPermissionException('当前平台不支持直接写入日历');
     }
     final events = buildEvents(schedule, mode);
     try {
-      final result = await _channel.invokeMapMethod<String, dynamic>('insertEvents', {'events': events});
+      final result = await _channel.invokeMapMethod<String, dynamic>('insertEvents', {'events': events, 'calendarId': calendarId});
       if (result == null) throw const CalendarPermissionException('日历导入没有返回结果');
       return CalendarImportResult(
         inserted: (result['inserted'] as num?)?.toInt() ?? 0,
         skipped: (result['skipped'] as num?)?.toInt() ?? 0,
-        calendarName: result['calendarName']?.toString() ?? 'Google 日历',
+        calendarName: result['calendarName']?.toString() ?? '系统日历',
         accountType: result['accountType']?.toString() ?? '',
       );
     } on PlatformException catch (e) {

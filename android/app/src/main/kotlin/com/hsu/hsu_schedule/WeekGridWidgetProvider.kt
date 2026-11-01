@@ -54,7 +54,7 @@ class WeekGridWidgetProvider : AppWidgetProvider() {
             val onSurface = if (night) 0xFFE3E3E3.toInt() else 0xFF1F1F1F.toInt()
             val secondary = if (night) 0xFF9AA0A6.toInt() else 0xFF5F6368.toInt()
             val pixel = json?.optString("fontStyle") == "pixel"
-            val tf = Typeface.createFromAsset(context.assets, if (pixel) "FusionPixel12.ttf" else "FangSongGB.ttf")
+            val tf = Typeface.createFromAsset(context.assets, if (pixel) "FusionPixel12.ttf" else "FandolFang-Regular.otf")
             val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { typeface = tf; color = onSurface }
             paint.textSize = 26f
             canvas.drawText(json?.optString("week", "课程表").orEmpty(), 22f, 38f, paint)

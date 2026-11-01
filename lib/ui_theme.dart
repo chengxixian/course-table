@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class HsuTheme {
   static const seed = Color(0xFF0B57D0);
@@ -35,10 +35,11 @@ class HsuTheme {
     final base = ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
-      fontFamily: pixel ? 'FusionPixel' : 'FangSongCN',
+      // Latin-first: Liberation Serif has no CJK; Chinese falls back to FandolFang.
+      fontFamily: pixel ? 'FusionPixel' : 'TimesNewRoman',
       fontFamilyFallback: pixel
-          ? ['FangSongCN', 'TimesNewRoman', 'Microsoft YaHei UI']
-          : ['TimesNewRoman', 'Microsoft YaHei UI', 'Noto Sans SC'],
+          ? ['FangSongCN', 'TimesNewRoman', 'Noto Sans CJK SC']
+          : ['FangSongCN', 'Noto Sans CJK SC', 'sans-serif'],
     );
     final text = base.textTheme.copyWith(
       displayLarge: base.textTheme.displayLarge?.copyWith(fontWeight: FontWeight.w600, letterSpacing: -1.8),

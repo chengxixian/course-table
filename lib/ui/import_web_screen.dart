@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:m3e_core/m3e_core.dart';
 import '../ai_import_service.dart';
+import '../classy_parser.dart';
 import '../ai_nav_service.dart';
 
 import '../generic_html_parser.dart';
@@ -14,7 +15,8 @@ import '../pixel_icons.dart';
 class ImportWebScreen extends StatefulWidget {
   final String? initialUrl;
   final bool strongAi;
-  const ImportWebScreen({super.key, this.initialUrl, this.strongAi = false});
+  final String schoolType;
+  const ImportWebScreen({super.key, this.initialUrl, this.strongAi = false, this.schoolType = ''});
 
   @override
   State<ImportWebScreen> createState() => _ImportWebScreenState();
@@ -52,7 +54,9 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
           if (!mounted) return;
           setState(() {
             _loading = false;
-            if (err.isForMainFrame == true) _error = err.description;
+            if (err.isForMainFrame == true) {
+              _error = '${err.description}\n如果提示连接超时，该教务系统可能仅校园网/VPN 可访问。';
+            }
           });
         },
       ));
@@ -206,6 +210,45 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
   }
 
   Future<void> _importSemester() async {
+    if (widget.schoolType.isNotEmpty && widget.schoolType != 'native') {
+      setState(() { _aiBusy = true; _aiStatus = '正在使用 Classy 解析器…'; _error = null; });
+      try {
+        final web = _web;
+        if (web != null) {
+          final html = _decodeJs(await web.runJavaScriptReturningResult('document.documentElement.outerHTML'));
+          final table = ClassyParser.parseToHtml(html, widget.schoolType);
+          if (table != null) {
+            final url = await web.currentUrl() ?? _url.text;
+            final cookies = <String, String>{};
+            try {
+              final list = await WebViewCookieManager().getCookies(domain: Uri.parse(url));
+              for (final c in list) cookies[c.name] = c.value;
+            } catch (_) {}
+            final source = ImportedSource(url: url, cookies: cookies, html: table, savedAt: DateTime.now());
+            final preview = parseImportedHtml(table, url);
+            if (preview != null) {
+              final ok = await showDialog<bool>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('导入 Classy 解析结果？'),
+                  content: Text('识别到 ${preview.courses.length} 门课程、${preview.meetings.length} 个时段。\n\n使用 ${widget.schoolType} 解析器，不上传页面。'),
+                  actions: [
+                    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
+                    FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('导入')),
+                  ],
+                ),
+              );
+              if (ok == true && mounted) {
+                Navigator.of(context).pop(source);
+                return;
+              }
+            }
+          }
+        }
+      } finally {
+        if (mounted) setState(() => _aiBusy = false);
+      }
+    }
     const total = 20;
     final web = _web;
     if (web == null) return;

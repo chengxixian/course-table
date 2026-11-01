@@ -17,6 +17,8 @@ import android.security.keystore.KeyProperties
 import android.util.Base64
 import androidx.core.content.FileProvider
 import java.io.File
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.text.PDFTextStripper
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
@@ -32,8 +34,10 @@ class MainActivity : FlutterActivity() {
     private val channelName = "com.hsu.hsu_schedule/calendar"
     private val secureChannelName = "com.hsu.hsu_schedule/secure"
     private val installChannelName = "com.hsu.hsu_schedule/install"
+    private val importChannelName = "com.hsu.hsu_schedule/import"
     private var pendingResult: MethodChannel.Result? = null
     private var pendingEvents: List<Map<String, Any>>? = null
+    private var pendingCalendarId: Long? = null
 
     override fun onResume() {
         super.onResume()
@@ -75,12 +79,22 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName).setMethodCallHandler { call, result ->
             when (call.method) {
                 "hasCalendarPermission" -> result.success(hasCalendarPermission())
+                "listCalendars" -> Thread {
+                    try {
+                        val list = queryWritableCalendars().map { mapOf(
+                            "id" to it.id, "name" to it.name,
+                            "accountName" to it.accountName, "accountType" to it.accountType) }
+                        runOnUiThread { result.success(list) }
+                    } catch (t: Throwable) {
+                        runOnUiThread { result.error("LIST_CALENDAR_FAILED", t.message ?: "无法读取日历列表", null) }
+                    }
+                }.start()
                 "insertEvents" -> {
                     val events = readEvents(call)
                     if (events.isEmpty()) {
                         result.error("EMPTY", "没有可写入的课程事件", null)
                     } else {
-                        insertOrRequest(events, result)
+                        insertOrRequest(events, result, (call.argument<Number>("calendarId"))?.toLong())
                     }
                 }
                 else -> result.notImplemented()
@@ -102,13 +116,14 @@ class MainActivity : FlutterActivity() {
             checkSelfPermission(Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun insertOrRequest(events: List<Map<String, Any>>, result: MethodChannel.Result) {
+    private fun insertOrRequest(events: List<Map<String, Any>>, result: MethodChannel.Result, calendarId: Long? = null) {
         if (hasCalendarPermission()) {
-            insertEvents(events, result)
+            insertEvents(events, result, calendarId)
             return
         }
         pendingResult = result
         pendingEvents = events
+        pendingCalendarId = calendarId
         requestPermissions(
             arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR),
             CALENDAR_PERMISSION_REQUEST,
@@ -155,25 +170,28 @@ class MainActivity : FlutterActivity() {
         if (requestCode != CALENDAR_PERMISSION_REQUEST) return
         val result = pendingResult
         val events = pendingEvents
+        val calendarId = pendingCalendarId
         pendingResult = null
         pendingEvents = null
+        pendingCalendarId = null
         if (result == null) return
         if (hasCalendarPermission()) {
-            if (events != null) insertEvents(events, result) else result.error("EMPTY", "没有可写入的课程事件", null)
+            if (events != null) insertEvents(events, result, calendarId) else result.error("EMPTY", "没有可写入的课程事件", null)
         } else {
             result.error("PERMISSION_DENIED", "需要日历读写权限才能导入全部课程", null)
         }
     }
 
-    private fun insertEvents(events: List<Map<String, Any>>, result: MethodChannel.Result) {
+    private fun insertEvents(events: List<Map<String, Any>>, result: MethodChannel.Result, calendarId: Long? = null) {
         Thread {
             try {
                 val calendars = queryWritableCalendars()
                 if (calendars.isEmpty()) {
-                    runOnUiThread { result.error("NO_CALENDAR", "没有找到可写入的日历，请先在 Google 日历中登录账号", null) }
+                    runOnUiThread { result.error("NO_CALENDAR", "没有找到可写入的系统日历，请先添加日历账号", null) }
                     return@Thread
                 }
-                val target = calendars.firstOrNull { it.accountType == "com.google" } ?: calendars.first()
+                val target = calendarId?.let { id -> calendars.firstOrNull { it.id == id } }
+                    ?: calendars.firstOrNull { it.accountType == "com.google" } ?: calendars.first()
                 var inserted = 0
                 var skipped = 0
                 for (event in events) {

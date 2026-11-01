@@ -72,8 +72,8 @@ class NextClassWidgetProvider : AppWidgetProvider() {
                 Color.parseColor("#0B57D0")
             }
             val pixelFont = json?.optString("fontStyle") == "pixel"
-            val bodyTypeface = Typeface.createFromAsset(context.assets, if (pixelFont) "FusionPixel12.ttf" else "FangSongGB.ttf")
-            val timeTypeface = if (pixelFont) bodyTypeface else Typeface.createFromAsset(context.assets, "TimesNewRoman.ttf")
+            val bodyTypeface = Typeface.createFromAsset(context.assets, if (pixelFont) "FusionPixel12.ttf" else "FandolFang-Regular.otf")
+            val timeTypeface = if (pixelFont) bodyTypeface else Typeface.createFromAsset(context.assets, "LiberationSerif-Regular.ttf")
             val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 typeface = bodyTypeface
                 color = onSurface

@@ -14,6 +14,7 @@ import '../pixel_icons.dart';
 import '../ui_theme.dart';
 import 'about_screen.dart';
 import 'import_web_screen.dart';
+import 'import_file_screen.dart';
 import '../imported_source.dart';
 import '../schools.dart';
 import '../school_registry.dart';
@@ -136,6 +137,15 @@ class SettingsScreen extends StatelessWidget {
                 label: const Text('一键清除所有课程信息'),
               ),
             ),
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _resetMoves(context),
+                icon: const Icon(Icons.restore, size: 17),
+                label: const Text('重置课程位置调整'),
+              ),
+            ),
           ]),
         ),
         const SizedBox(height: 12),
@@ -167,7 +177,7 @@ class SettingsScreen extends StatelessWidget {
                   trailing: Icon(PixelIcons.chevron_right, size: 18),
                   onTap: () => school.native
                       ? onLogin()
-                      : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name),
+                      : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name, schoolType: school.type),
                 ),
               if (list.length > 8)
                 Align(
@@ -207,6 +217,24 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 7),
             Text('不会记录账号密码；只保存页面地址、操作路径与登录 Cookie。上传需要配置中转接口，GitHub 不允许匿名写入。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        SectionCard(
+          kicker: 'FILE IMPORT',
+          title: '文件导入课表',
+          subtitle: '从 ICS、CSV、Excel、PDF、纯文本导入；Excel/PDF 先提取文字，再由 AI 解析。',
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.tonalIcon(
+                onPressed: () => _importFile(context),
+                icon: const Icon(Icons.upload_file_outlined, size: 18),
+                label: const Text('选择文件或粘贴文本'),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text('扫描版 PDF 无法提取文字；文件本身不上传，只发送提取后的文本。', style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
           ]),
         ),
         const SizedBox(height: 12),
@@ -271,9 +299,9 @@ class SettingsScreen extends StatelessWidget {
         const SizedBox(height: 12),
         SectionCard(
           kicker: 'CALENDAR',
-          title: 'Google 日历',
+          title: '系统日历',
           subtitle: Platform.isAndroid
-              ? '一次写入本学期全部课程到手机上的 Google 日历账号，不需要逐节课添加。首次使用会请求日历权限。'
+              ? '一次写入本学期全部课程到系统日历；支持 Google、华为、小米、Outlook、本地日历等可写日历。首次使用会请求日历权限。'
               : '一次性生成本学期全部课程事件（.ics），再导入 Google 日历。不会一节课一节课添加。',
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
@@ -281,7 +309,7 @@ class SettingsScreen extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: controller.schedule == null ? null : () => _importAll(context),
                 icon: Icon(PixelIcons.event_available_outlined, size: 18),
-                label: Text(Platform.isAndroid ? '导入全部课程到 Google 日历' : '导出全部课程到 Google 日历'),
+                label: Text(Platform.isAndroid ? '选择系统日历并导入全部课程' : '导出全部课程到系统日历'),
               ),
             ),
             const SizedBox(height: 7),
@@ -290,7 +318,7 @@ class SettingsScreen extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () => CalendarExport.openGoogleImport(),
                   icon: Icon(PixelIcons.open_in_new, size: 15),
-                  label: const Text('打开 Google 日历导入页'),
+                  label: const Text('打开日历导入页'),
                 ),
               ),
               const SizedBox(width: 7),
@@ -307,7 +335,7 @@ class SettingsScreen extends StatelessWidget {
               ),
             ]),
             const SizedBox(height: 8),
-            Text('提示：Android 会直接写入已登录的 Google 日历（需要日历权限）。每节按 45 分钟计算，连续两节为 90 分钟。重复导入会自动跳过已存在的事件。',
+            Text('提示：Android 会直接写入你选择的系统日历（需要日历权限）。每节按 45 分钟计算，连续两节为 90 分钟。重复导入会自动跳过已存在的事件。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),
           ]),
         ),
@@ -417,13 +445,13 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _importWeb(BuildContext context, {String? initialUrl, String? schoolName, bool allowFlowUpload = false}) async {
+  Future<void> _importWeb(BuildContext context, {String? initialUrl, String? schoolName, String schoolType = '', bool allowFlowUpload = false}) async {
     if (!Platform.isAndroid) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('网页导入目前仅支持 Android')));
       return;
     }
     final source = await Navigator.of(context).push<ImportedSource>(
-      MaterialPageRoute(builder: (_) => ImportWebScreen(initialUrl: initialUrl, strongAi: false)),
+      MaterialPageRoute(builder: (_) => ImportWebScreen(initialUrl: initialUrl, strongAi: false, schoolType: schoolType)),
     );
     if (source == null || !context.mounted) return;
     try {
@@ -554,7 +582,7 @@ class SettingsScreen extends StatelessWidget {
                             if (school.native) {
                               onLogin();
                             } else {
-                              _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name);
+                              _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name, schoolType: school.type);
                             }
                           },
                         );
@@ -569,6 +597,24 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
     query.dispose();
+  }
+
+  Future<void> _resetMoves(BuildContext context) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('重置课程位置？'),
+        content: const Text('会撤销所有手动拖动的位置，课程恢复到教务原始星期/节次。手动添加的课程不会删除。'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('重置')),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) return;
+    await controller.resetMeetingMoves();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('课程位置已恢复')));
   }
 
   Future<void> _clearAllCourses(BuildContext context) async {
@@ -587,6 +633,22 @@ class SettingsScreen extends StatelessWidget {
     await controller.clearAllCourses();
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('课程信息已清除')));
+  }
+
+  Future<void> _importFile(BuildContext context) async {
+    final source = await Navigator.of(context).push<ImportedSource>(
+      MaterialPageRoute(builder: (_) => ImportFileScreen(controller: controller)),
+    );
+    if (source == null || !context.mounted) return;
+    try {
+      await controller.applyImportedSource(source);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('文件课表已导入')));
+      await _askUploadFlow(context, source, schoolName: '未命名高校');
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('导入失败：$e')));
+    }
   }
 
   Future<void> _sync(BuildContext context) async {
@@ -612,7 +674,32 @@ class SettingsScreen extends StatelessWidget {
       return;
     }
     try {
-      final result = await GoogleCalendarImport.importAll(schedule, controller.settings.durationMode);
+      final calendars = await GoogleCalendarImport.listCalendars();
+      if (!context.mounted) return;
+      if (calendars.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('没有找到可写入的系统日历，请先在系统中添加日历账号')));
+        return;
+      }
+      final selected = await showDialog<CalendarTargetInfo>(
+        context: context,
+        builder: (ctx) => SimpleDialog(
+          title: const Text('选择系统日历'),
+          children: [
+            for (final c in calendars)
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(ctx, c),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.calendar_month_outlined),
+                  title: Text(c.name),
+                  subtitle: Text([c.accountName, c.accountType].where((e) => e.isNotEmpty).join(' · ')),
+                ),
+              ),
+          ],
+        ),
+      );
+      if (selected == null || !context.mounted) return;
+      final result = await GoogleCalendarImport.importAll(schedule, controller.settings.durationMode, calendarId: selected.id);
       if (!context.mounted) return;
       final skipped = result.skipped > 0 ? '，跳过 ${result.skipped} 个已存在事件' : '';
       final messenger = ScaffoldMessenger.of(context);

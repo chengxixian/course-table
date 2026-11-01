@@ -110,12 +110,12 @@ class TodayWidgetProvider : AppWidgetProvider() {
             val pixelFont = json?.optString("fontStyle") == "pixel"
             val bodyTypeface = Typeface.createFromAsset(
                 context.assets,
-                if (pixelFont) "FusionPixel12.ttf" else "FangSongGB.ttf",
+                if (pixelFont) "FusionPixel12.ttf" else "FandolFang-Regular.otf",
             )
             val timeTypeface = if (pixelFont) {
                 bodyTypeface
             } else {
-                Typeface.createFromAsset(context.assets, "TimesNewRoman.ttf")
+                Typeface.createFromAsset(context.assets, "LiberationSerif-Regular.ttf")
             }
             val text = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 typeface = bodyTypeface

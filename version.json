@@ -1,7 +1,7 @@
 {
-  "version": "2.0.23",
-  "build": 25,
-  "notes": "接入 Classy 349 所学校预设；黄山学院仍强制原生门户流程。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v2.0.23/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v2.0.23"
+  "version": "3.0.0",
+  "build": 44,
+  "notes": "3.0.0：文件导入、系统日历选择、两日小组件、拖动事务、开源字体、Classy 学校库。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.0.0/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.0.0"
 }

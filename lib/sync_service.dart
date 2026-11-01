@@ -10,6 +10,7 @@ import 'imported_schedule_service.dart';
 import 'parser.dart';
 import 'portal_client.dart';
 import 'storage.dart';
+import 'schedule_overlays.dart';
 
 class NoCredentialsException implements Exception {
   final String message;
@@ -22,7 +23,7 @@ class SyncService {
   static Future<Schedule> sync(AppStorage storage) async {
     if (storage.sourceMode == 'imported') {
       final imported = await ImportedScheduleService.refresh(storage);
-      await WidgetBridge.update(imported, storage.settings);
+      await WidgetBridge.update(ScheduleOverlays.compose(imported, storage.loadManualCourses(), storage.loadMeetingMoves()), storage.settings);
       return imported;
     }
     final credentials = await storage.readCredentials();
@@ -30,7 +31,7 @@ class SyncService {
     final raw = await PortalClient().fetch(credentials);
     await storage.saveRaw(raw);
     final schedule = ScheduleParser.build(raw);
-    await WidgetBridge.update(schedule, storage.settings);
+    await WidgetBridge.update(ScheduleOverlays.compose(schedule, storage.loadManualCourses(), storage.loadMeetingMoves()), storage.settings);
     return schedule;
   }
 }
@@ -40,7 +41,7 @@ class WidgetBridge {
 
   static Future<void> clear() async {
     await HomeWidget.saveWidgetData<String>('schedule_widget', '{}');
-    for (final name in ['ScheduleWidgetProvider', 'NextClassWidgetProvider', 'TodayWidgetProvider', 'WeekGridWidgetProvider']) {
+    for (final name in ['ScheduleWidgetProvider', 'NextClassWidgetProvider', 'TodayWidgetProvider', 'WeekGridWidgetProvider', 'TwoDayWidgetProvider']) {
       await HomeWidget.updateWidget(
         androidName: name,
         qualifiedAndroidName: 'com.hsu.hsu_schedule.$name',
@@ -68,6 +69,10 @@ class WidgetBridge {
       androidName: 'WeekGridWidgetProvider',
       qualifiedAndroidName: 'com.hsu.hsu_schedule.WeekGridWidgetProvider',
     );
+    await HomeWidget.updateWidget(
+      androidName: 'TwoDayWidgetProvider',
+      qualifiedAndroidName: 'com.hsu.hsu_schedule.TwoDayWidgetProvider',
+    );
   }
 
   static Map<String, dynamic> buildPayload(Schedule schedule, AppSettings settings) {
@@ -89,6 +94,16 @@ class WidgetBridge {
         'room': m.room.isEmpty ? (m.teacher.isEmpty ? '' : m.teacher) : m.room,
         'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
       };
+    }).toList();
+
+    final tomorrow = now.add(const Duration(days: 1));
+    final tomorrowMeetings = schedule.todayMeetings(tomorrow);
+    final tomorrowRows = tomorrowMeetings.take(3).map((m) => {
+      'time': m.startTime,
+      'end': m.endTime(settings.durationMode),
+      'name': m.courseName,
+      'room': m.room.isEmpty ? m.teacher : m.room,
+      'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
     }).toList();
 
     final morningRows = today.where((m) {
@@ -147,6 +162,7 @@ class WidgetBridge {
       'nextTeacher': next?.meeting.teacher ?? '',
       'rows': rows,
       'morningRows': morningRows,
+      'tomorrowRows': tomorrowRows,
       'footer': today.isEmpty ? '今天没有课 · 课程表' : '今日 ${today.length} 节 · 课程表',
       'updatedAt': now.toIso8601String(),
     };

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_twoday_root" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/widget_card_dark" android:orientation="vertical">
+    <ImageView android:id="@+id/widget_twoday_image" android:layout_width="match_parent" android:layout_height="match_parent" android:contentDescription="两日课程" android:scaleType="fitCenter"/>
+</LinearLayout>

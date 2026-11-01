@@ -4,4 +4,5 @@
     <string name="widget_description">课程表：下一节课与今日课程</string>
     <string name="widget_next_description">课程表：仅显示下一节课的时间、教室和老师</string>
     <string name="widget_week_description">课程表 · 周课表</string>
+    <string name="widget_twoday_description">课程表 · 两日</string>
 </resources>

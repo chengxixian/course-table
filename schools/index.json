@@ -13,6 +13,17 @@
       "type": "native"
     },
     {
+      "name": "铜陵学院",
+      "loginUrl": "https://auth.tlu.edu.cn/zhxy/home",
+      "native": false,
+      "note": "社区提交 · 网页导入",
+      "aliases": [
+        "tlu",
+        "铜陵"
+      ],
+      "type": "community"
+    },
+    {
       "name": "广西中医药大学赛恩斯新医药学院",
       "loginUrl": "https://jw.gxzyxysy.com/student/public/login.asp",
       "native": false,

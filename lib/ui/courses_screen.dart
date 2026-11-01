@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../app_controller.dart';
 import '../models.dart';
 import 'components.dart';
+import 'manual_course_dialog.dart';
 import '../pixel_icons.dart';
 
 class CoursesScreen extends StatefulWidget {
@@ -32,7 +33,16 @@ class _CoursesScreenState extends State<CoursesScreen> {
           title: '我的课程',
           subtitle: '${schedule.courses.length} 门课程 · ${schedule.meetings.length} 个上课安排',
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 10),
+        Align(
+          alignment: Alignment.centerRight,
+          child: FilledButton.tonalIcon(
+            onPressed: () => showManualCourseDialog(context, widget.controller),
+            icon: const Icon(Icons.add, size: 17),
+            label: const Text('手动添加课程'),
+          ),
+        ),
+        const SizedBox(height: 12),
         TextField(
           onChanged: (v) => setState(() => _query = v),
           decoration: InputDecoration(
