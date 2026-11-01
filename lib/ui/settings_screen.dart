@@ -328,28 +328,28 @@ class SettingsScreen extends StatelessWidget {
                 label: Text(Platform.isAndroid ? '选择系统日历并导入全部课程' : '导出全部课程到系统日历'),
               ),
             ),
-            const SizedBox(height: 7),
-            Row(children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => CalendarExport.openGoogleImport(),
-                  icon: Icon(PixelIcons.open_in_new, size: 15),
-                  label: const Text('打开日历导入页'),
-                ),
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => CalendarExport.openGoogleImport(),
+                icon: Icon(PixelIcons.open_in_new, size: 15),
+                label: const Text('打开日历导入页'),
               ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () async {
-                    final ok = await controller.addNextToGoogle();
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? '已打开下一节课的 Google 日历事件' : '接下来没有课程')));
-                  },
-                  icon: Icon(PixelIcons.add, size: 16),
-                  label: const Text('只添加下一节'),
-                ),
+            ),
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  final ok = await controller.addNextToGoogle();
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? '已打开下一节课的 Google 日历事件' : '接下来没有课程')));
+                },
+                icon: Icon(PixelIcons.add, size: 16),
+                label: const Text('只添加下一节'),
               ),
-            ]),
+            ),
             const SizedBox(height: 8),
             Text('提示：Android 会直接写入你选择的系统日历（需要日历权限）。每节按 45 分钟计算，连续两节为 90 分钟。重复导入会自动跳过已存在的事件。',
                 style: TextStyle(fontSize: 9, height: 1.5, color: scheme.onSurfaceVariant)),

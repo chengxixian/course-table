@@ -1,7 +1,7 @@
 {
-  "version": "3.1.0",
-  "build": 45,
-  "notes": "Classy Kotlin 解析器桥接；文件导入、系统日历、两日组件。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.0/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.0"
+  "version": "3.1.1",
+  "build": 46,
+  "notes": "新增 WakeUp JSON 本地导入；Classy Kotlin 解析器桥接与前端打磨。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.1/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.1"
 }

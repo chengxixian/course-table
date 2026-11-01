@@ -66,8 +66,9 @@ class _ImportFileScreenState extends State<ImportFileScreen> {
       appBar: AppBar(title: const Text('文件导入课表')),
       body: Stack(children: [
         ListView(padding: const EdgeInsets.all(16), children: [
-          Text('支持从已有课表文件导入。Excel/PDF 会先提取文字，再交给 AI 解析；不上传原始文件。', style: TextStyle(fontSize: 11, height: 1.5, color: scheme.onSurfaceVariant)),
+          Text('支持 WakeUp JSON、ICS、CSV、Excel、PDF、纯文本导入；Excel/PDF 先提取文字再交给 AI，原始文件不上传。', style: TextStyle(fontSize: 11, height: 1.5, color: scheme.onSurfaceVariant)),
           const SizedBox(height: 16),
+          _option(context, Icons.share_outlined, 'WakeUp 分享文件', 'WakeUp 课程表导出的 JSON', () => _pick(['json'])),
           _option(context, Icons.event_note_outlined, 'ICS 日历文件', 'Apple/Google/Outlook 导出的 .ics', () => _pick(['ics'])),
           _option(context, Icons.table_chart_outlined, 'CSV 表格', '逗号分隔的课表文件', () => _pick(['csv'])),
           _option(context, Icons.grid_on_outlined, 'Excel 表格', '.xlsx / .xls', () => _pick(['xlsx', 'xls'])),

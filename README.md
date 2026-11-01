@@ -31,7 +31,7 @@
 | **网页导入** | 应用内 WebView 登录并操作到课表页，读取 HTML 导入 |
 | **Classy 解析器桥** | 38 个 Classy Kotlin 解析器编译进 Android，按学校 `type` 直接调用；未知类型回退通用解析/AI |
 | **AI 兜底** | 本地解析缺字段时，发送脱敏页面文本到 Cloudflare Pages，再调用智谱 `glm-4-flash` |
-| **文件导入** | ICS / CSV / 纯文本 / Excel / PDF / 手动添加；Excel 和 PDF 先转文字再解析 |
+| **文件导入** | WakeUp JSON / ICS / CSV / 纯文本 / Excel / PDF / 手动添加；Excel 和 PDF 先转文字再解析 |
 | **整学期** | 网页导入会尝试自动翻周、采集并合并整学期 |
 | **系统日历** | 列出设备上所有可写日历（Google、华为、小米、Outlook、本地等），选择后一键写入整学期 |
 | **桌面小组件** | 4×3 今日、2×2 今日·小、4×2 两日、4×4 本周 |
@@ -62,6 +62,7 @@
 
 **设置 → 文件导入课表**
 
+- **WakeUp JSON**：WakeUp 课程表分享文件，本地解析
 - **ICS**：日历事件文本
 - **CSV**：逗号分隔表格
 - **Excel**：`.xlsx` / `.xls`
