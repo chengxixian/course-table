@@ -1,7 +1,7 @@
 {
-  "version": "3.1.2",
-  "build": 47,
-  "notes": "补齐 Classy GPL-3.0 归属：NOTICE、源码头、README 与关于页第三方声明入口。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.2/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.2"
+  "version": "3.1.4",
+  "build": 49,
+  "notes": "关于页开源项目清单；Classy 41 文件/42 类 GPL-3.0 归属；WakeUp 本地导入。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.4/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.4"
 }

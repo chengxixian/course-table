@@ -10,17 +10,24 @@ Upstream commit used: 8a2499dfa258bb5daba37d6d7f0bbd74b6ae73b9
 License: GNU General Public License v3.0 (see LICENSE)
 
 This project includes a modified/adapted copy of Classy's Kotlin timetable
-parser layer under:
+parser layer: 41 Kotlin files / 42 parser classes under
   android/app/src/main/java/com/imsx3d/classy/data/jw/
+plus the bridge
+  android/app/src/main/kotlin/com/hsu/hsu_schedule/ClassyParserBridge.kt
+The per-class coverage list is docs/CLASSY_PARSERS.md.
 
 It is compiled into the Android app and called through
 ClassyParserBridge / the com.hsu.hsu_schedule/classy_parser MethodChannel.
-The school preset data was transformed into schools/index.json.
-The zf_new fallback was ported to Dart in lib/classy_parser.dart.
+The school preset data was transformed into schools/index.json (348 of the 350
+entries come from Classy; 黄山学院 uses this app's native flow and one entry is a
+community submission). The zf_new fallback was ported to Dart in
+lib/classy_parser.dart; the Flutter-side bridge is lib/classy_bridge_service.dart.
+Each copied Kotlin/Dart file carries an attribution header naming commit 8a2499d.
 
 Modifications: package/application integration, a Flutter MethodChannel
 bridge, conversion from Classy JwCourse records to this app's timetable HTML,
-and removal of unused Compose/ViewModel/database code. No Compose UI code
+removal of unused Compose/ViewModel/database code, and consolidation of the
+duplicated even/odd-week endpoint fix into JwParity.kt. No Compose UI code
 was copied.
 
 Classy is free software under GPL-3.0; this project is distributed under the

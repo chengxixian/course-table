@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_meta.dart';
@@ -11,6 +11,8 @@ class AboutScreen extends StatelessWidget {
 
   static const privacyUrl = '${AppMeta.githubUrl}/blob/main/docs/PRIVACY.md';
   static const sdkUrl = '${AppMeta.githubUrl}/blob/main/docs/SDK.md';
+  static const noticeUrl = '${AppMeta.githubUrl}/blob/main/NOTICE';
+  static const licenseUrl = '${AppMeta.githubUrl}/blob/main/LICENSE';
 
   Future<void> _checkUpdate(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
@@ -132,6 +134,9 @@ class AboutScreen extends StatelessWidget {
                 onTap: () => showLicensePage(context: context, applicationName: AppMeta.name, applicationVersion: AppMeta.version),
               ),
             ),
+            const SizedBox(height: 6),
+            Text('含改编自 Classy（IMSX3D，GPL-3.0，commit 8a2499d）的 Kotlin 解析器；完整版权与修改说明见「第三方声明」。',
+                style: TextStyle(fontSize: 9, height: 1.4, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 16),
             Text('赞赏', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 8),
@@ -162,19 +167,66 @@ class AboutScreen extends StatelessWidget {
               ]),
             ),
             const SizedBox(height: 14),
+            Text('开源项目', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
+            const SizedBox(height: 8),
+            Material(
+              color: scheme.surfaceContainerLow,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: scheme.outlineVariant)),
+              clipBehavior: Clip.antiAlias,
+              child: ExpansionTile(
+                shape: const Border(),
+                collapsedShape: const Border(),
+                title: const Text('查看引用的开源项目', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                subtitle: const Text('Classy、Flutter、依赖库与字体', style: TextStyle(fontSize: 9)),
+                childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
+                children: [
+                  _credit(context, 'Classy', 'GPL-3.0', 'https://github.com/IMSX3D/Classy'),
+                  _credit(context, 'Flutter / Dart', 'BSD-3-Clause', 'https://github.com/flutter/flutter'),
+                  _credit(context, 'dynamic_color', 'Apache-2.0', 'https://pub.dev/packages/dynamic_color'),
+                  _credit(context, 'home_widget', 'BSD-3-Clause', 'https://pub.dev/packages/home_widget'),
+                  _credit(context, 'workmanager', 'MIT', 'https://pub.dev/packages/workmanager'),
+                  _credit(context, 'webview_flutter', 'BSD-3-Clause', 'https://pub.dev/packages/webview_flutter'),
+                  _credit(context, 'm3e_core / material_ui', 'MIT / BSD-3-Clause', 'https://pub.dev/packages/m3e_core'),
+                  _credit(context, 'flutoryx', 'MIT', 'https://pub.dev/packages/flutoryx'),
+                  _credit(context, 'file_picker', 'MIT', 'https://pub.dev/packages/file_picker'),
+                  _credit(context, 'excel', 'MIT', 'https://pub.dev/packages/excel'),
+                  _credit(context, 'PDFBox-Android', 'Apache-2.0', 'https://github.com/TomRoush/PdfBox-Android'),
+                  _credit(context, 'jsoup', 'MIT', 'https://jsoup.org/'),
+                  _credit(context, 'FandolFang 字体', 'GPL-3.0 + 字体例外', 'https://ctan.org/pkg/fandol'),
+                  _credit(context, 'Liberation Serif 字体', 'SIL OFL 1.1', 'https://github.com/liberationfonts/liberation-fonts'),
+                  _credit(context, 'FusionPixel 字体', 'SIL OFL 1.1', 'https://github.com/TakWolf/fusion-pixel-font'),
+                  _credit(context, 'Pixelarticons', 'MIT', 'https://github.com/halfmage/pixelarticons'),
+                  TextButton.icon(
+                    onPressed: () => _open(context, AboutScreen.noticeUrl),
+                    icon: const Icon(Icons.article_outlined, size: 15),
+                    label: const Text('完整版权与修改说明', style: TextStyle(fontSize: 10)),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
             Text('隐私与数据', style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: scheme.onSurfaceVariant)),
             const SizedBox(height: 4),
-            Row(children: [
+            Wrap(spacing: 4, runSpacing: 0, children: [
               TextButton.icon(
                 onPressed: () => _open(context, AboutScreen.privacyUrl),
                 icon: const Icon(Icons.privacy_tip_outlined, size: 15),
                 label: const Text('隐私政策', style: TextStyle(fontSize: 10)),
               ),
-              const SizedBox(width: 4),
               TextButton.icon(
                 onPressed: () => _open(context, AboutScreen.sdkUrl),
                 icon: const Icon(Icons.inventory_2_outlined, size: 15),
                 label: const Text('SDK 清单', style: TextStyle(fontSize: 10)),
+              ),
+              TextButton.icon(
+                onPressed: () => _open(context, AboutScreen.noticeUrl),
+                icon: const Icon(Icons.article_outlined, size: 15),
+                label: const Text('第三方声明', style: TextStyle(fontSize: 10)),
+              ),
+              TextButton.icon(
+                onPressed: () => _open(context, AboutScreen.licenseUrl),
+                icon: const Icon(Icons.gavel_outlined, size: 15),
+                label: const Text('许可证全文', style: TextStyle(fontSize: 10)),
               ),
             ]),
             const SizedBox(height: 8),
@@ -247,6 +299,22 @@ class _DonateCard extends StatelessWidget {
 }
 
 
+
+Widget _credit(BuildContext context, String name, String license, String url) {
+  final scheme = Theme.of(context).colorScheme;
+  return InkWell(
+    onTap: () => launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(children: [
+        Expanded(child: Text(name, style: const TextStyle(fontSize: 11))),
+        Text(license, style: TextStyle(fontSize: 8.5, color: scheme.primary)),
+        const SizedBox(width: 4),
+        Icon(Icons.open_in_new, size: 13, color: scheme.onSurfaceVariant),
+      ]),
+    ),
+  );
+}
 
 class _AcknowledgementsText extends StatelessWidget {
   const _AcknowledgementsText();
