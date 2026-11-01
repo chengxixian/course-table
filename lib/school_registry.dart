@@ -13,8 +13,8 @@ class SchoolRegistry {
   static Future<void> refresh() async {
     if (_loaded) return;
     const urls = [
-      'https://cdn.jsdelivr.net/gh/chengxixian/course-table@main/schools/index.json',
-      'https://fastly.jsdelivr.net/gh/chengxixian/course-table@main/schools/index.json',
+      'https://cdn.jsdelivr.net/gh/chengxixian/course-table@main/schools/index.json?v=349',
+      'https://fastly.jsdelivr.net/gh/chengxixian/course-table@main/schools/index.json?v=349',
       'https://raw.githubusercontent.com/chengxixian/course-table/main/schools/index.json',
     ];
     for (final url in urls) {
@@ -34,13 +34,14 @@ class SchoolRegistry {
             loginUrl: (m['loginUrl'] ?? '').toString().trim(),
             native: m['native'] == true,
             note: (m['note'] ?? '').toString().trim(),
+            aliases: (m['aliases'] is List) ? (m['aliases'] as List).map((e) => e.toString()).toList() : const [],
+            type: (m['type'] ?? '').toString(),
           );
         }).where((s) => s.name.isNotEmpty && s.loginUrl.isNotEmpty).toList();
         if (list.isEmpty) continue;
-        final names = list.map((s) => s.name).toSet();
-        if (!names.contains('黄山学院')) {
-          list.insert(0, kSchoolPresets.first);
-        }
+        final hsu = kSchoolPresets.first;
+        list.removeWhere((s) => s.name == hsu.name);
+        list.insert(0, hsu);
         schools.value = List.unmodifiable(list);
         _loaded = true;
         return;

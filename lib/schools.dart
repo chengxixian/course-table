@@ -4,7 +4,9 @@ class SchoolPreset {
   final bool adapted;
   final bool native;
   final String note;
-  const SchoolPreset({required this.name, required this.loginUrl, this.adapted = true, this.native = false, this.note = ''});
+  final List<String> aliases;
+  final String type;
+  const SchoolPreset({required this.name, required this.loginUrl, this.adapted = true, this.native = false, this.note = '', this.aliases = const [], this.type = ''});
 }
 
 const List<SchoolPreset> kSchoolPresets = [

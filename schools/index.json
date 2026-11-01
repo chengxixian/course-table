@@ -1,16 +1,2938 @@
 {
+  "source": "Classy (IMSX3D), GPL-3.0",
   "schools": [
     {
       "name": "黄山学院",
       "loginUrl": "https://mwx.hsu.edu.cn/zhxy/home",
       "native": true,
-      "note": "校内统一身份认证 · 原生同步"
+      "note": "校内统一身份认证 · 原生同步",
+      "aliases": [
+        "hsu",
+        "黄山"
+      ],
+      "type": "native"
     },
     {
-      "name": "铜陵学院",
-      "loginUrl": "https://auth.tlu.edu.cn/zhxy/home",
+      "name": "广西中医药大学赛恩斯新医药学院",
+      "loginUrl": "https://jw.gxzyxysy.com/student/public/login.asp",
       "native": false,
-      "note": "社区提交 · 网页导入"
+      "note": "Classy 预设 · gxzyxysy",
+      "aliases": [
+        "赛恩斯",
+        "赛院",
+        "gxzyxysy"
+      ],
+      "type": "gxzyxysy"
+    },
+    {
+      "name": "广东东软学院",
+      "loginUrl": "http://jw.nuit.edu.cn/jwapp/sys/homeapp/home/index.html?av=&contextPath=/jwapp",
+      "native": false,
+      "note": "Classy 预设 · nuit",
+      "aliases": [
+        "nuit"
+      ],
+      "type": "nuit"
+    },
+    {
+      "name": "昆明理工大学",
+      "loginUrl": "https://i.kust.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · kust",
+      "aliases": [
+        "kmust",
+        "kust"
+      ],
+      "type": "kust"
+    },
+    {
+      "name": "上海立信会计金融学院",
+      "loginUrl": "https://lxjw.lixin.edu.cn/edu/lesson/std/timetable!courseTable.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "lixin"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "西北政法大学",
+      "loginUrl": "https://tam.nwupl.edu.cn/eams/courseTableForStd.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "nwupl"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "安徽大学",
+      "loginUrl": "https://jw.ahu.edu.cn/student/for-std/course-table",
+      "native": false,
+      "note": "Classy 预设 · eams5",
+      "aliases": [
+        "ahu"
+      ],
+      "type": "eams5"
+    },
+    {
+      "name": "安徽工业大学",
+      "loginUrl": "http://jwxt.ahut.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "安徽国际商务职业学院",
+      "loginUrl": "http://jxgl.ahiib.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "安徽建筑大学",
+      "loginUrl": "https://jwnew.ahjzu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "安徽科技学院",
+      "loginUrl": "http://jwxt.ahstu.edu.cn/eams/localLogin.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "安徽农业大学",
+      "loginUrl": "http://newjwxt.ahau.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "安徽信息工程学院",
+      "loginUrl": "http://teach.aiit.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "安徽中医药大学",
+      "loginUrl": "http://jxzx.ahtcm.edu.cn:90/eams/login.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "安康学院",
+      "loginUrl": "http://jwxt.aku.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "安阳工学院",
+      "loginUrl": "http://jwgl.ayit.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "保定学院",
+      "loginUrl": "https://jwgl.bdu.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "宝鸡文理学院",
+      "loginUrl": "https://jwxt.bjwlxy.cn/eams/loginExt.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "北京大学",
+      "loginUrl": "http://elective.pku.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · pku",
+      "aliases": [
+        "pku"
+      ],
+      "type": "pku"
+    },
+    {
+      "name": "北京工业大学耿丹学院",
+      "loginUrl": "https://bgd.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "北京航空航天大学",
+      "loginUrl": "https://byxt.buaa.edu.cn/jwapp/sys/homeapp/index.do",
+      "native": false,
+      "note": "Classy 预设 · neu",
+      "aliases": [
+        "buaa",
+        "北航"
+      ],
+      "type": "neu"
+    },
+    {
+      "name": "北京化工大学",
+      "loginUrl": "http://jwglxt.buct.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "北京交通大学",
+      "loginUrl": "https://aa.bjtu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · bjtu",
+      "aliases": [
+        "bjtu",
+        "北交大"
+      ],
+      "type": "bjtu"
+    },
+    {
+      "name": "北京理工大学",
+      "loginUrl": "https://jxzxehallapp.bit.edu.cn/jwapp/sys/wdkbby/*default/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "bit"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "北京林业大学",
+      "loginUrl": "http://newjwxt.bjfu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz_br",
+      "aliases": [],
+      "type": "qz_br"
+    },
+    {
+      "name": "北京师范大学珠海分校",
+      "loginUrl": "http://es.bnuz.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · bnuz",
+      "aliases": [],
+      "type": "bnuz"
+    },
+    {
+      "name": "北京信息科技大学",
+      "loginUrl": "https://jwxt.bistu.edu.cn/jwapp/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "北京中医药大学",
+      "loginUrl": "https://jw.bucm.edu.cn/jwapp/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "bucm"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "渤海大学",
+      "loginUrl": "http://bdjw.bhu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "亳州学院",
+      "loginUrl": "https://jwxt.bzuu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "长春大学",
+      "loginUrl": "http://jwxt.ccu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz_br",
+      "aliases": [],
+      "type": "qz_br"
+    },
+    {
+      "name": "长春大学旅游学院",
+      "loginUrl": "https://cdly.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "长春科技学院",
+      "loginUrl": "https://cckjxy.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "长沙理工大学",
+      "loginUrl": "http://xk.csust.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz_br",
+      "aliases": [],
+      "type": "qz_br"
+    },
+    {
+      "name": "长沙医学院",
+      "loginUrl": "http://oa.csmu.edu.cn:8099/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "常州工程职业技术学院",
+      "loginUrl": "http://zhjw.czie.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "成都大学",
+      "loginUrl": "http://cdujx.mh.chaoxing.com",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "成都理工大学工程技术学院",
+      "loginUrl": "https://jwgl.cdutetc.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "重庆大学",
+      "loginUrl": "https://my.cqu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cqu",
+      "aliases": [
+        "cqu",
+        "重大"
+      ],
+      "type": "cqu"
+    },
+    {
+      "name": "重庆交通大学",
+      "loginUrl": "https://jwgln.cqjtu.edu.cn/jsxsd/sso.jsp",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "重庆三峡学院",
+      "loginUrl": "http://jwglxt.sanxiau.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "重庆医科大学",
+      "loginUrl": "https://jiaowu.cqmu.edu.cn:8080/eams",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [],
+      "type": "urp"
+    },
+    {
+      "name": "重庆医药高等专科学校",
+      "loginUrl": "http://jwxt1.cqyygz.com:8080/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "重庆邮电大学移通学院",
+      "loginUrl": "http://222.179.134.225:81/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "川北医学院",
+      "loginUrl": "https://jiaowu3.nsmc.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "大连财经学院",
+      "loginUrl": "http://jw.dlufe.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "大连大学",
+      "loginUrl": "http://202.199.155.130/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "大连工业大学艺术与信息工程学院",
+      "loginUrl": "https://jwxt.caie.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "大连理工大学城市学院",
+      "loginUrl": "http://jw.dlutci.edu.cn/jwapp/sys/emaphome/portal/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "大连外国语大学",
+      "loginUrl": "http://jwgl.jiaowu.dlufl.edu.cn/jxjsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "电子科技大学",
+      "loginUrl": "http://eams.uestc.edu.cn/eams/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "uestc"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "电子科技大学成都学院",
+      "loginUrl": "http://www.cduestc.cn/eams/loginExt.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "电子科技大学中山学院",
+      "loginUrl": "http://jwgln.zsc.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "东北财经大学",
+      "loginUrl": "http://202.199.165.159/",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [],
+      "type": "urp"
+    },
+    {
+      "name": "东北大学",
+      "loginUrl": "https://jwxt.neu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · neu",
+      "aliases": [
+        "neu"
+      ],
+      "type": "neu"
+    },
+    {
+      "name": "东北大学秦皇岛分校",
+      "loginUrl": "http://jwxt.neuq.edu.cn/eams/localLogin.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "东北林业大学",
+      "loginUrl": "http://jwcnew.nefu.edu.cn/dblydx_jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "东北石油大学",
+      "loginUrl": "http://jwgl.nepu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · hnust",
+      "aliases": [],
+      "type": "hnust"
+    },
+    {
+      "name": "东华大学",
+      "loginUrl": "https://jw.dhu.edu.cn/jwapp/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "dhu"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "东南大学",
+      "loginUrl": "https://ehall.seu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · seu",
+      "aliases": [
+        "seu"
+      ],
+      "type": "seu"
+    },
+    {
+      "name": "福建工程学院",
+      "loginUrl": "https://jwxtwx.fjut.edu.cn/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "福建农林大学",
+      "loginUrl": "http://jwgl.fafu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · zf_1",
+      "aliases": [],
+      "type": "zf_1"
+    },
+    {
+      "name": "福建农林大学金山学院",
+      "loginUrl": "http://jsxyjwgl.fafu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "福建师范大学",
+      "loginUrl": "https://jwglxt.fjnu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "阜阳职业技术学院",
+      "loginUrl": "http://jwgl.fyvtc.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "福州外语外贸学院",
+      "loginUrl": "http://jw.fzfu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "赣南师范大学科技学院",
+      "loginUrl": "https://gnnustc.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "赣南医科大学",
+      "loginUrl": "https://gmu.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "赣南医学院",
+      "loginUrl": "https://gmu.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "广东财经大学",
+      "loginUrl": "http://jwxt.gdufe.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广东工贸职业技术学院",
+      "loginUrl": "https://jw.gdgm.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广东工业大学",
+      "loginUrl": "http://jxfw.gdut.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "广东海洋大学",
+      "loginUrl": "https://jw.gdou.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "广东金融学院",
+      "loginUrl": "http://jwxt.gduf.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广东科学技术职业学院",
+      "loginUrl": "http://jw.gdit.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "广东培正学院",
+      "loginUrl": "http://qzjw.peizheng.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广东外语外贸大学",
+      "loginUrl": "http://jxgl.gdufs.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz_with_node",
+      "aliases": [],
+      "type": "qz_with_node"
+    },
+    {
+      "name": "广东医科大学",
+      "loginUrl": "https://jw.gdmu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "GDMU"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "广西大学",
+      "loginUrl": "http://jwxt2018.gxu.edu.cn/jwglxt/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "广西科技师范学院",
+      "loginUrl": "http://jw.gxstnu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广西民族大学相思湖学院",
+      "loginUrl": "http://49.234.155.183/gxmzdxxshxy_jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广西民族师范学院",
+      "loginUrl": "https://www.gxnun.edu.cn/jiaowu-index.html",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广西农业职业技术大学",
+      "loginUrl": "https://jwxt.gxnzd.com.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "gxnzd"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "广西物流职业技术学院",
+      "loginUrl": "http://jw.gxlvtc.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "广州南方学院",
+      "loginUrl": "https://jwxt.nfu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "广州番禺职业技术学院",
+      "loginUrl": "http://jiaowu.gzpyp.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广州医科大学",
+      "loginUrl": "https://jwgl.gzhmu.edu.cn/jsxsd",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [
+        "gzhmu"
+      ],
+      "type": "qz"
+    },
+    {
+      "name": "广州应用科技学院",
+      "loginUrl": "https://jw.educationgroup.cn/gzasc_jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "广州中医药大学",
+      "loginUrl": "http://jw.gzucm.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "贵阳康养职业大学（超星）",
+      "loginUrl": "https://gkd.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "贵阳人文科技学院",
+      "loginUrl": "https://gzmyrw.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "贵阳幼儿师范高等专科学校",
+      "loginUrl": "http://jwapp.gypec.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "贵州师范大学",
+      "loginUrl": "https://jwgl.gznu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "贵州装备制造职业学院",
+      "loginUrl": "https://3ymo6xfi.mh.chaoxing.com",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "哈尔滨工程大学",
+      "loginUrl": "https://jwgl.hrbeu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "hrbeu"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "哈尔滨商业大学",
+      "loginUrl": "https://jw.hrbcu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "hrbcu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "哈尔滨师范大学",
+      "loginUrl": "http://jwpt.hrbnu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "哈尔滨医科大学",
+      "loginUrl": "https://jwweb.hrbmu.edu.cn/new/welcome.page",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "哈尔滨音乐学院 - 研究生",
+      "loginUrl": "https://hrbcmyjs.mh.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "海南大学",
+      "loginUrl": "https://jxgl.hainanu.edu.cn/jsxsd",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "海南师范大学",
+      "loginUrl": "http://210.37.0.16/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "杭州电子科技大学",
+      "loginUrl": "https://newjw.hdu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "河北大学",
+      "loginUrl": "http://zhjw.hbu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [],
+      "type": "urp"
+    },
+    {
+      "name": "河北工程大学",
+      "loginUrl": "http://219.148.85.172:9111/login",
+      "native": false,
+      "note": "Classy 预设 · urp_new",
+      "aliases": [],
+      "type": "urp_new"
+    },
+    {
+      "name": "河北工程技术学院",
+      "loginUrl": "http://jw.new.hbgcjsxy.com/jwapp/sys/homeapp/home/index.html?av=1729562539462&contextPath=/jwapp#/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "河北经贸大学",
+      "loginUrl": "https://202-206-194-100.vpn.hueb.edu.cn:8118/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "河北科技师范学院",
+      "loginUrl": "https://jwxt.hevttc.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "河北师范大学",
+      "loginUrl": "http://jwgl.hebtu.edu.cn/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "河北政法职业学院",
+      "loginUrl": "http://jwxt.helc.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "河北资源环境职业技术学院",
+      "loginUrl": "https://jwpt.hebzyhj.edu.cn:1233/dist/#/login",
+      "native": false,
+      "note": "Classy 预设 · qz_app",
+      "aliases": [],
+      "type": "qz_app"
+    },
+    {
+      "name": "合肥工业大学",
+      "loginUrl": "https://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table",
+      "native": false,
+      "note": "Classy 预设 · eams5",
+      "aliases": [
+        "hfut"
+      ],
+      "type": "eams5"
+    },
+    {
+      "name": "合肥师范学院",
+      "loginUrl": "http://jw.hfnu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "河海大学",
+      "loginUrl": "http://202.119.113.135/",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [
+        "hhu"
+      ],
+      "type": "urp"
+    },
+    {
+      "name": "黑龙江护理高等专科学校",
+      "loginUrl": "https://jwc.hljnc.edu.cn:8080/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "黑龙江农业工程职业学院",
+      "loginUrl": "https://hljswkj.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "河南财经政法大学",
+      "loginUrl": "http://xk.huel.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "河南工程学院",
+      "loginUrl": "http://jwgl.haue.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "菏泽学院",
+      "loginUrl": "https://222.206.176.102/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "贺州学院",
+      "loginUrl": "http://jwglxt.hzu.gx.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "华北电力大学科技学校",
+      "loginUrl": "http://202.204.74.178/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "华东理工大学",
+      "loginUrl": "https://inquiry.ecust.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "华东政法大学",
+      "loginUrl": "https://jwxt.ecupl.edu.cn/eams/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "ecupl"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "淮南师范学院",
+      "loginUrl": "http://211.70.176.173/jwglxt/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "华南理工大学",
+      "loginUrl": "http://xsjw2018.jw.scut.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "scut"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "华南农业大学",
+      "loginUrl": "http://jwxtxs.scau.edu.cn/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "华南师范大学",
+      "loginUrl": "https://jwxt.scnu.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "scnu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "华侨大学",
+      "loginUrl": "https://jwc.hqu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "华中农业大学",
+      "loginUrl": "http://jwgl.hzau.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "华中师范大学",
+      "loginUrl": "http://one.ccnu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "湖北第二师范学院",
+      "loginUrl": "https://jwxt.hue.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖北工程学院新技术学院",
+      "loginUrl": "http://jwglxt.hbeutc.cn:20000/jwglxt/xtgl",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "湖北工业大学",
+      "loginUrl": "https://jwxt.hbut.edu.cn/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "湖北工业职业技术学院",
+      "loginUrl": "http://jw.hbgyzy.edu.cn/jsxsd/?tdsourcetag=s_pcqq_aiomsg",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖北师范大学",
+      "loginUrl": "http://jwxt.hbnu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "湖北医药学院",
+      "loginUrl": "https://jw.hbmu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "湖南城市学院",
+      "loginUrl": "https://rzpt.hncu.edu.cn/lyuapServer/login",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖南大学",
+      "loginUrl": "https://cas.hnu.edu.cn/cas/login?service=http://hdjw.hnu.edu.cn/gld/sso.jsp",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [
+        "hnu"
+      ],
+      "type": "qz"
+    },
+    {
+      "name": "湖南工程职业技术学院",
+      "loginUrl": "http://hngczy.cn:9001",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖南工学院",
+      "loginUrl": "http://jwxt.hnit.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz_old",
+      "aliases": [],
+      "type": "qz_old"
+    },
+    {
+      "name": "湖南工业大学",
+      "loginUrl": "http://jwxt.hut.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖南科技大学",
+      "loginUrl": "https://kdjw.hnust.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · hnust",
+      "aliases": [],
+      "type": "hnust"
+    },
+    {
+      "name": "湖南科技大学潇湘学院",
+      "loginUrl": "https://xxjw.hnust.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · hnust",
+      "aliases": [],
+      "type": "hnust"
+    },
+    {
+      "name": "湖南理工学院",
+      "loginUrl": "http://bkjw.hnist.cn/login",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [],
+      "type": "urp"
+    },
+    {
+      "name": "湖南理工职业技术学院",
+      "loginUrl": "https://hnlgzy.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "湖南农业大学",
+      "loginUrl": "https://jwc.hunau.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "湖南软件职业技术大学",
+      "loginUrl": "http://jw.hnsoftedu.com/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "湖南师范大学",
+      "loginUrl": "https://jwglnew.hunnu.edu.cn/eams/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "hunnu"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "江苏工程职业技术学院",
+      "loginUrl": "http://jw.jcet.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "江苏海洋大学",
+      "loginUrl": "https://zf.jou.edu.cn/login_cas.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "江西农业大学南昌商学院",
+      "loginUrl": "https://jwxt.ncbcjxau.edu.cn:8443/jsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "江西中医药大学",
+      "loginUrl": "https://jiaowu.jxutcm.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf_new",
+      "aliases": [],
+      "type": "cf_new"
+    },
+    {
+      "name": "嘉兴大学",
+      "loginUrl": "http://jwzx.zjxu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "嘉兴南湖学院",
+      "loginUrl": "http://jwzx.jxnhu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "南湖学院"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "嘉兴学院",
+      "loginUrl": "http://jwzx.zjxu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "吉林工商学院",
+      "loginUrl": "https://jwxt.jlbtc.edu.cn/admin/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [
+        "jlbtc"
+      ],
+      "type": "chaoxing"
+    },
+    {
+      "name": "吉林农业科技学院",
+      "loginUrl": "https://jlnku.jw.chaoxing.com",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "吉林师范大学",
+      "loginUrl": "https://jwxt.jlnu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "吉林外国语大学",
+      "loginUrl": "http://36.48.94.159:10000/jwglxt/xtgl/login_slogin.html?language=zh_CN&login_type=undefined",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "集美大学诚毅学院",
+      "loginUrl": "http://chengyi.jmu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "济南大学",
+      "loginUrl": "https://jwgl.ujn.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "荆楚理工学院",
+      "loginUrl": "http://jwglxt.jcut.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "锦州医科大学",
+      "loginUrl": "http://jwgl.jzmu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "吉首大学",
+      "loginUrl": "http://jwxt.jsu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "喀什大学",
+      "loginUrl": "http://jwc.ksu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "昆明城市学院",
+      "loginUrl": "http://jw.kmcc.edu.cn/ynsfdxsxy_jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "兰州财经大学",
+      "loginUrl": "https://jwxt.lzufe.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "兰州理工大学",
+      "loginUrl": "https://jwxt.lut.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "聊城大学东昌学院",
+      "loginUrl": "https://jw.lcudcc.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "辽宁工业大学",
+      "loginUrl": "http://jwglxt.lnut.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "辽宁科技大学",
+      "loginUrl": "https://ustl.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "黎明职业大学",
+      "loginUrl": "https://jw.lmu.cn/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "临沂大学",
+      "loginUrl": "http://jwgl.lyu.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "lyu",
+        "lyu.edu.cn",
+        "linyidaxue"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "柳州工学院",
+      "loginUrl": "http://jwglxt.lzhit.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "柳州职业技术学院",
+      "loginUrl": "http://zfjw.lzzy.net/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "茂名职业技术学院",
+      "loginUrl": "http://jwc.mmvtc.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "闽江师范高等专科学校",
+      "loginUrl": "https://edums.app.fzmjtc.cn/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "闽南师范大学",
+      "loginUrl": "https://jwxt.mnnu.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "闽西职业技术学院",
+      "loginUrl": "https://mxdx.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "南昌大学",
+      "loginUrl": "https://jwpt.ncu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "南方医科大学",
+      "loginUrl": "http://zhjw.smu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "南华大学",
+      "loginUrl": "http://61.187.179.66:8924/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "南京城市职业学院",
+      "loginUrl": "http://jw.ncc.edu.cn/jwglxt/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南京大学",
+      "loginUrl": "https://ehallapp.nju.edu.cn/jwapp/sys/wdkb/*default/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "南京工业大学",
+      "loginUrl": "https://jwgl.njtech.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南京航空航天大学",
+      "loginUrl": "https://aao-eas.nuaa.edu.cn/eams/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "nuaa"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "南京机电职业技术学院",
+      "loginUrl": "https://nimt.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "南京理工大学",
+      "loginUrl": "http://202.119.81.112:8080/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "南京林业大学",
+      "loginUrl": "http://jwxt.njfu.edu.cn/jsxsd",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "南京师范大学中北学院",
+      "loginUrl": "http://zbjw.nnudy.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南京信息工程大学",
+      "loginUrl": "http://jwxt.nuist.edu.cn/jwapp/sys/wdkb/*default/index.do?EMAP_LANG=zh#/xskcb",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "南京邮电大学通达学院",
+      "loginUrl": "http://jwxt.nytdc.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南开大学",
+      "loginUrl": "https://eamis.nankai.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "南宁师范大学",
+      "loginUrl": "http://jw.nnnu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "南宁学院",
+      "loginUrl": "https://jw.unn.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南宁职业技术学院",
+      "loginUrl": "http://jwxt.ncvt.net:8088/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "南通大学",
+      "loginUrl": "http://tdjw.ntu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "内蒙古大学",
+      "loginUrl": "http://jwxt.imu.edu.cn/login",
+      "native": false,
+      "note": "Classy 预设 · urp_new",
+      "aliases": [],
+      "type": "urp_new"
+    },
+    {
+      "name": "宁波幼儿师范高等专科学校",
+      "loginUrl": "https://jwweb.ncec.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "齐鲁工业大学",
+      "loginUrl": "https://jw.qlu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "齐鲁医药学院",
+      "loginUrl": "http://jiaowu.qlmu.edu.cn/jsxsd",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "青岛滨海学院",
+      "loginUrl": "http://jwgl.qdbhu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "青岛黄海学院",
+      "loginUrl": "http://jwxt.qdhhc.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "青岛科技大学",
+      "loginUrl": "https://jwglxt.qust.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "青岛理工大学",
+      "loginUrl": "https://jxgl.qut.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "qut"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "青岛理工大学琴岛学院",
+      "loginUrl": "http://jwgl.qdc.edu.cn/jwglxt/xtgl/login_slogin.html?language=zh_CN",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "青岛农业大学海都学院",
+      "loginUrl": "https://hdxy.jw.chaoxing.com",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "琼台师范学院",
+      "loginUrl": "http://jw.qtnu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "三江学院",
+      "loginUrl": "https://cas.sju.edu.cn/authserver/login?service=https%3A%2F%2Fjw.sju.edu.cn%2Fjwglxt%2Fxtgl%2Flogin_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "三峡大学",
+      "loginUrl": "http://jwxt.ctgu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "三峡大学科技学院",
+      "loginUrl": "http://kjjw.ctgu.edu.cn/jwapp/sys/yjsrzfwapp/dbLogin/main.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "山东财经大学东方学院",
+      "loginUrl": "https://ems.sdor.cn",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东大学（威海）",
+      "loginUrl": "https://service.sdu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [
+        "sduwh"
+      ],
+      "type": "qz"
+    },
+    {
+      "name": "山东第二医科大学",
+      "loginUrl": "http://jwgl.sdsmu.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东工商学院",
+      "loginUrl": "https://jwc.sdtbu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "山东管理学院",
+      "loginUrl": "http://jwxt.sdmu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东华宇工学院",
+      "loginUrl": "http://jwgl.huayu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东建筑大学",
+      "loginUrl": "http://xjwgl.sdjzu.edu.cn/Logon.do?method=logon",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "山东科技大学",
+      "loginUrl": "https://jwgl.sdust.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "山东农业大学",
+      "loginUrl": "http://xjw.sdau.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东青年政治学院",
+      "loginUrl": "http://jw.sdyu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东外国语职业技术大学",
+      "loginUrl": "https://swut.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "山东外贸职业学院",
+      "loginUrl": "http://jwglxt.sdwm.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山东外事职业大学",
+      "loginUrl": "https://jwxt.sdws.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "山东政法大学",
+      "loginUrl": "http://114.214.79.176/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "上海财经大学",
+      "loginUrl": "https://eams.sufe.edu.cn/eams/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [
+        "sufe"
+      ],
+      "type": "classic_eams"
+    },
+    {
+      "name": "上海大学",
+      "loginUrl": "https://jwxt.shu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "shu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "上海海洋大学",
+      "loginUrl": "https://urp.shou.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · urp_new",
+      "aliases": [],
+      "type": "urp_new"
+    },
+    {
+      "name": "上海健康医学院",
+      "loginUrl": "http://jwc-zf.sumhs.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "上海交通大学",
+      "loginUrl": "https://i.sjtu.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "sjtu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "上海外国语大学",
+      "loginUrl": "https://jw.shisu.edu.cn/jwapp",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "shisu"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "商洛学院",
+      "loginUrl": "http://www.slxy.edu.cn:1170/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "山西工程技术学院",
+      "loginUrl": "https://xsjw.sxit.edu.cn/login",
+      "native": false,
+      "note": "Classy 预设 · urp_new",
+      "aliases": [],
+      "type": "urp_new"
+    },
+    {
+      "name": "山西农业大学",
+      "loginUrl": "https://jwc.sxau.edu.cn/index/newjwxt.htm",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "韶关学院",
+      "loginUrl": "http://jwc.sgu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "绍兴文理学院元培学院",
+      "loginUrl": "http://jwc.ypc.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "沈阳城市建设学院",
+      "loginUrl": "http://jw.syucu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "沈阳工业大学",
+      "loginUrl": "https://jwxt.sut.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "沈阳建筑大学",
+      "loginUrl": "http://111.117.146.166/eams/loginExt.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "沈阳建筑大学 - 研究生",
+      "loginUrl": "http://yjsglxt.sjzu.edu.cn/gsapp/sys/yjsemaphome/portal/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "沈阳师范大学",
+      "loginUrl": "https://210-30-208-200.webvpn.synu.edu.cn/(ku5dsqznpdlpim45ytupko55)/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "深圳大学",
+      "loginUrl": "http://ehall.szu.edu.cn/jwapp/sys/kcbcx/*default/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "石河子大学",
+      "loginUrl": "https://jwgl.shzu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "石家庄学院",
+      "loginUrl": "http://jwgl.sjzc.edu.cn/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "四川城市技师学院",
+      "loginUrl": "https://sccsjs.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "四川大学",
+      "loginUrl": "http://zhjw.scu.edu.cn/login",
+      "native": false,
+      "note": "Classy 预设 · scu",
+      "aliases": [
+        "scu"
+      ],
+      "type": "scu"
+    },
+    {
+      "name": "四川大学锦城学院",
+      "loginUrl": "https://jwweb.scujcc.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "四川电影电视学院",
+      "loginUrl": "https://jwc.sfc.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "四川国际标榜职业学院",
+      "loginUrl": "https://polus.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "四川轻化工大学",
+      "loginUrl": "https://jwgl.suse.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "苏州工业园区服务外包职业学院",
+      "loginUrl": "https://siso.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "苏州科技大学",
+      "loginUrl": "http://jw.usts.edu.cn/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "苏州科技大学天平学院",
+      "loginUrl": "https://tpjw-n.usts.edu.cn/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "太原工业学院",
+      "loginUrl": "https://tit.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "太原幼儿师范高等专科学校",
+      "loginUrl": "https://youshi.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "台州科技职业学院",
+      "loginUrl": "https://tzvcst.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "台州学院",
+      "loginUrl": "https://jwc.tzc.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "台州职业技术学院",
+      "loginUrl": "https://tzvtc.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "塔里木大学",
+      "loginUrl": "https://jwgl.taru.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "唐山师范学院",
+      "loginUrl": "https://jwc.tstc.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "天津医科大学",
+      "loginUrl": "http://tyjw.tmu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "天津中医药大学",
+      "loginUrl": "http://jiaowu.tjutcm.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "潍坊学院",
+      "loginUrl": "https://jw.wfu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "潍坊职业学院",
+      "loginUrl": "http://jwgl.sdwfvc.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "渭南师范学院",
+      "loginUrl": "https://218.195.46.49/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "温州商学院",
+      "loginUrl": "http://eas.wzbc.edu.cn/jwglxt/kbcx/xskbcx_cxXskbcxIndex.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "温州医科大学",
+      "loginUrl": "https://jwxt.wmu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "武昌工学院",
+      "loginUrl": "http://jwglxt.wuit.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "武昌理工学院",
+      "loginUrl": "http://jwxt.wut.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "武昌首义学院",
+      "loginUrl": "http://syjw.wsyu.edu.cn/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "武汉船舶职业技术学院",
+      "loginUrl": "http://jw.wspc.edu.cn/jwapp/sys/emaphome/portal/index.do",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "武汉大学",
+      "loginUrl": "https://jwgl.whu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "whu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "武汉东湖学院",
+      "loginUrl": "http://jxgl.wdu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "武汉纺织大学",
+      "loginUrl": "http://jwglxt.wtu.edu.cn/sso/jziotlogin",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "武汉工程大学",
+      "loginUrl": "http://jwxt.wit.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "武汉交通职业学院",
+      "loginUrl": "http://xjw.whtcc.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "武汉理工大学",
+      "loginUrl": "https://jwxt.whut.edu.cn/jwapp/sys/homeapp/index.do?forceCas=1",
+      "native": false,
+      "note": "Classy 预设 · whut",
+      "aliases": [
+        "whut",
+        "wuhanligong"
+      ],
+      "type": "whut"
+    },
+    {
+      "name": "武汉轻工大学",
+      "loginUrl": "https://jwglxt.whpu.edu.cn/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "武汉生物工程学院",
+      "loginUrl": "https://whsw.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "五邑大学",
+      "loginUrl": "http://jxgl.wyu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "厦门大学",
+      "loginUrl": "https://jw.xmu.edu.cn/login",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "xmu"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "厦门大学 - 研究生",
+      "loginUrl": "https://jw.xmu.edu.cn/new/index.html",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "厦门理工学院",
+      "loginUrl": "http://jw.xmut.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西安电子科技大学 - 研究生",
+      "loginUrl": "http://yjspt.xidian.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "湘潭大学",
+      "loginUrl": "http://jwxt.xtu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "襄阳职业技术学院",
+      "loginUrl": "http://jwxt.hbxytc.cn/",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "西安建筑科技大学",
+      "loginUrl": "https://authserver.xauat.edu.cn/authserver/login",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "西安科技大学",
+      "loginUrl": "https://jwc.xust.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西安理工大学",
+      "loginUrl": "http://jwc.xaut.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西安培华学院",
+      "loginUrl": "http://kj.peihua.cn/jwglxt/kbcx/xskbcx_cxXskbcxIndex.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西安外事学院",
+      "loginUrl": "https://jwxt.xaiu.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西北大学",
+      "loginUrl": "http://jwgl.nwu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西昌学院",
+      "loginUrl": "https://jwxt.xcc.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西华大学",
+      "loginUrl": "http://jwc.xhu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "西华师范大学",
+      "loginUrl": "https://www.cwnu.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "西京学院",
+      "loginUrl": "https://jwxt.xijing.edu.cn/jwapp/sys/homeapp/home/index.html",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "西南交通大学",
+      "loginUrl": "https://yhxt.swjtu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · yethan",
+      "aliases": [
+        "swjtu",
+        "yethan"
+      ],
+      "type": "yethan"
+    },
+    {
+      "name": "西南交通大学希望学院",
+      "loginUrl": "http://119.6.110.75:9007",
+      "native": false,
+      "note": "Classy 预设 · urp",
+      "aliases": [],
+      "type": "urp"
+    },
+    {
+      "name": "西南民族大学",
+      "loginUrl": "https://jwxt.swun.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "西南政法大学",
+      "loginUrl": "http://njwxt.swupl.edu.cn/jwglxt/xtgl",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "新疆大学",
+      "loginUrl": "https://yjspy.xju.edu.cn/Gstudent/Default.aspx",
+      "native": false,
+      "note": "Classy 预设 · xju_post",
+      "aliases": [
+        "xju",
+        "yjspy.xju.edu.cn"
+      ],
+      "type": "xju_post"
+    },
+    {
+      "name": "新疆师范大学",
+      "loginUrl": "https://jwxt.xjnu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "信阳师范大学",
+      "loginUrl": "http://210.43.24.137/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "信阳师院"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "徐州医科大学",
+      "loginUrl": "https://jwpt.xzhmu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "徐州幼儿师范高等专科学校",
+      "loginUrl": "https://jwgl.xzyz.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "延安大学",
+      "loginUrl": "https://jwglxt.yau.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "延边大学",
+      "loginUrl": "http://jwxt.ybu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "燕山大学",
+      "loginUrl": "https://cer.ysu.edu.cn/authserver/login?service=https%3A%2F%2Fyjsxt.ysu.edu.cn%2Fapi%2FcasLogin%2Fysu",
+      "native": false,
+      "note": "Classy 预设 · boya_pp",
+      "aliases": [
+        "ysu",
+        "ysu.edu.cn",
+        "yanshandaxue",
+        "cer.ysu.edu.cn"
+      ],
+      "type": "boya_pp"
+    },
+    {
+      "name": "烟台黄金职业学院",
+      "loginUrl": "https://ytgc.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "永州师范高等专科学校",
+      "loginUrl": "https://hndxsf.jw.chaoxing.com/admin/login",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "右江民族医学院",
+      "loginUrl": "http://emis.ymun.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "云南财经大学",
+      "loginUrl": "https://xjwis.ynufe.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "云南国防工业职业技术学院",
+      "loginUrl": "https://ynou.jw.chaoxing.com/admin/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "云南农业大学",
+      "loginUrl": "https://qzjwxt.ynau.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "浙大宁波理工学院",
+      "loginUrl": "http://jwxt.nit.net.cn/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [
+        "nbt",
+        "宁波理工"
+      ],
+      "type": "zf"
+    },
+    {
+      "name": "浙江财经大学",
+      "loginUrl": "http://jwxt.zufe.edu.cn/sso/driotlogin",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江传媒学院",
+      "loginUrl": "http://newjw.cuz.edu.cn/jwglxt",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江大学",
+      "loginUrl": "https://zdbk.zju.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zju",
+      "aliases": [
+        "zju"
+      ],
+      "type": "zju"
+    },
+    {
+      "name": "浙江工商大学",
+      "loginUrl": "http://124.160.64.163/jwglxt/xtgl/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江工业大学",
+      "loginUrl": "http://www.gdjw.zjut.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江工业大学之江学院",
+      "loginUrl": "http://jwgl.zzjc.edu.cn/default2.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf",
+      "aliases": [],
+      "type": "zf"
+    },
+    {
+      "name": "浙江经贸职业技术学院",
+      "loginUrl": "http://jwgl.zjiet.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江农林大学",
+      "loginUrl": "https://jwxt.zafu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江万里学院",
+      "loginUrl": "https://ehall.zwu.edu.cn/_layouts/15/ZWUWSBS/BSDT/HomePage.aspx",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙江宇翔职业技术学院",
+      "loginUrl": "https://yxwy.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "郑州大学西亚斯国际学院",
+      "loginUrl": "https://jwxt.sias.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "郑州航空工业管理学院",
+      "loginUrl": "http://jwglxt.zua.edu.cn/eams/loginExt.action",
+      "native": false,
+      "note": "Classy 预设 · classic_eams",
+      "aliases": [],
+      "type": "classic_eams"
+    },
+    {
+      "name": "中国计量大学",
+      "loginUrl": "http://jwxt.cjlu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "中国科学技术大学",
+      "loginUrl": "https://jw.ustc.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · ustc",
+      "aliases": [
+        "ustc"
+      ],
+      "type": "ustc"
+    },
+    {
+      "name": "中国科学技术大学 - 研究生",
+      "loginUrl": "https://yjs1.ustc.edu.cn",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [],
+      "type": "wisedu"
+    },
+    {
+      "name": "中国科学院大学",
+      "loginUrl": "https://sep.ucas.ac.cn/",
+      "native": false,
+      "note": "Classy 预设 · ucas",
+      "aliases": [
+        "ucas",
+        "国科大"
+      ],
+      "type": "ucas"
+    },
+    {
+      "name": "中国矿业大学",
+      "loginUrl": "http://jwxt.cumt.edu.cn/jwglxt/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "cumt"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "中国矿业大学（北京）",
+      "loginUrl": "https://jwxt.cumtb.edu.cn/student/for-std/course-table",
+      "native": false,
+      "note": "Classy 预设 · eams5",
+      "aliases": [
+        "cumtb"
+      ],
+      "type": "eams5"
+    },
+    {
+      "name": "中国矿业大学徐海学院",
+      "loginUrl": "http://jwxt.cumtxh.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "中国农业大学",
+      "loginUrl": "http://urpjw.cau.edu.cn/login",
+      "native": false,
+      "note": "Classy 预设 · urp_new",
+      "aliases": [
+        "cau"
+      ],
+      "type": "urp_new"
+    },
+    {
+      "name": "中国人民大学",
+      "loginUrl": "https://jw.ruc.edu.cn/Njw2017/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [
+        "ruc"
+      ],
+      "type": "qz"
+    },
+    {
+      "name": "中国药科大学",
+      "loginUrl": "http://jwgl.cpu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "中国医科大学",
+      "loginUrl": "http://jw.cmu.edu.cn/jwglxt/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "中南大学",
+      "loginUrl": "http://csujwc.its.csu.edu.cn/jsxsd/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [
+        "csu"
+      ],
+      "type": "qz"
+    },
+    {
+      "name": "中南林业科技大学",
+      "loginUrl": "http://jwgl.csuft.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz",
+      "aliases": [],
+      "type": "qz"
+    },
+    {
+      "name": "珠海科技学院",
+      "loginUrl": "http://jw.zcst.edu.cn/xtgl/login_slogin.html",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [],
+      "type": "zf_new"
+    },
+    {
+      "name": "株洲师范高等专科学校",
+      "loginUrl": "https://zzyesf.jw.chaoxing.com/",
+      "native": false,
+      "note": "Classy 预设 · chaoxing",
+      "aliases": [],
+      "type": "chaoxing"
+    },
+    {
+      "name": "遵义医科大学",
+      "loginUrl": "https://jwxt.zmu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "遵义医科大学医学与科技学院",
+      "loginUrl": "http://www.mtszmu.com:8887/",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "遵义医学院医学与科技学院",
+      "loginUrl": "http://www.mtszmu.com:8887",
+      "native": false,
+      "note": "Classy 预设 · cf",
+      "aliases": [],
+      "type": "cf"
+    },
+    {
+      "name": "北京邮电大学新教务（VPN）",
+      "loginUrl": "https://vpn.bupt.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz_with_node",
+      "aliases": [
+        "bupt"
+      ],
+      "type": "qz_with_node"
+    },
+    {
+      "name": "北京邮电大学新教务（WebVPN）",
+      "loginUrl": "https://webvpn.bupt.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · qz_with_node",
+      "aliases": [
+        "bupt"
+      ],
+      "type": "qz_with_node"
+    },
+    {
+      "name": "安徽第二医学院",
+      "loginUrl": "http://ehall.ahyz.cn/new/index.html",
+      "native": false,
+      "note": "Classy 预设 · wisedu",
+      "aliases": [
+        "ahyz",
+        "安徽医科大学"
+      ],
+      "type": "wisedu"
+    },
+    {
+      "name": "惠州学院",
+      "loginUrl": "https://jwxt.hzu.edu.cn/",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "hzu"
+      ],
+      "type": "zf_new"
+    },
+    {
+      "name": "浙大城市学院",
+      "loginUrl": "http://ijw.hzcu.edu.cn/sso/ddlogin",
+      "native": false,
+      "note": "Classy 预设 · zf_new",
+      "aliases": [
+        "hzcu",
+        "ZUCC"
+      ],
+      "type": "zf_new"
     }
   ]
 }

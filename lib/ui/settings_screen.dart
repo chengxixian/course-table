@@ -154,7 +154,7 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icon(PixelIcons.search, size: 19),
                 ),
               ]),
-              for (final school in list)
+              for (final school in list.take(8))
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Container(
@@ -168,6 +168,15 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () => school.native
                       ? onLogin()
                       : _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name),
+                ),
+              if (list.length > 8)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () => _searchSchool(context),
+                    icon: const Icon(Icons.search, size: 16),
+                    label: Text('搜索全部 ${list.length} 所高校'),
+                  ),
                 ),
             ]),
           ),
@@ -514,9 +523,10 @@ class SettingsScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) {
-          final filtered = SchoolRegistry.schools.value.where((s) => s.name.contains(query.text.trim())).toList();
+          final q = query.text.trim();
+          final filtered = SchoolRegistry.schools.value.where((s) => s.name.contains(q) || s.aliases.any((a) => a.contains(q)) || s.type.contains(q)).toList();
           return AlertDialog(
-            title: const Text('搜索已适配高校'),
+            title: Text('搜索已适配高校（${SchoolRegistry.schools.value.length}）'),
             content: SizedBox(
               width: 360,
               child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -530,10 +540,13 @@ class SettingsScreen extends StatelessWidget {
                 if (filtered.isEmpty)
                   const Padding(padding: EdgeInsets.all(16), child: Text('没有匹配的高校'))
                 else
-                  Flexible(
-                    child: ListView(shrinkWrap: true, children: [
-                      for (final school in filtered)
-                        ListTile(
+                  SizedBox(
+                    height: 320,
+                    child: ListView.builder(
+                      itemCount: filtered.length,
+                      itemBuilder: (_, i) {
+                        final school = filtered[i];
+                        return ListTile(
                           title: Text(school.name),
                           subtitle: Text(school.note),
                           onTap: () {
@@ -544,8 +557,9 @@ class SettingsScreen extends StatelessWidget {
                               _importWeb(context, initialUrl: school.loginUrl, schoolName: school.name);
                             }
                           },
-                        ),
-                    ]),
+                        );
+                      },
+                    ),
                   ),
               ]),
             ),
