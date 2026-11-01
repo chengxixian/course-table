@@ -1,0 +1,28 @@
+课程表 / course-table
+Third-party notices
+
+Classy
+======
+Project: Classy
+Copyright (C) IMSX3D and contributors
+Source: https://github.com/IMSX3D/Classy
+Upstream commit used: 8a2499dfa258bb5daba37d6d7f0bbd74b6ae73b9
+License: GNU General Public License v3.0 (see LICENSE)
+
+This project includes a modified/adapted copy of Classy's Kotlin timetable
+parser layer under:
+  android/app/src/main/java/com/imsx3d/classy/data/jw/
+
+It is compiled into the Android app and called through
+ClassyParserBridge / the com.hsu.hsu_schedule/classy_parser MethodChannel.
+The school preset data was transformed into schools/index.json.
+The zf_new fallback was ported to Dart in lib/classy_parser.dart.
+
+Modifications: package/application integration, a Flutter MethodChannel
+bridge, conversion from Classy JwCourse records to this app's timetable HTML,
+and removal of unused Compose/ViewModel/database code. No Compose UI code
+was copied.
+
+Classy is free software under GPL-3.0; this project is distributed under the
+same license. The complete license text is in LICENSE. See
+docs/THIRD_PARTY_NOTICES.md for fonts and other dependencies.

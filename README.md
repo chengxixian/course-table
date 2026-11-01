@@ -29,7 +29,7 @@
 | **黄山学院原生同步** | 信息门户登录，抓取课程、教师、教室、周次、调课与冲突；整学期一次同步 |
 | **350 所高校预设** | 学校库可搜索；黄山学院保留原生流程，其他学校打开对应登录页 |
 | **网页导入** | 应用内 WebView 登录并操作到课表页，读取 HTML 导入 |
-| **Classy 解析器桥** | 38 个 Classy Kotlin 解析器编译进 Android，按学校 `type` 直接调用；未知类型回退通用解析/AI |
+| **Classy 解析器桥** | **42 个 Classy Kotlin 解析器类全部编译进 Android**，按学校 `type` 调用；未知类型回退通用解析/AI |
 | **AI 兜底** | 本地解析缺字段时，发送脱敏页面文本到 Cloudflare Pages，再调用智谱 `glm-4-flash` |
 | **文件导入** | WakeUp JSON / ICS / CSV / 纯文本 / Excel / PDF / 手动添加；Excel 和 PDF 先转文字再解析 |
 | **整学期** | 网页导入会尝试自动翻周、采集并合并整学期 |
@@ -152,9 +152,13 @@ docs/                         隐私政策、SDK、架构与任务计划
 
 感谢 **茨畔耕夫**、**润泽江海**、**Yearn Justly**、**曼你个der啊** 对项目的帮助与支持。
 
-学校预设数据来自 [Classy](https://github.com/IMSX3D/Classy)（GPL-3.0）；其 Kotlin 解析器层已编译进 Android，通过 MethodChannel 调用，`zf_new` 另有 Dart 兜底。名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护。
+学校预设数据来自 [Classy](https://github.com/IMSX3D/Classy)（GPL-3.0）；其 Kotlin 解析器层（42 类）已全部编译进 Android，通过 MethodChannel 调用，覆盖清单见 [docs/CLASSY_PARSERS.md](docs/CLASSY_PARSERS.md)；`zf_new` 另有 Dart 兜底。名单由 [`acknowledgements.json`](acknowledgements.json) 动态维护。
 
 也感谢 Flutter、Material 3、`dynamic_color`、`home_widget`、`webview_flutter`、`m3e_core`、`flutoryx`、PDFBox 及所有开源作者。
+
+## 第三方代码与许可
+
+本项目包含从 [Classy](https://github.com/IMSX3D/Classy)（GPL-3.0，commit `8a2499d`）改编的 Kotlin 课表解析器层，源码位于 `android/app/src/main/java/com/imsx3d/classy/data/jw/`，通过 MethodChannel 调用。完整版权与修改说明见 [NOTICE](NOTICE)，字体和其他依赖见 [docs/THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md)。
 
 ## 许可
 

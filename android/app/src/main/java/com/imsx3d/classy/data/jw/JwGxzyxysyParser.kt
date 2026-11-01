@@ -1,3 +1,9 @@
+/*
+ * Adapted from Classy (https://github.com/IMSX3D/Classy), commit 8a2499d.
+ * Copyright (C) IMSX3D and contributors.
+ * Licensed under GNU GPL v3.0; see LICENSE and NOTICE.
+ * Modified for course-table integration.
+ */
 package com.imsx3d.classy.data.jw
 
 import org.json.JSONObject

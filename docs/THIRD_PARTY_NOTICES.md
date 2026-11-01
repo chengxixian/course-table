@@ -5,10 +5,12 @@
 - Project: Classy
 - Author: IMSX3D
 - Source: https://github.com/IMSX3D/Classy
+- Upstream commit: `8a2499dfa258bb5daba37d6d7f0bbd74b6ae73b9`
 - License: GNU General Public License v3.0
+- Copyright: IMSX3D and contributors
 - Used material: `app/src/main/assets/schools.json` school preset data (349 schools).
 
-The school list was transformed into `schools/index.json` for this project. Classy's Kotlin parser layer under `com.imsx3d.classy.data.jw` (38 parser/helper files) is compiled into this Android app and exposed through `ClassyParserBridge`/MethodChannel. Dart also contains a minimal `zf_new` fallback in `lib/classy_parser.dart`. No Compose UI code was copied. Unknown school types fall back to this app's generic web/AI import. All copied code is GPL-3.0; see upstream for original sources.
+The school list was transformed into `schools/index.json` for this project. Classy's Kotlin parser layer under `com.imsx3d.classy.data.jw` (38 parser/helper files) is compiled into this Android app and exposed through `ClassyParserBridge`/MethodChannel. Dart also contains a minimal `zf_new` fallback in `lib/classy_parser.dart`. No Compose UI code was copied. Unknown school types fall back to this app's generic web/AI import. All adapted code is GPL-3.0. Each copied Kotlin file carries an attribution header; the root [NOTICE](../NOTICE) records the upstream commit and modifications.
 
 Classy is licensed under GPL-3.0; this project is also GPL-3.0. See the upstream repository for the original data and license.
 
