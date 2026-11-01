@@ -6,7 +6,7 @@
 | --- | --- |
 | 应用名称 | 课程表 |
 | Android 包名 | `com.hsu.hsu_schedule` |
-| 当前版本 | 2.0.28（build 30，`pubspec.yaml` 为 `2.0.28+30`） |
+| 当前版本 | 3.0.0（build 30，`pubspec.yaml` 为 `3.0.0+30`） |
 | 适用平台 | Android 24+（targetSdk 36）、Windows 桌面版 |
 | 代码基线 | 2026-11-01 仓库快照 |
 | 最后更新 | 2026-11-01 |

@@ -6,7 +6,7 @@
 | --- | --- |
 | 应用名称 | 课程表 |
 | 开发者 | chengxixian |
-| 适用版本 | 2.0.28（build 30）；不同版本的实现可能略有差异 |
+| 适用版本 | 3.0.0（build 44）；不同版本的实现可能略有差异 |
 | 适用平台 | Android（主要）、Windows（桌面版） |
 | 生效日期 | 2026-11-01 |
 | 最后更新 | 2026-11-01 |
@@ -169,7 +169,7 @@ Android 的每日自动同步由 WorkManager 在后台执行；后台任务从�
 | `school` | 学校名称（用户可修改） |
 | `url` | 课表网页 URL |
 | `savedAt` | 导入时间（ISO 8601） |
-| `appVersion` | 应用版本号（如 `2.0.28`） |
+| `appVersion` | 应用版本号（如 `3.0.0`） |
 
 发送到 `https://course-table-flow.pages.dev/`，由 Cloudflare 边缘函数调用 GitHub API：
 
