@@ -115,6 +115,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\_sync.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\_link-check.ps1
 ```
 
+### 这台机器上推送的坑
+
+PortableGit 走的是 Windows Schannel，而这台机器的 CRL/OCSP 校验不通，`git push` 会直接报
+`CRYPT_E_NO_REVOCATION_CHECK`。关掉吊销检查即可（已写进仓库的 `.git/config`，不用每次带参数）：
+
+```bash
+git config http.sslBackend schannel
+git config http.schannelCheckRevoke false
+```
+
+换成 `http.sslBackend openssl` 反而会撞上 CA bundle 问题，别走那条路。
+
 `tools/` 不被 Flutter 构建引用（不在 `lib/`、`assets/`、`android/` 里），加进仓库不影响打包产物。
 
 ## 已知限制
