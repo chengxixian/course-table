@@ -1,7 +1,7 @@
 {
-  "version": "3.1.4",
-  "build": 49,
-  "notes": "关于页开源项目清单；Classy 41 文件/42 类 GPL-3.0 归属；WakeUp 本地导入。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.4/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.4"
+  "version": "3.1.5",
+  "build": 50,
+  "notes": "拖拽改用重绘不重建，长按拖动明显更跟手；课程详情弹层改用弹簧动画；制作与验收工具整理到 tools/。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.5/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.5"
 }
