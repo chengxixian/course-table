@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
 /// Timing and curves shared by the app's motion primitives (180-320 ms).
 ///
@@ -15,9 +16,55 @@ abstract final class Motion {
   static const Curve exit = Curves.easeInCubic;
   static const Curve emphasized = Curves.easeInOutCubicEmphasized;
 
+  /// Spring used by the drag snap: slightly under-damped so it settles into the
+  /// slot instead of bouncing off it.
+  static final Curve snap = SpringCurve(
+    SpringDescription.withDampingRatio(mass: 1, stiffness: 260, ratio: 0.88),
+    seconds: 0.34,
+  );
+
+  /// Duration the [snap] spring is evaluated over; keep the two in step.
+  static const Duration snapDuration = Duration(milliseconds: 340);
+
+  /// Course-detail popup: the scale overshoots, the position does not — an
+  /// overshooting rect would push past the screen edge the target was clamped
+  /// to, while an overshooting scale is exactly the "pop" the popup wants.
+  static final Curve popScale = SpringCurve(
+    SpringDescription.withDampingRatio(mass: 1, stiffness: 340, ratio: 0.72),
+    seconds: 0.42,
+  );
+  static final Curve popMove = SpringCurve(
+    SpringDescription.withDampingRatio(mass: 1, stiffness: 300, ratio: 1),
+    seconds: 0.34,
+  );
+  static const Duration popDuration = Duration(milliseconds: 420);
+
   static bool reduceMotionOf(BuildContext context) =>
       (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ||
       (MediaQuery.maybeAccessibleNavigationOf(context) ?? false);
+}
+
+/// A [Curve] backed by a real spring simulation.
+///
+/// It behaves better than a duration-plus-easing curve for anything a finger
+/// drives: the velocity is continuous, so an interrupted gesture does not
+/// restart from zero. The residual term makes the curve land exactly on 1.0 —
+/// a spring stopped at [seconds] has usually not settled, so used raw it would
+/// leave the widget a few percent short of its target forever.
+///
+/// Adapted from FlClash (`lib/ui/motion.dart`, GPL-3.0); see `NOTICE`.
+class SpringCurve extends Curve {
+  SpringCurve(this.spring, {required this.seconds})
+      : _simulation = SpringSimulation(spring, 0, 1, 0);
+
+  final SpringDescription spring;
+  final double seconds;
+  final SpringSimulation _simulation;
+
+  late final double _residual = 1 - _simulation.x(seconds);
+
+  @override
+  double transformInternal(double t) => _simulation.x(t * seconds) + _residual * t;
 }
 
 /// Fades and slides [child] in once on mount, from [offset] after [delay].

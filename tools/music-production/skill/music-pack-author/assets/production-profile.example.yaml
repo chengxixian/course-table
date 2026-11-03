@@ -1,0 +1,23 @@
+pack: example-pack
+format:
+  type: instrumental-single
+use_context: streaming-release
+genre:
+  primary: electronic
+production_language:
+  foundation: hybrid
+  arrangement: restrained-evolution
+  mix: clear-low-end
+performance:
+  vocals: none
+delivery:
+  require:
+    - stereo-master
+preserve:
+  - core-motif
+evaluation:
+  do_not_penalise:
+    - intentional-repetition
+  reject:
+    - accidental-clipping
+    - mutation-of-approved-motif

@@ -1,0 +1,174 @@
+{
+  "file": "promo/audio/bgm-v2.wav",
+  "duration": 40,
+  "format": {
+    "sr": 48000,
+    "bits": 24,
+    "ch": 2
+  },
+  "whole": {
+    "peakDbfs": -4.5,
+    "rmsDbfs": -19.82,
+    "lufs": -17.9,
+    "crestDb": 15.3,
+    "dcDbfs": -80.2,
+    "lrCorrelation": 0.894,
+    "lRmsDbfs": -19.48,
+    "rRmsDbfs": -20.19,
+    "midRmsDbfs": -20.07,
+    "sideRmsDbfs": -32.45,
+    "sideMinusMidDb": -12.4
+  },
+  "sections": [
+    {
+      "id": "S1",
+      "from": 0,
+      "to": 150,
+      "peakDbfs": -8.84,
+      "rmsDbfs": -20.99,
+      "lufs": -18.8,
+      "sideMinusMidDb": -13.6
+    },
+    {
+      "id": "S2",
+      "from": 150,
+      "to": 390,
+      "peakDbfs": -7.07,
+      "rmsDbfs": -19.83,
+      "lufs": -18,
+      "sideMinusMidDb": -13.2
+    },
+    {
+      "id": "S3",
+      "from": 390,
+      "to": 540,
+      "peakDbfs": -6.64,
+      "rmsDbfs": -20.7,
+      "lufs": -18.8,
+      "sideMinusMidDb": -12.8
+    },
+    {
+      "id": "S4",
+      "from": 540,
+      "to": 750,
+      "peakDbfs": -4.5,
+      "rmsDbfs": -18.72,
+      "lufs": -16.9,
+      "sideMinusMidDb": -11.8
+    },
+    {
+      "id": "S5",
+      "from": 750,
+      "to": 930,
+      "peakDbfs": -6.34,
+      "rmsDbfs": -19.99,
+      "lufs": -18.4,
+      "sideMinusMidDb": -12.4
+    },
+    {
+      "id": "S6",
+      "from": 930,
+      "to": 1080,
+      "peakDbfs": -6.5,
+      "rmsDbfs": -19.26,
+      "lufs": -17.4,
+      "sideMinusMidDb": -12.3
+    },
+    {
+      "id": "S7",
+      "from": 1080,
+      "to": 1200,
+      "peakDbfs": -6.98,
+      "rmsDbfs": -20.24,
+      "lufs": -17.9,
+      "sideMinusMidDb": -11.1
+    }
+  ],
+  "melodyProbe": [
+    {
+      "name": "A1",
+      "notes": 21,
+      "avgRatio": 66511.84,
+      "present": 20,
+      "avgRatioDb": 60
+    },
+    {
+      "name": "A2",
+      "notes": 10,
+      "avgRatio": 33379.25,
+      "present": 9,
+      "avgRatioDb": 60
+    },
+    {
+      "name": "A3",
+      "notes": 21,
+      "avgRatio": 51571.77,
+      "present": 21,
+      "avgRatioDb": 60
+    },
+    {
+      "name": "A4",
+      "notes": 10,
+      "avgRatio": 20481.78,
+      "present": 10,
+      "avgRatioDb": 60
+    },
+    {
+      "name": "A5",
+      "notes": 6,
+      "avgRatio": 36353.34,
+      "present": 6,
+      "avgRatioDb": 60
+    }
+  ],
+  "topPeaks50ms": [
+    {
+      "t": 24.05,
+      "db": -4.5
+    },
+    {
+      "t": 24,
+      "db": -4.9
+    },
+    {
+      "t": 23.5,
+      "db": -5.4
+    },
+    {
+      "t": 22.5,
+      "db": -6.1
+    },
+    {
+      "t": 20.05,
+      "db": -6.3
+    },
+    {
+      "t": 25.25,
+      "db": -6.3
+    },
+    {
+      "t": 20,
+      "db": -6.5
+    },
+    {
+      "t": 24.1,
+      "db": -6.5
+    },
+    {
+      "t": 31,
+      "db": -6.5
+    },
+    {
+      "t": 17,
+      "db": -6.6
+    },
+    {
+      "t": 23.25,
+      "db": -6.8
+    },
+    {
+      "t": 24.95,
+      "db": -6.8
+    }
+  ]
+}

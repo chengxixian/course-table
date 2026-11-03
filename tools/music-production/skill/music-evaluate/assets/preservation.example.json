@@ -1,0 +1,12 @@
+{
+  "id": "refinement-001",
+  "type": "production_refinement",
+  "workflowState": "refine",
+  "decisionState": "approved",
+  "parents": ["production-001"],
+  "lockedDecisions": ["melody", "lyrics", "structure"],
+  "openDecisions": ["drums"],
+  "requestedChanges": ["drums"],
+  "reopenedDecisions": [],
+  "selectionSources": {}
+}

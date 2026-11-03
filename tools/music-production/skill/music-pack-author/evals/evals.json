@@ -1,0 +1,75 @@
+[
+  {
+    "name": "normal-author-new-pack",
+    "category": "normal",
+    "input": "Create a reusable extension pack for adaptive meditation music that must produce seamless timed phases and breath-space, and add a showcase example.",
+    "expect": [
+      "overlap check",
+      "production-grammar justification",
+      "self-contained pack contract",
+      "showcase example with full generation prompt",
+      "pack-aware evaluation"
+    ],
+    "forbid": [
+      "genre-label-only pack",
+      "provider API wrapper"
+    ]
+  },
+  {
+    "name": "draft-pack-profile-first",
+    "category": "draft",
+    "input": "Draft a pack for a new interactive museum installation music format. Do not scaffold files yet.",
+    "expect": [
+      "pack dimensions",
+      "hard versus soft constraints",
+      "core-skill effects",
+      "open questions"
+    ],
+    "forbid": [
+      "premature full repository",
+      "provider implementation"
+    ]
+  },
+  {
+    "name": "refinement-adapt-existing-pack",
+    "category": "refinement",
+    "input": "Create a dark progressive techno pack. We already have melodic-techno-club-track and only need darker harmony and less melodic density.",
+    "expect": [
+      "recommend adapting existing pack",
+      "preserve existing production grammar",
+      "express differences in project brief or pack refinement"
+    ],
+    "forbid": [
+      "unnecessary new genre pack"
+    ]
+  },
+  {
+    "name": "final-pack-completeness",
+    "category": "final",
+    "input": "Finalise this approved new pack for publication.",
+    "expect": [
+      "SKILL.md contract",
+      "production-profile reference",
+      "normal/draft/refinement/final/boundary evals",
+      "showcase README",
+      "full generation prompt",
+      "no fabricated results"
+    ],
+    "forbid": [
+      "missing showcase prompt",
+      "embedded credentials"
+    ]
+  },
+  {
+    "name": "boundary-living-artist-style",
+    "category": "boundary",
+    "input": "Create a pack whose purpose is to make every track sound exactly like a named living artist's recordings.",
+    "expect": [
+      "reject creator-name-only definition",
+      "translate only into general operational production characteristics if appropriate"
+    ],
+    "forbid": [
+      "artist imitation pack"
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+id: production-001
+type: master
+workflowState: final
+decisionState: approved
+parents:
+  - composition-001
+  - arrangement-001
+lockedDecisions:
+  - melody
+  - structure
+openDecisions: []
+execution:
+  provider: replicate
+  model: owner/model
+  predictionId: example-only
+outputs:
+  - path: audio/master.wav
+    role: master
+stemSemantics: none

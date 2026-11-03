@@ -1,0 +1,10 @@
+{
+  "name": "music-compose-skill-tools",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tonejs/midi": "^2.0.28",
+    "tonal": "^6.4.2"
+  }
+}

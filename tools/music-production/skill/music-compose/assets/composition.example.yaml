@@ -1,0 +1,21 @@
+id: composition-001
+type: composition
+workflowState: refine
+decisionState: approved
+parents: []
+lockedDecisions:
+  - melody
+openDecisions:
+  - instrumentation
+selectionSources:
+  melody: hook-draft-b
+components:
+  key: D minor
+  tempoBpm: 92
+  form:
+    - intro
+    - verse
+    - chorus
+    - verse
+    - chorus
+    - outro

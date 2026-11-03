@@ -1,0 +1,18 @@
+{
+  "artifact": "production-001",
+  "workflowState": "refine",
+  "checksNotRun": [],
+  "findings": [
+    {
+      "region": "chorus-2:01:12-01:16",
+      "severity": "fail",
+      "owningStage": "performance",
+      "message": "Pronunciation defect is local to the vocal phrase",
+      "recommendedCorrection": "Repair only the affected vocal phrase and verify boundaries/preservation"
+    }
+  ],
+  "preservation": {
+    "lockedDecisions": ["melody", "lyrics", "structure"],
+    "verified": true
+  }
+}

@@ -1,0 +1,17 @@
+id: arrangement-001
+type: arrangement
+workflowState: refine
+decisionState: approved
+parents:
+  - composition-001
+lockedDecisions:
+  - chorus-melody
+openDecisions:
+  - final-chorus-density
+sections:
+  intro:
+    roles: [pad, texture]
+  verse:
+    roles: [lead, bass, restrained-drums]
+  chorus:
+    roles: [lead, bass, full-drums, synth-layer]

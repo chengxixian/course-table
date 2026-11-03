@@ -124,3 +124,20 @@ __pycache__/
 
 ui*.xml
 
+
+# ---- 宣传片：只提交源码与成片 ----------------------------------------------
+# 工具链、中间产物、大体积音频不进仓库；需要时用 promo/scripts 重渲。
+/promo/remotion/node_modules/
+/promo/remotion/out/
+/promo/remotion/.cache/
+/promo/.work/
+/promo/_skilldl/
+/promo/preview/
+/promo/archive-30fps/
+/promo/scripts/.tmp/
+/promo/remotion/public/audio/bgm/*.wav
+/promo/audio/*.wav
+/promo/audio/analysis/
+
+# ---- 工具产出的本地文件 -----------------------------------------------------
+/tools/android-emulator/prefs.xml

@@ -4,6 +4,7 @@ import '../lib/app_controller.dart';
 import '../lib/manual_course.dart';
 import '../lib/models.dart';
 import '../lib/schedule_overlays.dart';
+import '../lib/ui/frame_stats.dart';
 import '../lib/ui/week_screen.dart';
 import 'schedule_overlays_test.dart' as fixtures;
 
@@ -60,6 +61,66 @@ void main() {
     final moved = tester.getRect(find.byKey(const ValueKey('course-drag-native')));
     expect(moved.left, closeTo(source.left + 2 * 88, 1));
     expect(moved.top, closeTo(source.top + 2 * 60, 1));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a pointer move repaints the ghost instead of rebuilding it', (tester) async {
+    tester.view.physicalSize = const Size(1000, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final controller = DragTestController();
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: WeekScreen(
+      controller: controller, week: 1, onWeekChange: (_) {}))));
+    await tester.pumpAndSettle();
+    final card = find.byKey(const ValueKey('course-drag-native'));
+    final source = tester.getRect(card);
+    final pointer = await tester.startGesture(source.center);
+    await tester.pump(const Duration(milliseconds: 650));
+
+    final ghostFinder = find.byKey(const ValueKey('course-drag-feedback'));
+    expect(ghostFinder, findsOneWidget);
+    final firstGhost = tester.widget(ghostFinder);
+
+    await pointer.moveTo(source.topLeft + const Offset(2 * 88 + 30, 2 * 60 + 20));
+    await tester.pump();
+    await pointer.moveTo(source.topLeft + const Offset(3 * 88 + 40, 3 * 60 + 30));
+    await tester.pump();
+
+    // Same widget instance across two moves: the overlay entry is not rebuilt,
+    // so the ghost costs a repaint and a transform, not a build and a layout.
+    expect(identical(tester.widget(ghostFinder), firstGhost), isTrue,
+      reason: 'ghost subtree must not rebuild per pointer move');
+    expect(find.byKey(const ValueKey('course-drop-highlight')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await pointer.up();
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('switching the week opens a frame capture that closes itself', (tester) async {
+    tester.view.physicalSize = const Size(1000, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(FrameStats.instance.end);
+
+    final controller = DragTestController();
+    Widget screen(int week) => MaterialApp(home: Scaffold(body: WeekScreen(
+      controller: controller, week: week, onWeekChange: (_) {})));
+
+    await tester.pumpWidget(screen(1));
+    await tester.pumpAndSettle();
+    expect(FrameStats.instance.isCapturing, isFalse);
+
+    await tester.pumpWidget(screen(2));
+    await tester.pump();
+    expect(FrameStats.instance.isCapturing, isTrue,
+      reason: 'a week change should be measured');
+
+    // No FrameTiming arrives in a widget test, so the wall-clock valve closes it.
+    await tester.pump(const Duration(seconds: 2));
+    expect(FrameStats.instance.isCapturing, isFalse);
     expect(tester.takeException(), isNull);
   });
 

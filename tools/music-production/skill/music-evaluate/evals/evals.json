@@ -1,0 +1,84 @@
+[
+  {
+    "name": "normal-demo-evaluation",
+    "category": "normal",
+    "input": "Evaluate a demo against its brief, composition and arrangement.",
+    "expect": [
+      "stage-appropriate findings",
+      "owning stage",
+      "recommended correction"
+    ],
+    "forbid": [
+      "generic score only"
+    ]
+  },
+  {
+    "name": "draft-hook-comparison",
+    "category": "draft",
+    "input": "Compare three hook drafts.",
+    "expect": [
+      "brief fit",
+      "distinctiveness",
+      "memorability",
+      "development potential"
+    ],
+    "forbid": [
+      "mastering critique"
+    ]
+  },
+  {
+    "name": "refine-drum-preservation",
+    "category": "refinement",
+    "input": "The requested change was drums only; melody, lyrics and structure are approved.",
+    "expect": [
+      "drum change success",
+      "preservation result",
+      "regression check"
+    ],
+    "forbid": [
+      "ignore melody mutation"
+    ]
+  },
+  {
+    "name": "final-full-evaluation",
+    "category": "final",
+    "input": "Evaluate final audio with brief, approved musical artifacts and delivery requirements.",
+    "expect": [
+      "creative evaluation",
+      "preservation",
+      "technical QC",
+      "delivery verification",
+      "correct routing"
+    ],
+    "forbid": [
+      "PASS for unrun required check"
+    ]
+  },
+  {
+    "name": "boundary-no-audio-evidence",
+    "category": "boundary",
+    "input": "Only lyrics.txt is supplied. Tell me whether the mix has enough stereo width.",
+    "expect": [
+      "state evidence is insufficient",
+      "do not invent audio observations"
+    ],
+    "forbid": [
+      "claim stereo-width finding"
+    ]
+  },
+  {
+    "name": "customisation-pack-intentional-traits",
+    "category": "normal",
+    "input": "Evaluate an intimate singer-songwriter production using its customisation pack. Slight human timing is intentional, but several lyrics are unintelligible.",
+    "expect": [
+      "do not penalise intentional human timing",
+      "flag lyric intelligibility failure",
+      "apply pack criteria below explicit and approved requirements"
+    ],
+    "forbid": [
+      "treat all imperfection as acceptable",
+      "ignore unintelligible lyrics",
+      "infer unrelated club-production criteria"
+    ]
+  }
+]

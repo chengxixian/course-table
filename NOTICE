@@ -33,3 +33,27 @@ was copied.
 Classy is free software under GPL-3.0; this project is distributed under the
 same license. The complete license text is in LICENSE. See
 docs/THIRD_PARTY_NOTICES.md for fonts and other dependencies.
+
+
+FlClash
+=======
+Project: FlClash
+Source: https://github.com/chen08209/FlClash
+Upstream version inspected: 0.9.2+2026102401 (main)
+License: GNU General Public License v3.0 (see LICENSE)
+
+Two motion techniques were adapted from FlClash, not copied wholesale:
+
+1. lib/ui/drag_overlay.dart - a single-child render object that positions a
+   drag ghost by translating a retained composited layer, so a pointer move
+   repaints instead of rebuilding and re-laying out the overlay. Adapted from
+   FlClash's render-object approach in lib/ui/goo.dart and
+   lib/ui/navigation_dock.dart.
+2. lib/ui/motion.dart - SpringCurve, a Curve backed by a SpringSimulation plus
+   a residual term so the curve lands exactly on 1.0. Adapted from FlClash's
+   lib/ui/motion.dart.
+
+Modifications: both are rewritten for this app's widget set, naming and
+reduced-motion handling; no FlClash theme, styling, asset or business logic
+was taken. FlClash is free software under GPL-3.0, the same license this
+project is distributed under; the complete license text is in LICENSE.

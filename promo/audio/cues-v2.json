@@ -1,0 +1,698 @@
+{
+  "$schema": "promo-bgm-cues/2",
+  "title": "课程表 · 40s promo BGM v2 (melody-first)",
+  "revision": 2,
+  "generatedBy": "promo/reaper/compose-v2.mjs",
+  "license": "CC0-1.0 (self-authored synthesis; MIDI in this repo)",
+  "fps": 30,
+  "durationFrames": 1200,
+  "durationSec": 40,
+  "bpm": 120,
+  "beatsPerBar": 4,
+  "beatFrames": 15,
+  "key": {
+    "main": "D major",
+    "outro": "E major (bars 19-20)"
+  },
+  "form": "A1 (bars 1-4) - A2 (5-6) - B (7-9) - A3 (10-13) - B' (14-15) - A4 (16-17) - A5 transposed (19-20)",
+  "audio": {
+    "file": "promo/audio/bgm-v2.wav",
+    "format": "PCM 24-bit WAV",
+    "sampleRate": 48000,
+    "channels": 2,
+    "bits": 24,
+    "durationSec": 40,
+    "bytes": 11520690,
+    "sha256": "6F7D680D2B682F092BBD72744CDF5137D481B1C922036AA9135C131133DFB5B0",
+    "peakDbfs": -4.5,
+    "truePeakDbfs": -4.5,
+    "rmsDbfs": -19.82,
+    "lufsI": -17.9,
+    "crestDb": 15.3,
+    "clippedSamples": 0,
+    "headroomDb": 4.5,
+    "lrCorrelation": 0.894,
+    "midRmsDbfs": -20.07,
+    "sideRmsDbfs": -32.45,
+    "sideMinusMidDb": -12.4,
+    "render": "REAPER 7.82 offline render, action 42230"
+  },
+  "melody": {
+    "hook": {
+      "label": "hook A (16 beats)",
+      "notes": 21,
+      "rangeSemitones": 12,
+      "lowestMidi": 66,
+      "highestMidi": 78,
+      "firstPitch": 69,
+      "contourIntervals": [
+        0,
+        5,
+        -1,
+        -2,
+        -2,
+        -3,
+        3,
+        2,
+        3,
+        0,
+        2,
+        2,
+        -2,
+        -2,
+        -3,
+        2,
+        -2,
+        -2,
+        -3,
+        3
+      ],
+      "directionChanges": 6,
+      "stepwiseRatio": 0.61,
+      "durationHistogram": {
+        "1": 6,
+        "2": 1,
+        "0.5": 13,
+        "1.5": 1
+      }
+    },
+    "hookTransposed": {
+      "label": "hook A transposed +2 st (S7)",
+      "notes": 21,
+      "rangeSemitones": 12,
+      "lowestMidi": 68,
+      "highestMidi": 80,
+      "firstPitch": 71,
+      "contourIntervals": [
+        0,
+        5,
+        -1,
+        -2,
+        -2,
+        -3,
+        3,
+        2,
+        3,
+        0,
+        2,
+        2,
+        -2,
+        -2,
+        -3,
+        2,
+        -2,
+        -2,
+        -3,
+        3
+      ],
+      "directionChanges": 6,
+      "stepwiseRatio": 0.61,
+      "durationHistogram": {
+        "1": 6,
+        "2": 1,
+        "0.5": 13,
+        "1.5": 1
+      }
+    },
+    "bTheme": {
+      "label": "B theme (12 beats)",
+      "notes": 9,
+      "rangeSemitones": 17,
+      "lowestMidi": 59,
+      "highestMidi": 76,
+      "firstPitch": 71,
+      "contourIntervals": [
+        -4,
+        -5,
+        2,
+        -5,
+        8,
+        2,
+        4,
+        3
+      ],
+      "directionChanges": 3,
+      "stepwiseRatio": 0.25,
+      "durationHistogram": {
+        "1": 4,
+        "2": 1,
+        "1.5": 4
+      }
+    },
+    "statementBeats": {
+      "A1": 0,
+      "A2": 16,
+      "A3": 36,
+      "A4": 62,
+      "A5": 72
+    },
+    "counterStatements": [
+      16,
+      36,
+      62,
+      72
+    ],
+    "doubling": "S4 unison double (LEAD DBL), S7 octave double (+12) and E6 sparkle"
+  },
+  "tracks": [
+    {
+      "name": "LEAD",
+      "kind": "synth",
+      "preset": "lead",
+      "sample": null,
+      "notes": 93,
+      "volume": 0.7,
+      "pan": 0
+    },
+    {
+      "name": "LEAD DBL",
+      "kind": "synth",
+      "preset": "leadDbl",
+      "sample": null,
+      "notes": 28,
+      "volume": 0.42,
+      "pan": -0.65
+    },
+    {
+      "name": "COUNTER",
+      "kind": "synth",
+      "preset": "counter",
+      "sample": null,
+      "notes": 46,
+      "volume": 0.55,
+      "pan": -0.75
+    },
+    {
+      "name": "PAD",
+      "kind": "synth",
+      "preset": "pad",
+      "sample": null,
+      "notes": 84,
+      "volume": 0.19,
+      "pan": 0
+    },
+    {
+      "name": "BASS",
+      "kind": "synth",
+      "preset": "bass",
+      "sample": null,
+      "notes": 79,
+      "volume": 0.62,
+      "pan": 0
+    },
+    {
+      "name": "CLOCK",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/hat-closed.wav",
+      "notes": 5,
+      "volume": 0.14,
+      "pan": 0.3
+    },
+    {
+      "name": "KICK",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/kick.wav",
+      "notes": 52,
+      "volume": 0.92,
+      "pan": 0
+    },
+    {
+      "name": "SNARE",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/snare.wav",
+      "notes": 88,
+      "volume": 0.7,
+      "pan": 0
+    },
+    {
+      "name": "CLAP",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/clap.wav",
+      "notes": 29,
+      "volume": 0.55,
+      "pan": 0.65
+    },
+    {
+      "name": "HAT",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/hat-closed.wav",
+      "notes": 161,
+      "volume": 0.45,
+      "pan": 0.75
+    },
+    {
+      "name": "OPENHAT",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/hat-open.wav",
+      "notes": 4,
+      "volume": 0.5,
+      "pan": -0.75
+    },
+    {
+      "name": "CRASH",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/crash.wav",
+      "notes": 7,
+      "volume": 0.65,
+      "pan": 0.7
+    },
+    {
+      "name": "TOM",
+      "kind": "sample",
+      "preset": null,
+      "sample": "samples/tom-low.wav",
+      "notes": 16,
+      "volume": 0.65,
+      "pan": -0.7
+    }
+  ],
+  "sections": [
+    {
+      "id": "S1",
+      "name": "OPEN",
+      "from": 0,
+      "to": 150,
+      "bars": [
+        1,
+        2
+      ],
+      "music": "Clock pulse + pad; hook phrase 1 (A1) stated on the lead from 0.0 s",
+      "energy": "low"
+    },
+    {
+      "id": "S2",
+      "name": "WEEK",
+      "from": 150,
+      "to": 390,
+      "bars": [
+        2,
+        6
+      ],
+      "music": "Hook phrase 2 completes at 4.0 s; drums enter at 5.0 s (crash, kick/backbeat/hats); A2 restates the hook first half at 8.0 s with counter-line",
+      "energy": "medium"
+    },
+    {
+      "id": "S3",
+      "name": "DETAIL",
+      "from": 390,
+      "to": 540,
+      "bars": [
+        7,
+        9
+      ],
+      "music": "B theme: descending triads B-G-D / E-B-G / A-C#-E in the mid register; drums out 13.0-17.0 s, heartbeat kicks, snare roll back in",
+      "energy": "medium-low"
+    },
+    {
+      "id": "S4",
+      "name": "IMPORT",
+      "from": 540,
+      "to": 750,
+      "bars": [
+        10,
+        13
+      ],
+      "music": "Hook A3 returns full and doubled (lead + unison double + counter); strong groove; hook cadence continues over the drums dropping at 25.0 s",
+      "energy": "medium-high"
+    },
+    {
+      "id": "S5",
+      "name": "DRAG",
+      "from": 750,
+      "to": 930,
+      "bars": [
+        13,
+        16
+      ],
+      "music": "Pre-snap snare build into the 800-frame snap (B4 + crash/kick/chord); B' answer 27-30 s",
+      "energy": "medium"
+    },
+    {
+      "id": "S6",
+      "name": "WIDGETS",
+      "from": 930,
+      "to": 1080,
+      "bars": [
+        16,
+        18
+      ],
+      "music": "Hook A4 (first half) at 31.0 s with 16th hats / extra kick; tom fill into S7",
+      "energy": "medium-high"
+    },
+    {
+      "id": "S7",
+      "name": "OUTRO",
+      "from": 1080,
+      "to": 1200,
+      "bars": [
+        19,
+        20
+      ],
+      "music": "Modulation to E: hook A transposed +2 st over B7, impact at 1126, E-major resolution at 1142 with held E5, release/reverb to 40.0 s",
+      "energy": "peak"
+    }
+  ],
+  "accents": [
+    {
+      "frame": 0,
+      "timeSec": 0,
+      "beat": 0,
+      "type": "start",
+      "desc": "首拍 · pad + 主旋律 hook 第 1 小节起",
+      "layer": "bgm"
+    },
+    {
+      "frame": 2,
+      "timeSec": 0.067,
+      "beat": 0.133,
+      "type": "foley",
+      "desc": "纸滑落版（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 48,
+      "timeSec": 1.6,
+      "beat": 3.2,
+      "type": "foley",
+      "desc": "字标升起 swish（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 70,
+      "timeSec": 2.333,
+      "beat": 4.667,
+      "type": "foley",
+      "desc": "字标落定 stamp（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 150,
+      "timeSec": 5,
+      "beat": 10,
+      "type": "cut",
+      "desc": "S2 切点 · 5.0 s：crash + 鼓组进入，hook 第 2 句继续",
+      "layer": "both"
+    },
+    {
+      "frame": 300,
+      "timeSec": 10,
+      "beat": 20,
+      "type": "beat",
+      "desc": "第 20 拍 · hook A1 完成（4.0 s 起第 2 句）",
+      "layer": "bgm"
+    },
+    {
+      "frame": 390,
+      "timeSec": 13,
+      "beat": 26,
+      "type": "cut",
+      "desc": "S3 切点 · 13.0 s：鼓组退出，B 主题进入",
+      "layer": "both"
+    },
+    {
+      "frame": 540,
+      "timeSec": 18,
+      "beat": 36,
+      "type": "cut",
+      "desc": "S4 切点 · 18.0 s：hook A3 全编制回归（doubled）",
+      "layer": "both"
+    },
+    {
+      "frame": 700,
+      "timeSec": 23.333,
+      "beat": 46.667,
+      "type": "beat",
+      "desc": "第 46.67 拍 · 导入段尾",
+      "layer": "bgm"
+    },
+    {
+      "frame": 750,
+      "timeSec": 25,
+      "beat": 50,
+      "type": "cut",
+      "desc": "S5 切点 · 25.0 s：鼓组抽空，hook 终止句留在旋律上",
+      "layer": "both"
+    },
+    {
+      "frame": 800,
+      "timeSec": 26.667,
+      "beat": 53.333,
+      "type": "snap",
+      "desc": "SNAP 重音 · B4 + crash/kick/chord stab（音乐层）",
+      "layer": "both"
+    },
+    {
+      "frame": 860,
+      "timeSec": 28.667,
+      "beat": 57.333,
+      "type": "beat",
+      "desc": "第 57.33 拍 · 归位 hold，B' 律动",
+      "layer": "bgm"
+    },
+    {
+      "frame": 930,
+      "timeSec": 31,
+      "beat": 62,
+      "type": "cut",
+      "desc": "S6 切点 · 31.0 s：hook A4（前 2 小节）+ 16 分 hat",
+      "layer": "both"
+    },
+    {
+      "frame": 1000,
+      "timeSec": 33.333,
+      "beat": 66.667,
+      "type": "beat",
+      "desc": "第 66.67 拍 · 小组件段中",
+      "layer": "bgm"
+    },
+    {
+      "frame": 1080,
+      "timeSec": 36,
+      "beat": 72,
+      "type": "cut",
+      "desc": "S7 切点 · 36.0 s：转 E 大调，hook 移调 +2 回归",
+      "layer": "both"
+    },
+    {
+      "frame": 1126,
+      "timeSec": 37.533,
+      "beat": 75.067,
+      "type": "impact",
+      "desc": "IMPACT · B7 上的 hook 音 B4 + crash/kick/tom",
+      "layer": "both"
+    },
+    {
+      "frame": 1142,
+      "timeSec": 38.067,
+      "beat": 76.133,
+      "type": "resolve",
+      "desc": "解决 · E 大调，E5 长音与 chime 同音",
+      "layer": "both"
+    },
+    {
+      "frame": 1185,
+      "timeSec": 39.5,
+      "beat": 79,
+      "type": "hold",
+      "desc": "字标 hold · 只剩 E5 释放与混响尾",
+      "layer": "bgm"
+    },
+    {
+      "frame": 1200,
+      "timeSec": 40,
+      "beat": 80,
+      "type": "end",
+      "desc": "片尾 · 尾音衰减至静音",
+      "layer": "bgm"
+    }
+  ],
+  "source": {
+    "midi": "promo/reaper/midi/*.mid",
+    "project": "promo/reaper/bgm-v2.rpp",
+    "script": "promo/reaper/compose-v2.mjs",
+    "samples": "promo/reaper/samples/*.wav (self-authored one-shots)"
+  },
+  "status": "final render, numerically verified, not auditioned (no audio output)",
+  "verification": {
+    "method": "promo/reaper/analyze-v2.mjs + promo/audio/analyze-wav.mjs + spectral-report.mjs",
+    "auditioned": false,
+    "notes": "No audio output available; levels, spectrum, mono correlation and melody pitch presence were measured numerically.",
+    "midSide": {
+      "midRmsDbfs": -20.07,
+      "sideRmsDbfs": -32.45,
+      "sideMinusMidDb": -12.4,
+      "lrCorrelation": 0.894,
+      "lRmsDbfs": -19.48,
+      "rRmsDbfs": -20.19
+    },
+    "sections": [
+      {
+        "id": "S1",
+        "from": 0,
+        "to": 150,
+        "peakDbfs": -8.84,
+        "rmsDbfs": -20.99,
+        "lufs": -18.8,
+        "sideMinusMidDb": -13.6
+      },
+      {
+        "id": "S2",
+        "from": 150,
+        "to": 390,
+        "peakDbfs": -7.07,
+        "rmsDbfs": -19.83,
+        "lufs": -18,
+        "sideMinusMidDb": -13.2
+      },
+      {
+        "id": "S3",
+        "from": 390,
+        "to": 540,
+        "peakDbfs": -6.64,
+        "rmsDbfs": -20.7,
+        "lufs": -18.8,
+        "sideMinusMidDb": -12.8
+      },
+      {
+        "id": "S4",
+        "from": 540,
+        "to": 750,
+        "peakDbfs": -4.5,
+        "rmsDbfs": -18.72,
+        "lufs": -16.9,
+        "sideMinusMidDb": -11.8
+      },
+      {
+        "id": "S5",
+        "from": 750,
+        "to": 930,
+        "peakDbfs": -6.34,
+        "rmsDbfs": -19.99,
+        "lufs": -18.4,
+        "sideMinusMidDb": -12.4
+      },
+      {
+        "id": "S6",
+        "from": 930,
+        "to": 1080,
+        "peakDbfs": -6.5,
+        "rmsDbfs": -19.26,
+        "lufs": -17.4,
+        "sideMinusMidDb": -12.3
+      },
+      {
+        "id": "S7",
+        "from": 1080,
+        "to": 1200,
+        "peakDbfs": -6.98,
+        "rmsDbfs": -20.24,
+        "lufs": -17.9,
+        "sideMinusMidDb": -11.1
+      }
+    ],
+    "melodyPresence": {
+      "A1": {
+        "present": 20,
+        "total": 21,
+        "expectedPitchAboveNeighboursDb": 60
+      },
+      "A2": {
+        "present": 9,
+        "total": 10,
+        "expectedPitchAboveNeighboursDb": 60
+      },
+      "A3": {
+        "present": 21,
+        "total": 21,
+        "expectedPitchAboveNeighboursDb": 60
+      },
+      "A4": {
+        "present": 10,
+        "total": 10,
+        "expectedPitchAboveNeighboursDb": 60
+      },
+      "A5": {
+        "present": 6,
+        "total": 6,
+        "expectedPitchAboveNeighboursDb": 60
+      }
+    },
+    "topPeaks50ms": [
+      {
+        "t": 24.05,
+        "db": -4.5
+      },
+      {
+        "t": 24,
+        "db": -4.9
+      },
+      {
+        "t": 23.5,
+        "db": -5.4
+      },
+      {
+        "t": 22.5,
+        "db": -6.1
+      },
+      {
+        "t": 20.05,
+        "db": -6.3
+      },
+      {
+        "t": 25.25,
+        "db": -6.3
+      },
+      {
+        "t": 20,
+        "db": -6.5
+      },
+      {
+        "t": 24.1,
+        "db": -6.5
+      },
+      {
+        "t": 31,
+        "db": -6.5
+      },
+      {
+        "t": 17,
+        "db": -6.6
+      },
+      {
+        "t": 23.25,
+        "db": -6.8
+      },
+      {
+        "t": 24.95,
+        "db": -6.8
+      }
+    ]
+  },
+  "mix": {
+    "recommendedVolume": 0.5,
+    "range": [
+      0.45,
+      0.55
+    ],
+    "effectiveAt_0_5": {
+      "lufs": -23.9,
+      "peakDbfs": -10.52
+    },
+    "note": "Use instead of v1 bgm.wav; do not layer v1. v2 is melody-led with a stronger backbeat; keep the film's SFX on top.",
+    "containerNote": "Video container is 40.064 s; this track is 40.000 s. Remotion plays 1200 frames; the last 64 ms is silence."
+  },
+  "render": {
+    "command": "powershell -ExecutionPolicy Bypass -File D:\\hsu_flutter\\promo\\reaper\\render-v2.ps1",
+    "buildScript": "promo/reaper/build-v2.lua",
+    "project": "promo/reaper/bgm-v2.rpp",
+    "reaper": "REAPER 7.82 (evaluation license)",
+    "deterministic": "Same build data -> byte-identical WAV (verified)."
+  }
+}

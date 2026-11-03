@@ -1,0 +1,1140 @@
+{
+  "$schema": "promo-bgm-cues/1",
+  "generatedBy": "promo/audio/make-bgm.mjs",
+  "title": "课程表 · 40s promo BGM",
+  "license": "CC0-1.0 (self-authored, synthesised, no third-party samples)",
+  "fps": 30,
+  "durationFrames": 1200,
+  "durationSec": 40,
+  "bpm": 120,
+  "beatsPerBar": 4,
+  "beatFrames": 15,
+  "offsetFrames": 0,
+  "offsetSec": 0,
+  "audio": {
+    "file": "promo/audio/bgm.wav",
+    "format": "PCM 16-bit",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 40,
+    "peakDbfs": -3.61,
+    "truePeakDbfs": -3.6,
+    "rmsDbfs": -19.49,
+    "lufsI": -17.5,
+    "clippedSamples": 0
+  },
+  "mix": {
+    "recommendedVolume": 0.5,
+    "note": "以 Remotion <Audio volume> ≈0.5 与现有 SFX 混音；本曲比原 bed 更有律动，请勿与 bed-paper-piano.wav 叠加。",
+    "containerNote": "成片容器 40.064s（AAC priming），本轨 40.000s；Remotion 内按 1200f 时间线播放，尾部 64ms 为静音。"
+  },
+  "sections": [
+    {
+      "id": "S1",
+      "name": "OPEN",
+      "from": 0,
+      "to": 150,
+      "durationFrames": 150,
+      "fromSec": 0,
+      "toSec": 5,
+      "bars": [
+        1,
+        3
+      ],
+      "label": "开场 · 软时钟/打字机",
+      "peakDbfs": -8.82,
+      "rmsDbfs": -21.36,
+      "lufsShort": -19,
+      "brightnessZcrPerSec": 802
+    },
+    {
+      "id": "S2",
+      "name": "WEEK",
+      "from": 150,
+      "to": 390,
+      "durationFrames": 240,
+      "fromSec": 5,
+      "toSec": 13,
+      "bars": [
+        3,
+        7
+      ],
+      "label": "周课表 · 轻推进",
+      "peakDbfs": -6.6,
+      "rmsDbfs": -21.08,
+      "lufsShort": -19,
+      "brightnessZcrPerSec": 831
+    },
+    {
+      "id": "S3",
+      "name": "DETAIL",
+      "from": 390,
+      "to": 540,
+      "durationFrames": 150,
+      "fromSec": 13,
+      "toSec": 18,
+      "bars": [
+        7,
+        9
+      ],
+      "label": "详情 · 收束留白",
+      "peakDbfs": -6.19,
+      "rmsDbfs": -20.17,
+      "lufsShort": -18.2,
+      "brightnessZcrPerSec": 804
+    },
+    {
+      "id": "S4",
+      "name": "IMPORT",
+      "from": 540,
+      "to": 750,
+      "durationFrames": 210,
+      "fromSec": 18,
+      "toSec": 25,
+      "bars": [
+        10,
+        13
+      ],
+      "label": "导入 · 清晰律动",
+      "peakDbfs": -5.66,
+      "rmsDbfs": -18.72,
+      "lufsShort": -17,
+      "brightnessZcrPerSec": 779
+    },
+    {
+      "id": "S5",
+      "name": "DRAG",
+      "from": 750,
+      "to": 930,
+      "durationFrames": 180,
+      "fromSec": 25,
+      "toSec": 31,
+      "bars": [
+        13,
+        16
+      ],
+      "label": "拖拽 · snap 重音",
+      "peakDbfs": -5.22,
+      "rmsDbfs": -18.86,
+      "lufsShort": -17.1,
+      "brightnessZcrPerSec": 1028
+    },
+    {
+      "id": "S6",
+      "name": "WIDGETS",
+      "from": 930,
+      "to": 1080,
+      "durationFrames": 150,
+      "fromSec": 31,
+      "toSec": 36,
+      "bars": [
+        16,
+        18
+      ],
+      "label": "小组件 · 轻快精密",
+      "peakDbfs": -5.76,
+      "rmsDbfs": -18.85,
+      "lufsShort": -17.1,
+      "brightnessZcrPerSec": 817
+    },
+    {
+      "id": "S7",
+      "name": "OUTRO",
+      "from": 1080,
+      "to": 1200,
+      "durationFrames": 120,
+      "fromSec": 36,
+      "toSec": 40,
+      "bars": [
+        19,
+        20
+      ],
+      "label": "色彩+收尾 · 峰值后留白",
+      "peakDbfs": -3.61,
+      "rmsDbfs": -17.88,
+      "lufsShort": -15.1,
+      "brightnessZcrPerSec": 1077
+    }
+  ],
+  "beats": [
+    {
+      "beat": 0,
+      "frame": 0,
+      "timeSec": 0,
+      "bar": 1,
+      "beatInBar": 1,
+      "shot": "S1",
+      "downbeat": true
+    },
+    {
+      "beat": 1,
+      "frame": 15,
+      "timeSec": 0.5,
+      "bar": 1,
+      "beatInBar": 2,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 2,
+      "frame": 30,
+      "timeSec": 1,
+      "bar": 1,
+      "beatInBar": 3,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 3,
+      "frame": 45,
+      "timeSec": 1.5,
+      "bar": 1,
+      "beatInBar": 4,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 4,
+      "frame": 60,
+      "timeSec": 2,
+      "bar": 2,
+      "beatInBar": 1,
+      "shot": "S1",
+      "downbeat": true
+    },
+    {
+      "beat": 5,
+      "frame": 75,
+      "timeSec": 2.5,
+      "bar": 2,
+      "beatInBar": 2,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 6,
+      "frame": 90,
+      "timeSec": 3,
+      "bar": 2,
+      "beatInBar": 3,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 7,
+      "frame": 105,
+      "timeSec": 3.5,
+      "bar": 2,
+      "beatInBar": 4,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 8,
+      "frame": 120,
+      "timeSec": 4,
+      "bar": 3,
+      "beatInBar": 1,
+      "shot": "S1",
+      "downbeat": true
+    },
+    {
+      "beat": 9,
+      "frame": 135,
+      "timeSec": 4.5,
+      "bar": 3,
+      "beatInBar": 2,
+      "shot": "S1",
+      "downbeat": false
+    },
+    {
+      "beat": 10,
+      "frame": 150,
+      "timeSec": 5,
+      "bar": 3,
+      "beatInBar": 3,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 11,
+      "frame": 165,
+      "timeSec": 5.5,
+      "bar": 3,
+      "beatInBar": 4,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 12,
+      "frame": 180,
+      "timeSec": 6,
+      "bar": 4,
+      "beatInBar": 1,
+      "shot": "S2",
+      "downbeat": true
+    },
+    {
+      "beat": 13,
+      "frame": 195,
+      "timeSec": 6.5,
+      "bar": 4,
+      "beatInBar": 2,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 14,
+      "frame": 210,
+      "timeSec": 7,
+      "bar": 4,
+      "beatInBar": 3,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 15,
+      "frame": 225,
+      "timeSec": 7.5,
+      "bar": 4,
+      "beatInBar": 4,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 16,
+      "frame": 240,
+      "timeSec": 8,
+      "bar": 5,
+      "beatInBar": 1,
+      "shot": "S2",
+      "downbeat": true
+    },
+    {
+      "beat": 17,
+      "frame": 255,
+      "timeSec": 8.5,
+      "bar": 5,
+      "beatInBar": 2,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 18,
+      "frame": 270,
+      "timeSec": 9,
+      "bar": 5,
+      "beatInBar": 3,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 19,
+      "frame": 285,
+      "timeSec": 9.5,
+      "bar": 5,
+      "beatInBar": 4,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 20,
+      "frame": 300,
+      "timeSec": 10,
+      "bar": 6,
+      "beatInBar": 1,
+      "shot": "S2",
+      "downbeat": true
+    },
+    {
+      "beat": 21,
+      "frame": 315,
+      "timeSec": 10.5,
+      "bar": 6,
+      "beatInBar": 2,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 22,
+      "frame": 330,
+      "timeSec": 11,
+      "bar": 6,
+      "beatInBar": 3,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 23,
+      "frame": 345,
+      "timeSec": 11.5,
+      "bar": 6,
+      "beatInBar": 4,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 24,
+      "frame": 360,
+      "timeSec": 12,
+      "bar": 7,
+      "beatInBar": 1,
+      "shot": "S2",
+      "downbeat": true
+    },
+    {
+      "beat": 25,
+      "frame": 375,
+      "timeSec": 12.5,
+      "bar": 7,
+      "beatInBar": 2,
+      "shot": "S2",
+      "downbeat": false
+    },
+    {
+      "beat": 26,
+      "frame": 390,
+      "timeSec": 13,
+      "bar": 7,
+      "beatInBar": 3,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 27,
+      "frame": 405,
+      "timeSec": 13.5,
+      "bar": 7,
+      "beatInBar": 4,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 28,
+      "frame": 420,
+      "timeSec": 14,
+      "bar": 8,
+      "beatInBar": 1,
+      "shot": "S3",
+      "downbeat": true
+    },
+    {
+      "beat": 29,
+      "frame": 435,
+      "timeSec": 14.5,
+      "bar": 8,
+      "beatInBar": 2,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 30,
+      "frame": 450,
+      "timeSec": 15,
+      "bar": 8,
+      "beatInBar": 3,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 31,
+      "frame": 465,
+      "timeSec": 15.5,
+      "bar": 8,
+      "beatInBar": 4,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 32,
+      "frame": 480,
+      "timeSec": 16,
+      "bar": 9,
+      "beatInBar": 1,
+      "shot": "S3",
+      "downbeat": true
+    },
+    {
+      "beat": 33,
+      "frame": 495,
+      "timeSec": 16.5,
+      "bar": 9,
+      "beatInBar": 2,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 34,
+      "frame": 510,
+      "timeSec": 17,
+      "bar": 9,
+      "beatInBar": 3,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 35,
+      "frame": 525,
+      "timeSec": 17.5,
+      "bar": 9,
+      "beatInBar": 4,
+      "shot": "S3",
+      "downbeat": false
+    },
+    {
+      "beat": 36,
+      "frame": 540,
+      "timeSec": 18,
+      "bar": 10,
+      "beatInBar": 1,
+      "shot": "S4",
+      "downbeat": true
+    },
+    {
+      "beat": 37,
+      "frame": 555,
+      "timeSec": 18.5,
+      "bar": 10,
+      "beatInBar": 2,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 38,
+      "frame": 570,
+      "timeSec": 19,
+      "bar": 10,
+      "beatInBar": 3,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 39,
+      "frame": 585,
+      "timeSec": 19.5,
+      "bar": 10,
+      "beatInBar": 4,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 40,
+      "frame": 600,
+      "timeSec": 20,
+      "bar": 11,
+      "beatInBar": 1,
+      "shot": "S4",
+      "downbeat": true
+    },
+    {
+      "beat": 41,
+      "frame": 615,
+      "timeSec": 20.5,
+      "bar": 11,
+      "beatInBar": 2,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 42,
+      "frame": 630,
+      "timeSec": 21,
+      "bar": 11,
+      "beatInBar": 3,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 43,
+      "frame": 645,
+      "timeSec": 21.5,
+      "bar": 11,
+      "beatInBar": 4,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 44,
+      "frame": 660,
+      "timeSec": 22,
+      "bar": 12,
+      "beatInBar": 1,
+      "shot": "S4",
+      "downbeat": true
+    },
+    {
+      "beat": 45,
+      "frame": 675,
+      "timeSec": 22.5,
+      "bar": 12,
+      "beatInBar": 2,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 46,
+      "frame": 690,
+      "timeSec": 23,
+      "bar": 12,
+      "beatInBar": 3,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 47,
+      "frame": 705,
+      "timeSec": 23.5,
+      "bar": 12,
+      "beatInBar": 4,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 48,
+      "frame": 720,
+      "timeSec": 24,
+      "bar": 13,
+      "beatInBar": 1,
+      "shot": "S4",
+      "downbeat": true
+    },
+    {
+      "beat": 49,
+      "frame": 735,
+      "timeSec": 24.5,
+      "bar": 13,
+      "beatInBar": 2,
+      "shot": "S4",
+      "downbeat": false
+    },
+    {
+      "beat": 50,
+      "frame": 750,
+      "timeSec": 25,
+      "bar": 13,
+      "beatInBar": 3,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 51,
+      "frame": 765,
+      "timeSec": 25.5,
+      "bar": 13,
+      "beatInBar": 4,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 52,
+      "frame": 780,
+      "timeSec": 26,
+      "bar": 14,
+      "beatInBar": 1,
+      "shot": "S5",
+      "downbeat": true
+    },
+    {
+      "beat": 53,
+      "frame": 795,
+      "timeSec": 26.5,
+      "bar": 14,
+      "beatInBar": 2,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 54,
+      "frame": 810,
+      "timeSec": 27,
+      "bar": 14,
+      "beatInBar": 3,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 55,
+      "frame": 825,
+      "timeSec": 27.5,
+      "bar": 14,
+      "beatInBar": 4,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 56,
+      "frame": 840,
+      "timeSec": 28,
+      "bar": 15,
+      "beatInBar": 1,
+      "shot": "S5",
+      "downbeat": true
+    },
+    {
+      "beat": 57,
+      "frame": 855,
+      "timeSec": 28.5,
+      "bar": 15,
+      "beatInBar": 2,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 58,
+      "frame": 870,
+      "timeSec": 29,
+      "bar": 15,
+      "beatInBar": 3,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 59,
+      "frame": 885,
+      "timeSec": 29.5,
+      "bar": 15,
+      "beatInBar": 4,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 60,
+      "frame": 900,
+      "timeSec": 30,
+      "bar": 16,
+      "beatInBar": 1,
+      "shot": "S5",
+      "downbeat": true
+    },
+    {
+      "beat": 61,
+      "frame": 915,
+      "timeSec": 30.5,
+      "bar": 16,
+      "beatInBar": 2,
+      "shot": "S5",
+      "downbeat": false
+    },
+    {
+      "beat": 62,
+      "frame": 930,
+      "timeSec": 31,
+      "bar": 16,
+      "beatInBar": 3,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 63,
+      "frame": 945,
+      "timeSec": 31.5,
+      "bar": 16,
+      "beatInBar": 4,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 64,
+      "frame": 960,
+      "timeSec": 32,
+      "bar": 17,
+      "beatInBar": 1,
+      "shot": "S6",
+      "downbeat": true
+    },
+    {
+      "beat": 65,
+      "frame": 975,
+      "timeSec": 32.5,
+      "bar": 17,
+      "beatInBar": 2,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 66,
+      "frame": 990,
+      "timeSec": 33,
+      "bar": 17,
+      "beatInBar": 3,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 67,
+      "frame": 1005,
+      "timeSec": 33.5,
+      "bar": 17,
+      "beatInBar": 4,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 68,
+      "frame": 1020,
+      "timeSec": 34,
+      "bar": 18,
+      "beatInBar": 1,
+      "shot": "S6",
+      "downbeat": true
+    },
+    {
+      "beat": 69,
+      "frame": 1035,
+      "timeSec": 34.5,
+      "bar": 18,
+      "beatInBar": 2,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 70,
+      "frame": 1050,
+      "timeSec": 35,
+      "bar": 18,
+      "beatInBar": 3,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 71,
+      "frame": 1065,
+      "timeSec": 35.5,
+      "bar": 18,
+      "beatInBar": 4,
+      "shot": "S6",
+      "downbeat": false
+    },
+    {
+      "beat": 72,
+      "frame": 1080,
+      "timeSec": 36,
+      "bar": 19,
+      "beatInBar": 1,
+      "shot": "S7",
+      "downbeat": true
+    },
+    {
+      "beat": 73,
+      "frame": 1095,
+      "timeSec": 36.5,
+      "bar": 19,
+      "beatInBar": 2,
+      "shot": "S7",
+      "downbeat": false
+    },
+    {
+      "beat": 74,
+      "frame": 1110,
+      "timeSec": 37,
+      "bar": 19,
+      "beatInBar": 3,
+      "shot": "S7",
+      "downbeat": false
+    },
+    {
+      "beat": 75,
+      "frame": 1125,
+      "timeSec": 37.5,
+      "bar": 19,
+      "beatInBar": 4,
+      "shot": "S7",
+      "downbeat": false
+    },
+    {
+      "beat": 76,
+      "frame": 1140,
+      "timeSec": 38,
+      "bar": 20,
+      "beatInBar": 1,
+      "shot": "S7",
+      "downbeat": true
+    },
+    {
+      "beat": 77,
+      "frame": 1155,
+      "timeSec": 38.5,
+      "bar": 20,
+      "beatInBar": 2,
+      "shot": "S7",
+      "downbeat": false
+    },
+    {
+      "beat": 78,
+      "frame": 1170,
+      "timeSec": 39,
+      "bar": 20,
+      "beatInBar": 3,
+      "shot": "S7",
+      "downbeat": false
+    },
+    {
+      "beat": 79,
+      "frame": 1185,
+      "timeSec": 39.5,
+      "bar": 20,
+      "beatInBar": 4,
+      "shot": "S7",
+      "downbeat": false
+    }
+  ],
+  "accents": [
+    {
+      "frame": 0,
+      "timeSec": 0,
+      "beat": 0,
+      "type": "start",
+      "desc": "片头 · pad 起音（12ms fade-in），首拍"
+    },
+    {
+      "frame": 2,
+      "timeSec": 0.067,
+      "beat": 0.133,
+      "type": "foley",
+      "desc": "纸滑落版（SFX，非 BGM）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 48,
+      "timeSec": 1.6,
+      "beat": 3.2,
+      "type": "foley",
+      "desc": "字标升起 swish（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 70,
+      "timeSec": 2.333,
+      "beat": 4.667,
+      "type": "foley",
+      "desc": "字标落定 stamp（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 150,
+      "timeSec": 5,
+      "beat": 10,
+      "type": "cut",
+      "desc": "S2 切点 · 同时换和弦 Gmaj7，shaker 进入",
+      "layer": "both"
+    },
+    {
+      "frame": 300,
+      "timeSec": 10,
+      "beat": 20,
+      "type": "beat",
+      "desc": "第 20 拍 · S2 中段",
+      "layer": "bgm"
+    },
+    {
+      "frame": 390,
+      "timeSec": 13,
+      "beat": 26,
+      "type": "cut",
+      "desc": "S3 切点 · 鼓组退出，低音长音进入",
+      "layer": "both"
+    },
+    {
+      "frame": 520,
+      "timeSec": 17.333,
+      "beat": 34.667,
+      "type": "beat",
+      "desc": "第 34.67 拍 · 详情镜头中段"
+    },
+    {
+      "frame": 540,
+      "timeSec": 18,
+      "beat": 36,
+      "type": "cut",
+      "desc": "S4 切点 · 完整律动开始（kick/shaker/bass）",
+      "layer": "both"
+    },
+    {
+      "frame": 590,
+      "timeSec": 19.667,
+      "beat": 39.333,
+      "type": "beat",
+      "desc": "第 39.33 拍 · 导入前呼吸"
+    },
+    {
+      "frame": 700,
+      "timeSec": 23.333,
+      "beat": 46.667,
+      "type": "beat",
+      "desc": "第 46.67 拍 · 导入卡列尾段"
+    },
+    {
+      "frame": 750,
+      "timeSec": 25,
+      "beat": 50,
+      "type": "cut",
+      "desc": "S5 切点 · 鼓组抽空，进入 drag",
+      "layer": "both"
+    },
+    {
+      "frame": 780,
+      "timeSec": 26,
+      "beat": 52,
+      "type": "beat",
+      "desc": "第 52 拍 · 落点高亮，噪声 suck 渐强",
+      "layer": "bgm"
+    },
+    {
+      "frame": 800,
+      "timeSec": 26.667,
+      "beat": 53.333,
+      "type": "snap",
+      "desc": "SNAP 重音：低音 kick + D add9 开放和声 + 玻璃高音（与 snap.wav 分工）",
+      "layer": "both",
+      "musicEvent": "snap-accent"
+    },
+    {
+      "frame": 806,
+      "timeSec": 26.867,
+      "beat": 53.733,
+      "type": "foley",
+      "desc": "归位 stamp（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 860,
+      "timeSec": 28.667,
+      "beat": 57.333,
+      "type": "beat",
+      "desc": "第 57.33 拍 · 归位 hold，律动回归",
+      "layer": "bgm"
+    },
+    {
+      "frame": 930,
+      "timeSec": 31,
+      "beat": 62,
+      "type": "cut",
+      "desc": "S6 切点 · 轻快精密律动 + 上升动机",
+      "layer": "both"
+    },
+    {
+      "frame": 938,
+      "timeSec": 31.267,
+      "beat": 62.533,
+      "type": "foley",
+      "desc": "小组件 1 落位（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 964,
+      "timeSec": 32.133,
+      "beat": 64.267,
+      "type": "foley",
+      "desc": "小组件 2 落位（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 972,
+      "timeSec": 32.4,
+      "beat": 64.8,
+      "type": "foley",
+      "desc": "小组件 3 落位（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 980,
+      "timeSec": 32.667,
+      "beat": 65.333,
+      "type": "foley",
+      "desc": "小组件 4 落位（SFX）",
+      "layer": "sfx"
+    },
+    {
+      "frame": 1000,
+      "timeSec": 33.333,
+      "beat": 66.667,
+      "type": "beat",
+      "desc": "第 66.67 拍 · 小组件镜头中段"
+    },
+    {
+      "frame": 1080,
+      "timeSec": 36,
+      "beat": 72,
+      "type": "cut",
+      "desc": "S7 切点 · 鼓组停止，A7 上升 + 定音鼓滚奏",
+      "layer": "both"
+    },
+    {
+      "frame": 1105,
+      "timeSec": 36.833,
+      "beat": 73.667,
+      "type": "beat",
+      "desc": "第 73.67 拍 · 色板横扫"
+    },
+    {
+      "frame": 1126,
+      "timeSec": 37.533,
+      "beat": 75.067,
+      "type": "impact",
+      "desc": "字标落地重音：A7 宽和声 + 中低 A + 玻璃高音（低频留给 impact.wav）",
+      "layer": "both",
+      "musicEvent": "impact"
+    },
+    {
+      "frame": 1140,
+      "timeSec": 38,
+      "beat": 76,
+      "type": "beat",
+      "desc": "第 76 拍 · 收束和弦预备"
+    },
+    {
+      "frame": 1142,
+      "timeSec": 38.067,
+      "beat": 76.133,
+      "type": "resolve",
+      "desc": "Dmaj9 解决，与 660Hz chime 同落（E5）",
+      "layer": "both",
+      "musicEvent": "resolution"
+    },
+    {
+      "frame": 1185,
+      "timeSec": 39.5,
+      "beat": 79,
+      "type": "hold",
+      "desc": "字标 hold · 无新音符，只剩和弦尾音",
+      "layer": "bgm"
+    },
+    {
+      "frame": 1200,
+      "timeSec": 40,
+      "beat": 80,
+      "type": "end",
+      "desc": "片尾 · 已淡出至数字静音",
+      "layer": "bgm"
+    }
+  ],
+  "fades": {
+    "in": {
+      "fromFrame": 0,
+      "toFrame": 1,
+      "note": "12ms 余弦淡入，避免起音 click"
+    },
+    "out": {
+      "fromFrame": 1166,
+      "toFrame": 1197,
+      "note": "38.86s 起余弦淡出，39.89s 后数字静音，保留 1.2s 字标 hold 的呼吸"
+    }
+  },
+  "source": {
+    "type": "original synthesis",
+    "script": "promo/audio/make-bgm.mjs",
+    "instruments": [
+      "felt piano",
+      "warm pad",
+      "plucked bass",
+      "low string sustain",
+      "soft kick",
+      "brush shaker",
+      "wood tick",
+      "timpani",
+      "glass/music-box pluck",
+      "synthetic convolution reverb"
+    ],
+    "seedPolicy": "deterministic mulberry32; same script -> same bytes"
+  }
+}

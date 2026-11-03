@@ -1,0 +1,10 @@
+{
+  "semesterText": "2026-2027学年第一学期",
+  "courses": [
+    {"name": "高等数学", "day": 1, "periods": "1-2", "weeks": "1-16", "room": "文渊 1201", "teacher": "王老师", "code": "MATH101", "credits": "4"},
+    {"name": "大学物理", "day": 2, "periods": "3-4", "weeks": "1-16", "room": "明理 2102", "teacher": "李老师", "code": "PHYS101", "credits": "3"},
+    {"name": "数据结构", "day": 3, "periods": "1-2", "weeks": "1-16", "room": "信息楼 330", "teacher": "张老师", "code": "CS201", "credits": "3"},
+    {"name": "英语听说", "day": 4, "periods": "5-6", "weeks": "1-16", "room": "外语楼 105", "teacher": "赵老师", "code": "ENG102", "credits": "2"},
+    {"name": "体育（篮球）", "day": 5, "periods": "7-8", "weeks": "1-16", "room": "体育馆", "teacher": "孙老师", "code": "PE101", "credits": "1"}
+  ]
+}

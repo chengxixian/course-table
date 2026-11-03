@@ -1,0 +1,84 @@
+[
+  {
+    "name": "normal-compose-and-arrange",
+    "category": "normal",
+    "input": "Create a 90-second melancholic electronic instrumental that starts restrained and builds into a memorable final section.",
+    "expect": [
+      "music brief or resolved intent",
+      "composition",
+      "arrangement",
+      "unresolved decisions explicit"
+    ],
+    "forbid": [
+      "immediate final master",
+      "static model requirement"
+    ]
+  },
+  {
+    "name": "draft-hook-alternatives",
+    "category": "draft",
+    "input": "Give me three alternative chorus hooks.",
+    "expect": [
+      "three materially different options",
+      "small representation",
+      "what each draft tests"
+    ],
+    "forbid": [
+      "three full finished songs"
+    ]
+  },
+  {
+    "name": "refine-bridge-only",
+    "category": "refinement",
+    "input": "Melody, lyrics and harmony are approved. Make only the bridge rhythm less predictable.",
+    "expect": [
+      "bridge rhythm changes",
+      "approved decisions preserved",
+      "lineage retained"
+    ],
+    "forbid": [
+      "rewrite lyrics",
+      "replace melody"
+    ]
+  },
+  {
+    "name": "final-production-handoff",
+    "category": "final",
+    "input": "The composition and arrangement are approved. Prepare the production handoff.",
+    "expect": [
+      "stable composition/arrangement",
+      "unresolved issues explicit",
+      "no speculative rewrite"
+    ],
+    "forbid": [
+      "mastering work"
+    ]
+  },
+  {
+    "name": "boundary-mastering",
+    "category": "boundary",
+    "input": "Master these final stems for streaming.",
+    "expect": [
+      "route out of composition scope"
+    ],
+    "forbid": [
+      "rewrite composition",
+      "claim composition owns mastering"
+    ]
+  },
+  {
+    "name": "customisation-pack-compose-precedence",
+    "category": "normal",
+    "input": "Use a melodic-techno-club-track customisation pack. The core motif is approved. Develop the arrangement without changing the motif.",
+    "expect": [
+      "apply relevant club-track form/groove/arrangement guidance",
+      "approved motif preserved",
+      "pack treated below explicit and approved decisions"
+    ],
+    "forbid": [
+      "rewrite approved motif",
+      "invent mandatory vocals",
+      "treat pack as provider executor"
+    ]
+  }
+]

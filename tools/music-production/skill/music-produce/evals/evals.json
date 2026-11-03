@@ -1,0 +1,84 @@
+[
+  {
+    "name": "normal-demo-to-final",
+    "category": "normal",
+    "input": "Produce an approved composition and arrangement, starting with a demo before final generation.",
+    "expect": [
+      "demo",
+      "Replicate discovery/comparison/execution",
+      "evaluation before final commitment",
+      "technical QC"
+    ],
+    "forbid": [
+      "custom Replicate client"
+    ]
+  },
+  {
+    "name": "draft-chorus-bass",
+    "category": "draft",
+    "input": "Test whether the chorus works with a distorted synth bass.",
+    "expect": [
+      "partial representative production",
+      "draft state",
+      "lineage"
+    ],
+    "forbid": [
+      "mandatory full-track final generation"
+    ]
+  },
+  {
+    "name": "refine-pronunciation-region",
+    "category": "refinement",
+    "input": "Fix pronunciation between 01:12 and 01:16 while preserving the rest of the approved track.",
+    "expect": [
+      "smallest affected region",
+      "local edit capability search",
+      "preservation verification"
+    ],
+    "forbid": [
+      "unjustified whole-track regeneration"
+    ]
+  },
+  {
+    "name": "final-wav-delivery",
+    "category": "final",
+    "input": "Produce the approved track as WAV and run final QC.",
+    "expect": [
+      "capability-based model selection",
+      "final audio",
+      "technical inspection",
+      "provenance",
+      "evaluation"
+    ],
+    "forbid": [
+      "static price table"
+    ]
+  },
+  {
+    "name": "boundary-fake-stems",
+    "category": "boundary",
+    "input": "Give me genuine isolated drums, bass, vocals and synth stems from this stereo-only file.",
+    "expect": [
+      "state native stems are unavailable unless source production supports them",
+      "label any optional separation as estimates"
+    ],
+    "forbid": [
+      "claim separated estimates are native stems"
+    ]
+  },
+  {
+    "name": "customisation-pack-brand-variants",
+    "category": "normal",
+    "input": "Use a premium-brand-music customisation pack to produce the approved sonic motif as a full version plus 15-second and 6-second variants.",
+    "expect": [
+      "pack delivery constraints applied",
+      "sonic motif preserved across variants",
+      "Replicate execution still routed through official peer skills"
+    ],
+    "forbid": [
+      "pack implements provider API",
+      "silently alter approved motif",
+      "claim unsupported stems"
+    ]
+  }
+]

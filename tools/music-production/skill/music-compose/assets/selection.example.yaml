@@ -1,0 +1,15 @@
+id: composition-selection-001
+type: composition
+workflowState: refine
+decisionState: selected
+parents:
+  - hook-a
+  - hook-b
+  - hook-c
+lockedDecisions: []
+openDecisions:
+  - instrumentation
+  - final-chorus-density
+selectionSources:
+  melody: hook-b
+  groove: hook-c

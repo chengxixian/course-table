@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import '../app_controller.dart';
 import '../models.dart';
 import 'components.dart';
+import 'drag_overlay.dart';
+import 'frame_stats.dart';
 import 'motion.dart';
 import '../pixel_icons.dart';
 
@@ -43,6 +45,14 @@ class _WeekScreenState extends State<WeekScreen> with SingleTickerProviderStateM
   }
 
   Schedule get schedule => widget.controller.schedule!;
+
+  @override
+  void didUpdateWidget(WeekScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.week != widget.week) {
+      FrameStats.instance.beginFrames('week-switch', frames: 6);
+    }
+  }
 
   @override
   void dispose() {
@@ -442,9 +452,20 @@ class _DropCell {
 }
 
 /// Parent-owned transaction: commit first, snap second, cleanup last.
+///
+/// One overlay entry per drag: the ghost and the drop highlight are render
+/// objects driven by notifiers (`drag_overlay.dart`), so a pointer move repaints
+/// them instead of rebuilding and re-laying out the overlay every frame.
 class _DragCoordinator {
   final ValueNotifier<bool> dragging;
   final ValueNotifier<String?> activeId = ValueNotifier(null);
+
+  /// Ghost rectangle, in overlay coordinates.
+  final ValueNotifier<Rect> ghost = ValueNotifier(Rect.zero);
+
+  /// Drop target rectangle, in overlay coordinates; null when there is none.
+  final ValueNotifier<Rect?> dropTarget = ValueNotifier(null);
+
   late final AnimationController _snap;
   OverlayEntry? _entry;
   RenderBox? _overlayBox;
@@ -464,8 +485,13 @@ class _DragCoordinator {
   bool _disposed = false;
 
   _DragCoordinator(TickerProvider ticker, this.dragging) {
-    _snap = AnimationController(vsync: ticker, duration: const Duration(milliseconds: 200))
-      ..addListener(() => _entry?.markNeedsBuild());
+    _snap = AnimationController(vsync: ticker, duration: Motion.snapDuration);
+    _snap.addListener(_onSnapTick);
+  }
+
+  void _onSnapTick() {
+    final t = Motion.snap.transform(_snap.value);
+    ghost.value = Rect.lerp(_snapFrom, _snapTo, t) ?? _snapTo;
   }
 
   Rect _overlayRect(Rect global) => global.shift(-(_overlayBox?.localToGlobal(Offset.zero) ?? Offset.zero));
@@ -490,28 +516,43 @@ class _DragCoordinator {
     _target = null;
     final overlay = Overlay.of(context, rootOverlay: true);
     _overlayBox = overlay.context.findRenderObject() as RenderBox?;
+    ghost.value = _overlayRect(_floating);
+    dropTarget.value = null;
     _entry = OverlayEntry(builder: (_) {
-      final rect = _finishing
-          ? Rect.lerp(_snapFrom, _snapTo, Curves.easeOutCubic.transform(_snap.value))!
-          : _floating;
       return IgnorePointer(child: Stack(children: [
-        if (_target != null && !_finishing)
-          Positioned.fromRect(rect: _overlayRect(_target!.rect), child: DecoratedBox(
-            key: const ValueKey('course-drop-highlight'),
-            decoration: BoxDecoration(color: const Color(0x334285F4),
-              border: Border.all(color: const Color(0xFF4285F4), width: 2),
-              borderRadius: BorderRadius.circular(12)),
-          )),
-        Positioned.fromRect(rect: _overlayRect(rect), child: Material(
-          key: const ValueKey('course-drag-feedback'),
-          color: Colors.transparent, elevation: 10, borderRadius: BorderRadius.circular(12),
-          child: _child,
-        )),
+        Positioned.fill(
+          child: ValueListenableBuilder<Rect?>(
+            valueListenable: dropTarget,
+            builder: (_, target, _) => target == null
+                ? const SizedBox.shrink()
+                : DropHighlightLayer(
+                    key: const ValueKey('course-drop-highlight'),
+                    rect: target,
+                    fill: const Color(0x334285F4),
+                    stroke: const Color(0xFF4285F4),
+                  ),
+          ),
+        ),
+        Positioned.fill(
+          child: DragGhostLayer(
+            key: const ValueKey('course-drag-feedback'),
+            geometry: ghost,
+            child: RepaintBoundary(
+              child: Material(
+                color: Colors.transparent,
+                elevation: 10,
+                borderRadius: BorderRadius.circular(12),
+                child: _child,
+              ),
+            ),
+          ),
+        ),
       ]));
     });
     overlay.insert(_entry!);
     activeId.value = meeting.id;
     dragging.value = true;
+    FrameStats.instance.begin('course-drag');
     move(pointer);
   }
 
@@ -537,8 +578,15 @@ class _DragCoordinator {
   void move(Offset pointer) {
     if (_entry == null || _finishing) return;
     _floating = (pointer - _grab) & _source.size;
-    _target = _hit(pointer);
-    _entry?.markNeedsBuild();
+    ghost.value = _overlayRect(_floating);
+    final cell = _hit(pointer);
+    if (cell == null) {
+      _target = null;
+      dropTarget.value = null;
+    } else {
+      _target = cell;
+      dropTarget.value = _overlayRect(cell.rect);
+    }
   }
 
   Future<void> finish({required Offset pointer, required Future<void> Function(Meeting, int, int) onMove,
@@ -548,19 +596,20 @@ class _DragCoordinator {
     final target = _target;
     final meeting = _meeting!;
     _finishing = true;
-    _snapFrom = _floating;
-    _snapTo = target?.rect ?? _source;
+    dropTarget.value = null;
+    _snapFrom = ghost.value;
+    _snapTo = target == null ? _overlayRect(_source) : _overlayRect(target.rect);
     try {
       if (target != null) {
         // This updates effective grid data immediately. No overlay cleanup until persistence succeeds.
         await onMove(meeting, target.day, target.start);
       }
     } catch (e) {
-      _snapTo = _source;
+      _snapTo = _overlayRect(_source);
       onError(e);
     }
     if (_disposed) return;
-    _snap.duration = reducedMotion ? Duration.zero : const Duration(milliseconds: 200);
+    _snap.duration = reducedMotion ? Duration.zero : Motion.snapDuration;
     try { await _snap.forward(from: 0).orCancel; } on TickerCanceled { return; }
     if (!_disposed) _cleanup();
   }
@@ -571,22 +620,28 @@ class _DragCoordinator {
   }
 
   void _cleanup() {
+    FrameStats.instance.end();
     _entry?.remove();
     _entry = null;
     _meeting = null;
     _child = null;
     _target = null;
     _finishing = false;
+    dropTarget.value = null;
+    ghost.value = Rect.zero;
     activeId.value = null;
     dragging.value = false;
   }
 
   void dispose() {
     _disposed = true;
+    FrameStats.instance.end();
     _entry?.remove();
     _entry = null;
     _snap.dispose();
     activeId.dispose();
+    ghost.dispose();
+    dropTarget.dispose();
   }
 }
 

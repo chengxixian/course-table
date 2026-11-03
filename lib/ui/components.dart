@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +8,7 @@ import '../app_controller.dart';
 import '../calendar_export.dart';
 import '../models.dart';
 import '../pixel_icons.dart';
+import 'frame_stats.dart';
 import 'motion.dart';
 
 class CoursePalette {
@@ -535,6 +536,7 @@ void showCourseDetail(BuildContext context, AppController controller, Course cou
     ((startRect.center.dx - targetRect.left) / popupWidth * 2 - 1).clamp(-1.0, 1.0),
     ((startRect.center.dy - targetRect.top) / popupHeight * 2 - 1).clamp(-1.0, 1.0),
   );
+  FrameStats.instance.beginFrames('course-popup', frames: 30);
   showGeneralDialog<void>(
     context: context,
     barrierDismissible: true,
@@ -588,12 +590,12 @@ class _AnchoredCoursePopup extends StatefulWidget {
 }
 
 class _AnchoredCoursePopupState extends State<_AnchoredCoursePopup> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-  late final Animation<double> _position = CurvedAnimation(parent: _controller, curve: const Cubic(0.05, 0.7, 0.1, 1.0));
-  late final Animation<double> _scale = TweenSequence<double>([
-    TweenSequenceItem(tween: Tween(begin: 0.50, end: 1.02).chain(CurveTween(curve: const Cubic(0.05, 0.7, 0.1, 1.0))), weight: 50),
-    TweenSequenceItem(tween: Tween(begin: 1.02, end: 1.0).chain(CurveTween(curve: const Cubic(0.30, 0.0, 0.33, 1.0))), weight: 50),
-  ]).animate(_controller);
+  late final AnimationController _controller = AnimationController(vsync: this, duration: Motion.popDuration);
+  late final Animation<double> _position = _controller.drive(CurveTween(curve: Motion.popMove));
+  late final Animation<double> _scale = _controller
+      .drive(CurveTween(curve: Motion.popScale))
+      .drive(Tween<double>(begin: 0.55, end: 1));
+  bool _reducedMotionApplied = false;
 
   @override
   void initState() {
@@ -601,6 +603,16 @@ class _AnchoredCoursePopupState extends State<_AnchoredCoursePopup> with SingleT
     if (widget.animate) {
       _controller.forward();
     } else {
+      _controller.value = 1;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_reducedMotionApplied) return;
+    _reducedMotionApplied = true;
+    if (Motion.reduceMotionOf(context)) {
       _controller.value = 1;
     }
   }

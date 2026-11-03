@@ -1,0 +1,247 @@
+{
+  "peak": -4.15,
+  "rms": -25.05,
+  "clipped": 0,
+  "rows": [
+    {
+      "from": 1126,
+      "src": "impact.wav",
+      "volume": 0.7,
+      "peak": 0.351
+    },
+    {
+      "from": 800,
+      "src": "snap.wav",
+      "volume": 0.66,
+      "peak": 0.234
+    },
+    {
+      "from": 180,
+      "src": "stamp.wav",
+      "volume": 0.46,
+      "peak": 0.231
+    },
+    {
+      "from": 187,
+      "src": "stamp.wav",
+      "volume": 0.42500000000000004,
+      "peak": 0.213
+    },
+    {
+      "from": 938,
+      "src": "stamp.wav",
+      "volume": 0.42,
+      "peak": 0.21
+    },
+    {
+      "from": 194,
+      "src": "stamp.wav",
+      "volume": 0.39,
+      "peak": 0.195
+    },
+    {
+      "from": 399,
+      "src": "pop.wav",
+      "volume": 0.6,
+      "peak": 0.19
+    },
+    {
+      "from": 201,
+      "src": "stamp.wav",
+      "volume": 0.355,
+      "peak": 0.178
+    },
+    {
+      "from": 806,
+      "src": "stamp.wav",
+      "volume": 0.34,
+      "peak": 0.17
+    },
+    {
+      "from": 414,
+      "src": "paper-slide.wav",
+      "volume": 0.42,
+      "peak": 0.167
+    },
+    {
+      "from": 208,
+      "src": "stamp.wav",
+      "volume": 0.32,
+      "peak": 0.16
+    },
+    {
+      "from": 2,
+      "src": "paper-slide.wav",
+      "volume": 0.4,
+      "peak": 0.159
+    },
+    {
+      "from": 70,
+      "src": "stamp.wav",
+      "volume": 0.3,
+      "peak": 0.15
+    },
+    {
+      "from": 964,
+      "src": "paper-slide.wav",
+      "volume": 0.37,
+      "peak": 0.147
+    },
+    {
+      "from": 215,
+      "src": "stamp.wav",
+      "volume": 0.28500000000000003,
+      "peak": 0.143
+    },
+    {
+      "from": 581,
+      "src": "stamp.wav",
+      "volume": 0.286,
+      "peak": 0.143
+    },
+    {
+      "from": 151,
+      "src": "swish.wav",
+      "volume": 0.5,
+      "peak": 0.141
+    },
+    {
+      "from": 246,
+      "src": "paper-slide.wav",
+      "volume": 0.34,
+      "peak": 0.135
+    },
+    {
+      "from": 595,
+      "src": "stamp.wav",
+      "volume": 0.258,
+      "peak": 0.129
+    },
+    {
+      "from": 972,
+      "src": "paper-slide.wav",
+      "volume": 0.31999999999999995,
+      "peak": 0.127
+    },
+    {
+      "from": 1080,
+      "src": "riser.wav",
+      "volume": 0.5,
+      "peak": 0.126
+    },
+    {
+      "from": 222,
+      "src": "stamp.wav",
+      "volume": 0.25,
+      "peak": 0.125
+    },
+    {
+      "from": 1142,
+      "src": "chime.wav",
+      "volume": 0.48,
+      "peak": 0.121
+    },
+    {
+      "from": 558,
+      "src": "paper-slide.wav",
+      "volume": 0.3,
+      "peak": 0.119
+    },
+    {
+      "from": 574,
+      "src": "paper-slide.wav",
+      "volume": 0.3,
+      "peak": 0.119
+    },
+    {
+      "from": 48,
+      "src": "swish.wav",
+      "volume": 0.42,
+      "peak": 0.118
+    },
+    {
+      "from": 756,
+      "src": "swish.wav",
+      "volume": 0.42,
+      "peak": 0.118
+    },
+    {
+      "from": 609,
+      "src": "stamp.wav",
+      "volume": 0.22999999999999998,
+      "peak": 0.115
+    },
+    {
+      "from": 229,
+      "src": "stamp.wav",
+      "volume": 0.215,
+      "peak": 0.108
+    },
+    {
+      "from": 588,
+      "src": "paper-slide.wav",
+      "volume": 0.27199999999999996,
+      "peak": 0.108
+    },
+    {
+      "from": 980,
+      "src": "paper-slide.wav",
+      "volume": 0.26999999999999996,
+      "peak": 0.107
+    },
+    {
+      "from": 623,
+      "src": "stamp.wav",
+      "volume": 0.20199999999999999,
+      "peak": 0.101
+    },
+    {
+      "from": 602,
+      "src": "paper-slide.wav",
+      "volume": 0.244,
+      "peak": 0.097
+    },
+    {
+      "from": 616,
+      "src": "paper-slide.wav",
+      "volume": 0.21599999999999997,
+      "peak": 0.086
+    },
+    {
+      "from": 570,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    },
+    {
+      "from": 578,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    },
+    {
+      "from": 586,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    },
+    {
+      "from": 594,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    },
+    {
+      "from": 602,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    },
+    {
+      "from": 610,
+      "src": "key.wav",
+      "volume": 0.3,
+      "peak": 0.075
+    }
+  ]
+}
