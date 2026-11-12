@@ -35,7 +35,7 @@ class NextClassWidgetProvider : AppWidgetProvider() {
             val ids = manager.getAppWidgetIds(ComponentName(context, NextClassWidgetProvider::class.java))
             if (ids.isEmpty()) return
             val json = runCatching {
-                HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) }
+                WidgetSchedule.refresh(HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) })
             }.onFailure { Log.w(TAG, "read failed", it) }.getOrNull()
             for (id in ids) {
                 try {

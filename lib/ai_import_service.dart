@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'app_meta.dart';
+import 'html_compactor.dart';
 import 'imported_source.dart';
 
 class AiImportService {
@@ -15,7 +16,10 @@ class AiImportService {
     try {
       final request = await client.postUrl(Uri.parse(AppMeta.aiParseUrl));
       request.headers.contentType = ContentType.json;
-      request.write(jsonEncode({'text': text.length > 30000 ? text.substring(0, 30000) : text}));
+      // Density-window pick instead of a head cut: on portal pages the first
+      // 30k chars are navigation/script noise and the grid never reached the
+      // model, which is why large pages "识别失败".
+      request.write(jsonEncode({'text': pickTimetableText(text)}));
       final response = await request.close().timeout(const Duration(seconds: 90));
       final body = await response.transform(utf8.decoder).join();
       if (response.statusCode < 200 || response.statusCode >= 300) {

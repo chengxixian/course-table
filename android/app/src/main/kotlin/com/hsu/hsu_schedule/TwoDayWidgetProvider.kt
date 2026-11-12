@@ -31,7 +31,7 @@ class TwoDayWidgetProvider : AppWidgetProvider() {
             val ids = manager.getAppWidgetIds(ComponentName(context, TwoDayWidgetProvider::class.java))
             if (ids.isEmpty()) return
             val json = runCatching {
-                HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) }
+                WidgetSchedule.refresh(HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) })
             }.getOrNull()
             for (id in ids) {
                 try {

@@ -4,8 +4,10 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'app_meta.dart';
 import 'app_controller.dart';
 import 'sync_service.dart';
 import 'ui/home_shell.dart';
@@ -14,6 +16,12 @@ import 'ui_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    final info = await PackageInfo.fromPlatform();
+    AppMeta.applyPackageInfo(version: info.version, buildNumber: info.buildNumber);
+  } catch (e) {
+    debugPrint('PackageInfo unavailable, keeping bundled version: $e');
+  }
   if (Platform.isWindows) {
     await windowManager.ensureInitialized();
     const options = WindowOptions(

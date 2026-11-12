@@ -1,4 +1,4 @@
-﻿package com.hsu.hsu_schedule
+package com.hsu.hsu_schedule
 
 import android.Manifest
 import android.content.ContentUris
@@ -100,6 +100,89 @@ class MainActivity : FlutterActivity() {
                 }
                 else -> result.notImplemented()
             }
+        }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, importChannelName).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "extractPdfText" -> {
+                    val path = call.argument<String>("path")
+                    if (path.isNullOrEmpty()) {
+                        result.error("BAD_INPUT", "缺少文件路径", null)
+                    } else {
+                        Thread {
+                            try {
+                                val text = PDDocument.load(File(path)).use { document ->
+                                    PDFTextStripper().apply { setSortByPosition(true) }.getText(document)
+                                }
+                                runOnUiThread { result.success(text) }
+                            } catch (t: Throwable) {
+                                runOnUiThread { result.error("PDF_FAILED", t.message ?: "无法读取 PDF", null) }
+                            }
+                        }.start()
+                    }
+                }
+                else -> result.notImplemented()
+            }
+        }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, classyChannelName).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "parse" -> {
+                    val html = call.argument<String>("html").orEmpty()
+                    val type = call.argument<String>("type").orEmpty()
+                    Thread {
+                        try {
+                            val courses = ClassyParserBridge.parse(html, type)
+                            runOnUiThread { result.success(courses) }
+                        } catch (t: Throwable) {
+                            runOnUiThread { result.error("PARSE_FAILED", t.message ?: "解析失败", null) }
+                        }
+                    }.start()
+                }
+                else -> result.notImplemented()
+            }
+        }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, installChannelName).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "installApk" -> installApk(call.argument<String>("path"), result)
+                else -> result.notImplemented()
+            }
+        }
+    }
+
+    private fun installApk(path: String?, result: MethodChannel.Result) {
+        if (path.isNullOrEmpty()) {
+            result.error("BAD_INPUT", "缺少安装包路径", null)
+            return
+        }
+        val file = File(path)
+        if (!file.exists() || file.length() < 64 * 1024) {
+            result.error("NO_FILE", "安装包不存在或不完整，请重新下载", null)
+            return
+        }
+        // Android 8+: the installer needs the "install unknown apps" grant for
+        // this package; send the user to the exact settings page and let them
+        // retry afterwards instead of silently failing on startActivity.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !packageManager.canRequestPackageInstalls()) {
+            try {
+                startActivity(
+                    Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:$packageName"))
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+                result.error("NEED_PERMISSION", "请在系统设置中允许课程表安装应用，然后重新点击下载", null)
+            } catch (t: Throwable) {
+                result.error("NEED_PERMISSION", "需要允许安装未知应用的权限", null)
+            }
+            return
+        }
+        try {
+            val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
+            startActivity(
+                Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(uri, "application/vnd.android.package-archive")
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK),
+            )
+            result.success(true)
+        } catch (t: Throwable) {
+            result.error("INSTALL_FAILED", "没有可用的安装程序：${t.message}", null)
         }
     }
 

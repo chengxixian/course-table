@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'generic_html_parser.dart';
+import 'html_compactor.dart';
 import 'imported_source.dart';
 import 'models.dart';
 import 'storage.dart';
@@ -44,9 +44,27 @@ class ImportedScheduleService {
       if (response.statusCode < 200 || response.statusCode >= 400) {
         throw ImportException('网页返回 HTTP ${response.statusCode}');
       }
-      final body = await response.transform(utf8.decoder).join();
-      if (body.length > 6 * 1024 * 1024) throw const ImportException('网页内容过大');
-      return body;
+      // Read raw bytes with a network ceiling, decode tolerantly (one bad byte
+      // used to abort a whole import), then strip script/style/base64 before
+      // the size test: a 20MB portal page usually compacts to under 2MB and
+      // parses fine. The old hard throw at 6MB was the "网页内容过大" failure
+      // users reported on large timetable pages.
+      final buffered = BytesBuilder(copy: true);
+      var size = 0;
+      var overflow = false;
+      await for (final chunk in response.cast<List<int>>()) {
+        size += chunk.length;
+        if (size > 48 * 1024 * 1024) {
+          overflow = true;
+          break;
+        }
+        buffered.add(chunk);
+      }
+      if (overflow) throw const ImportException('网页超过 48MB，可能不是课表页面，请用学校的课表打印页');
+      final html = compactHtml(decodeUtf8Tolerant(buffered.takeBytes()));
+      if (html.length > maxHtmlChars) throw const ImportException('网页正文过大，请改用课表打印页或已适配高校入口');
+      if (html.trim().isEmpty) throw const ImportException('网页没有可解析的正文');
+      return html;
     } on ImportException {
       rethrow;
     } catch (e) {

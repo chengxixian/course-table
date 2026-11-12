@@ -1,0 +1,10 @@
+任务：审计这些 Dart 服务文件，找运行时 bug。
+只依据给出的文件回答，输出缺陷表：严重度(Crash/数据丢失/卡死/轻微) | 文件:行号 | 一句话问题 | 触发场景。
+重点检查：
+1. 未 await 的 Future / unawaited 里抛异常没人接
+2. catch 吞掉后状态不一致（半写入）
+3. 并发调用同一写入路径的竞态
+4. 异常路径下 SharedPreferences/文件写了一半
+5. context.mounted 缺失、BuildContext 跨 await 使用
+6. 超时/重试逻辑错误
+不要建议重构，只列事实。

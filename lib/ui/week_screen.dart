@@ -46,11 +46,26 @@ class _WeekScreenState extends State<WeekScreen> with SingleTickerProviderStateM
 
   Schedule get schedule => widget.controller.schedule!;
 
+  /// +1 when the last week change moved forward; drives the shared-axis slide.
+  int _weekDirection = 0;
+
   @override
   void didUpdateWidget(WeekScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.week != widget.week) {
+      _weekDirection = widget.week > oldWidget.week ? 1 : -1;
       FrameStats.instance.beginFrames('week-switch', frames: 6);
+      // The keyed swap remounts the grid, which re-creates the horizontal
+      // ScrollPosition at 0; carry the day offset over so switching weeks
+      // does not jump back to Monday.
+      if (_horizontal.hasClients) {
+        final keep = _horizontal.offset;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted && _horizontal.hasClients) {
+            _horizontal.jumpTo(keep.clamp(0.0, _horizontal.position.maxScrollExtent));
+          }
+        });
+      }
     }
   }
 
@@ -71,7 +86,6 @@ class _WeekScreenState extends State<WeekScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final currentWeek = schedule.currentWeek();
     final w = week;
     if (!_initialScrollDone) {
       _initialScrollDone = true;
@@ -82,28 +96,37 @@ class _WeekScreenState extends State<WeekScreen> with SingleTickerProviderStateM
       physics: _dragging.value ? const NeverScrollableScrollPhysics() : null,
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
       children: [
-        FadeSlideIn(delay: const Duration(milliseconds: 20), child: WeekHero(schedule: schedule, week: w)),
-        const SizedBox(height: 12),
-        const SizedBox(height: 10),
-        FadeSlideIn(delay: const Duration(milliseconds: 90), child: _Timetable(
-          schedule: schedule,
-          week: w,
-          horizontal: _horizontal,
-          dragging: _dragging,
-          gridKey: _gridKey,
-          viewportKey: _viewportKey,
-          coordinator: _dragCoordinator,
-          durationMode: widget.controller.settings.durationMode,
-          onCourseTap: (course, rect) => showCourseDetail(context, widget.controller, course, anchor: rect),
-          onMoveMeeting: (meeting, day, start) => widget.controller.moveMeeting(meeting, day, start),
-        )),
-        const SizedBox(height: 10),
-        Row(children: [
-          Icon(PixelIcons.info_outline, size: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
-          const SizedBox(width: 5),
-          Expanded(child: Text('课程时间以教务系统节次为准；日历默认按每节 45 分钟生成，不含课间。',
-              style: TextStyle(fontSize: 9.5, height: 1.4, color: Theme.of(context).colorScheme.onSurfaceVariant))),
-        ]),
+        // One keyed subtree per week: the key change remounts it in place,
+        // DirectionalSwap slides the new week in from the side. The ListView
+        // itself stays mounted, so the vertical scroll position survives.
+        DirectionalSwap(
+          key: ValueKey(w),
+          direction: _weekDirection,
+          child: Column(children: [
+            WeekHero(schedule: schedule, week: w),
+            const SizedBox(height: 12),
+            const SizedBox(height: 10),
+            _Timetable(
+              schedule: schedule,
+              week: w,
+              horizontal: _horizontal,
+              dragging: _dragging,
+              gridKey: _gridKey,
+              viewportKey: _viewportKey,
+              coordinator: _dragCoordinator,
+              durationMode: widget.controller.settings.durationMode,
+              onCourseTap: (course, rect) => showCourseDetail(context, widget.controller, course, anchor: rect),
+              onMoveMeeting: (meeting, day, start) => widget.controller.moveMeeting(meeting, day, start),
+            ),
+            const SizedBox(height: 10),
+            Row(children: [
+              Icon(PixelIcons.info_outline, size: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
+              const SizedBox(width: 5),
+              Expanded(child: Text('课程时间以教务系统节次为准；日历默认按每节 45 分钟生成，不含课间。',
+                  style: TextStyle(fontSize: 9.5, height: 1.4, color: Theme.of(context).colorScheme.onSurfaceVariant))),
+            ]),
+          ]),
+        ),
       ],
     );
   }

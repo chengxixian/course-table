@@ -105,7 +105,12 @@ class UpdateService {
       request.headers.set(HttpHeaders.userAgentHeader, 'course-table-updater/2.0');
       final response = await request.close().timeout(const Duration(seconds: 12));
       if (response.statusCode != 200) throw HttpException('HTTP ${response.statusCode}');
-      final body = await response.transform(utf8.decoder).join();
+      // The body read needs its own deadline: a server that sends headers and
+      // then stalls would otherwise hang the update check forever.
+      final body = await response
+          .transform(utf8.decoder)
+          .join()
+          .timeout(const Duration(seconds: 20));
       if (body.length > 1024 * 1024) throw const FormatException('version file too large');
       return body;
     } finally {
@@ -162,11 +167,12 @@ class UpdateService {
 
   static Future<void> _downloadAndInstall(BuildContext context, UpdateInfo info) async {
     final progress = ValueNotifier<double>(0);
+    final cancel = ValueNotifier(false);
     var dialogOpen = true;
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (_) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text('正在下载 ${info.version}'),
         content: ValueListenableBuilder<double>(
           valueListenable: progress,
@@ -176,10 +182,20 @@ class UpdateService {
             Text(value <= 0 ? '正在连接下载源…' : '${(value * 100).toStringAsFixed(0)}% · GitHub 源失败会自动切换镜像', style: const TextStyle(fontSize: 11)),
           ]),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              cancel.value = true;
+              dialogOpen = false;
+              Navigator.pop(dialogContext);
+            },
+            child: const Text('取消'),
+          ),
+        ],
       ),
     );
     try {
-      final file = await _downloadApk(info, progress);
+      final file = await _downloadApk(info, progress, cancel);
       if (context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
         dialogOpen = false;
@@ -192,6 +208,8 @@ class UpdateService {
       }
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? '无法启动安装器')));
+    } on _DownloadCancelled {
+      // User pressed 取消; the dialog closed itself. No failure UI.
     } catch (e) {
       if (dialogOpen && context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
@@ -209,15 +227,16 @@ class UpdateService {
           ],
         ),
       );
-      if (fallback == true) {
+      if (fallback == true && context.mounted) {
         await launchUrl(Uri.parse(info.pageUrl), mode: LaunchMode.externalApplication);
       }
     } finally {
       progress.dispose();
+      cancel.dispose();
     }
   }
 
-  static Future<File> _downloadApk(UpdateInfo info, ValueNotifier<double> progress) async {
+  static Future<File> _downloadApk(UpdateInfo info, ValueNotifier<double> progress, ValueNotifier<bool> cancel) async {
     final dir = await getTemporaryDirectory();
     final file = File('${dir.path}/course-table-${info.version}.apk');
     if (await file.exists()) await file.delete();
@@ -227,6 +246,7 @@ class UpdateService {
     }
     Object? lastError;
     for (final url in urls) {
+      if (cancel.value) throw const _DownloadCancelled();
       final client = HttpClient()..connectionTimeout = const Duration(seconds: 12);
       try {
         final request = await client.getUrl(Uri.parse(url));
@@ -236,7 +256,16 @@ class UpdateService {
         final total = response.contentLength;
         final sink = file.openWrite();
         var received = 0;
-        await for (final chunk in response) {
+        // Stream.timeout fires between chunks, not on the total: a stalled
+        // connection aborts after 30s of silence and falls through to the next
+        // mirror, while a slow-but-alive download continues indefinitely.
+        // Without this the download dialog hung forever with no cancel path.
+        await for (final chunk in response.timeout(const Duration(seconds: 30))) {
+          if (cancel.value) {
+            await sink.flush();
+            await sink.close();
+            throw const _DownloadCancelled();
+          }
           sink.add(chunk);
           received += chunk.length;
           if (total > 0) progress.value = (received / total).clamp(0.0, 1.0);
@@ -246,6 +275,9 @@ class UpdateService {
         if (length < 1024 * 1024) throw const FormatException('安装包大小异常');
         progress.value = 1;
         return file;
+      } on _DownloadCancelled {
+        if (await file.exists()) await file.delete();
+        rethrow;
       } catch (e) {
         lastError = e;
         if (await file.exists()) await file.delete();
@@ -261,4 +293,11 @@ class UpdateService {
     if (info == null || !context.mounted) return;
     await showDialogFor(context, info);
   }
+}
+
+/// Thrown internally when the user cancels the download dialog; distinct from
+/// network failures so the catch chain can stay silent instead of showing the
+/// "下载失败" fallback.
+class _DownloadCancelled implements Exception {
+  const _DownloadCancelled();
 }

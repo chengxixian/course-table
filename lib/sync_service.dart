@@ -148,7 +148,31 @@ class WidgetBridge {
         }
       }
     }
+    // Raw per-meeting facts so the widget can recompute "next class", the
+    // today rows and the week label at every 30-minute system redraw.
+    // Without this the strings above freeze at publish time and the widget
+    // shows a class that already ended hours ago.
+    final allCourses = <Map<String, dynamic>>[
+      for (final m in schedule.meetings)
+        {
+          'day': m.day,
+          'weeks': m.weeks,
+          'period': m.startPeriod,
+          'span': m.periodCount,
+          'name': m.courseName,
+          'room': m.room,
+          'teacher': m.teacher,
+          'colorIndex': schedule.courseById(m.courseId)?.colorIndex ?? 0,
+          'startMin': Schedule.parseMinutes(m.startTime) ?? 0,
+          'endMin': Schedule.parseMinutes(m.endTime(settings.durationMode)) ?? 0,
+          'time': m.startTime,
+          'end': m.endTime(settings.durationMode),
+        },
+    ];
     return {
+      'semesterStart': schedule.semester.start,
+      'totalWeeks': schedule.semester.totalWeeks,
+      'allCourses': allCourses,
       'week': week > 0 ? '第 $week 周' : '假期',
       'weekCourses': weekCourses,
       'periodCount': schedule.periods.length,

@@ -16,6 +16,9 @@ abstract final class Motion {
   static const Curve exit = Curves.easeInCubic;
   static const Curve emphasized = Curves.easeInOutCubicEmphasized;
 
+  /// M3 emphasized decelerate (Flutter has no `Curves.easeOutCubicEmphasized`).
+  static const Curve emphasizedDecelerate = Cubic(0.05, 0.7, 0.1, 1.0);
+
   /// Spring used by the drag snap: slightly under-damped so it settles into the
   /// slot instead of bouncing off it.
   static final Curve snap = SpringCurve(
@@ -38,6 +41,14 @@ abstract final class Motion {
     seconds: 0.34,
   );
   static const Duration popDuration = Duration(milliseconds: 420);
+
+  /// Press feedback: stiff, slightly under-damped so the widget squishes a
+  /// hair past its resting scale and settles back - the "droplet" swell.
+  static final Curve press = SpringCurve(
+    SpringDescription.withDampingRatio(mass: 1, stiffness: 520, ratio: 0.74),
+    seconds: 0.24,
+  );
+  static const Duration pressDuration = Duration(milliseconds: 240);
 
   static bool reduceMotionOf(BuildContext context) =>
       (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ||
@@ -263,6 +274,138 @@ class AnimatedPageSwitcher extends StatelessWidget {
   }
 }
 
+/// Material 3 Expressive *fade-through* swap for sibling destinations.
+///
+/// The outgoing page fades out fast and slightly scaled up; the incoming page
+/// fades in from 92% with an emphasized deceleration. Unlike a slide it reads
+/// as "same layer, new content", which is what bottom-navigation tabs are.
+///
+/// The curve split mirrors the M3 motion spec (out 0→0.9 of the window,
+/// in 0.21→1.0); the shape is adapted from FlClash's `FadeThroughTransition`
+/// usage in `lib/ui/fade_box.dart` (GPL-3.0, see NOTICE).
+class FadeThroughSwitcher extends StatelessWidget {
+  const FadeThroughSwitcher({super.key, required this.child, this.duration = Motion.medium});
+
+  final Widget child;
+  final Duration duration;
+
+  static final Animatable<double> _inOpacity = CurveTween(curve: const Interval(0.21, 1.0));
+  static final Animatable<double> _inScale = Tween<double>(begin: 0.92, end: 1.0)
+      .chain(CurveTween(curve: Motion.emphasizedDecelerate));
+  // The outgoing child's animation runs 1→0, so its "fast fade" window is the
+  // top tenth of the value range, and its scale grows as the value shrinks.
+  static final Animatable<double> _outOpacity = CurveTween(curve: const Interval(0.9, 1.0));
+  static final Animatable<double> _outScale = Tween<double>(begin: 1.06, end: 1.0);
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = Motion.reduceMotionOf(context);
+    return AnimatedSwitcher(
+      duration: reduce ? Duration.zero : duration,
+      transitionBuilder: (child, animation) {
+        final entering = animation.status != AnimationStatus.reverse &&
+            animation.status != AnimationStatus.dismissed;
+        return FadeTransition(
+          opacity: (entering ? _inOpacity : _outOpacity).animate(animation),
+          child: ScaleTransition(
+            scale: (entering ? _inScale : _outScale).animate(animation),
+            child: child,
+          ),
+        );
+      },
+      layoutBuilder: (currentChild, previousChildren) => Stack(
+        fit: StackFit.expand,
+        children: [...previousChildren, ?currentChild],
+      ),
+      child: child,
+    );
+  }
+}
+
+/// Slides pages horizontally when the *direction* of an index change matters
+/// (week stepping), with the M3 shared-axis feel: a short emphasized slide
+/// under a quick cross-fade.
+class SharedAxisSwitcher extends StatelessWidget {
+  const SharedAxisSwitcher({
+    super.key,
+    required this.child,
+    required this.direction,
+    this.duration = Motion.medium,
+  });
+
+  final Widget child;
+
+  /// +1 when moving forward (next week), -1 backward, 0 for a non-directional
+  /// first build.
+  final int direction;
+  final Duration duration;
+
+  static const double _slidePx = 56;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = Motion.reduceMotionOf(context);
+    final sign = direction == 0 ? 1 : (direction > 0 ? 1 : -1);
+    return AnimatedSwitcher(
+      duration: reduce ? Duration.zero : duration,
+      switchInCurve: Motion.emphasizedDecelerate,
+      switchOutCurve: Curves.easeInCubic,
+      transitionBuilder: (child, animation) {
+        final entering = animation.status != AnimationStatus.reverse &&
+            animation.status != AnimationStatus.dismissed;
+        final dir = entering ? sign : -sign;
+        return FadeTransition(
+          opacity: animation,
+          child: AnimatedBuilder(
+            animation: animation,
+            builder: (_, c) => Transform.translate(
+              offset: Offset(_slidePx * dir * (1 - animation.value), 0),
+              child: c,
+            ),
+            child: child,
+          ),
+        );
+      },
+      layoutBuilder: (currentChild, previousChildren) => Stack(
+        fit: StackFit.expand,
+        children: [...previousChildren, ?currentChild],
+      ),
+      child: child,
+    );
+  }
+}
+
+/// Slides + fades its subtree in when the caller gives it a new key.
+///
+/// Used for week stepping: remounting on a key change is what re-triggers the
+/// entrance, and unlike an AnimatedSwitcher only one copy of the subtree ever
+/// exists, so a shared ScrollController inside it never double-attaches.
+class DirectionalSwap extends StatelessWidget {
+  const DirectionalSwap({super.key, required this.direction, required this.child});
+
+  /// +1 forward (next week), -1 backward; 0 for the first build.
+  final int direction;
+  final Widget child;
+
+  static const double _slidePx = 40;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduceMotionOf(context)) return child;
+    final sign = direction == 0 ? 1 : (direction > 0 ? 1 : -1);
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Motion.medium,
+      curve: Motion.emphasizedDecelerate,
+      builder: (_, t, c) => Opacity(
+        opacity: t,
+        child: Transform.translate(offset: Offset(_slidePx * sign * (1 - t), 0), child: c),
+      ),
+      child: child,
+    );
+  }
+}
+
 /// Subtly scales [child] down while a pointer is pressed on it.
 ///
 /// Uses a raw [Listener], so taps, drags and scrolling owned by the child keep
@@ -271,16 +414,18 @@ class PressScale extends StatefulWidget {
   const PressScale({
     super.key,
     required this.child,
-    this.pressedScale = 0.97,
-    this.duration = Motion.fast,
-    this.curve = Motion.enter,
+    this.pressedScale = 0.965,
+    this.duration = Motion.pressDuration,
+    this.curve,
     this.enabled = true,
   });
 
   final Widget child;
   final double pressedScale;
   final Duration duration;
-  final Curve curve;
+
+  /// Spring by default; `SpringCurve` cannot be a const default.
+  final Curve? curve;
   final bool enabled;
 
   @override
@@ -336,7 +481,7 @@ class _PressScaleState extends State<PressScale> {
       child: AnimatedScale(
         scale: scale,
         duration: _reduceMotion ? Duration.zero : widget.duration,
-        curve: widget.curve,
+        curve: widget.curve ?? Motion.press,
         child: widget.child,
       ),
     );

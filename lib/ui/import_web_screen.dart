@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import '../classy_bridge_service.dart';
 import '../ai_nav_service.dart';
 
 import '../generic_html_parser.dart';
+import '../html_compactor.dart';
 import '../imported_source.dart';
 import '../pixel_icons.dart';
 
@@ -99,7 +100,10 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
     setState(() => _loading = true);
     try {
       final raw = await web.runJavaScriptReturningResult('document.documentElement.outerHTML');
-      final html = _decodeJs(raw);
+      // Compact before parsing and before saving: portal DOMs run to tens of
+      // MB of script/style/base64, which the parser ignores and storage does
+      // not need.
+      final html = compactHtml(_decodeJs(raw));
       if (html.isEmpty) throw const FormatException('页面内容为空');
       final url = await web.currentUrl() ?? _url.text;
       final cookies = <String, String>{};
@@ -216,6 +220,8 @@ class _ImportWebScreenState extends State<ImportWebScreen> {
       try {
         final web = _web;
         if (web != null) {
+          // Not compacted: several Classy parsers read JSON blobs embedded in
+          // <script>, so this path must keep the original document.
           final html = _decodeJs(await web.runJavaScriptReturningResult('document.documentElement.outerHTML'));
           final url = await web.currentUrl() ?? _url.text;
           final cookies = <String, String>{};

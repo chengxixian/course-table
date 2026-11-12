@@ -186,7 +186,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
           Expanded(
             child: Column(children: [
               _DesktopTitleBar(controller: controller),
-              Expanded(child: AnimatedPageSwitcher(child: KeyedSubtree(key: ValueKey(_tab), child: screens[_tab]))),
+              Expanded(child: FadeThroughSwitcher(child: KeyedSubtree(key: ValueKey(_tab), child: screens[_tab]))),
             ]),
           ),
         ]),
@@ -218,7 +218,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
           const SizedBox(width: 4),
         ],
       ),
-      body: AnimatedPageSwitcher(child: KeyedSubtree(key: ValueKey(_tab), child: screens[_tab])),
+      body: FadeThroughSwitcher(child: KeyedSubtree(key: ValueKey(_tab), child: screens[_tab])),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tab,
         onDestinationSelected: (i) => setState(() => _tab = i),

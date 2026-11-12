@@ -30,7 +30,7 @@ class WeekGridWidgetProvider : AppWidgetProvider() {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, WeekGridWidgetProvider::class.java))
             if (ids.isEmpty()) return
-            val json = runCatching { HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) } }.getOrNull()
+            val json = runCatching { WidgetSchedule.refresh(HomeWidgetPlugin.getData(context).getString("schedule_widget", null)?.let { JSONObject(it) }) }.getOrNull()
             for (id in ids) {
                 try {
                     val views = RemoteViews(context.packageName, R.layout.widget_week)
