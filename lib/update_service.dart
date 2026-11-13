@@ -129,13 +129,35 @@ class UpdateService {
     return build > AppMeta.build;
   }
 
+  /// Release bodies are Markdown; the dialog renders plain Text, so strip the
+  /// markers instead of showing `##`/`**` to users.
+  static String _plainNotes(String notes) {
+    if (notes.isEmpty) return '修复问题并改进体验。';
+    final lines = notes.split('\n').map((line) {
+      var l = line.trimRight();
+      l = l.replaceAll(RegExp(r'^#+\s*'), '').replaceAll('**', '');
+      l = l.replaceAll('`', '');
+      l = l.replaceFirst(RegExp(r'^[-*]\s+'), '• ');
+      return l;
+    }).where((l) => l.trim().isNotEmpty && !l.trim().startsWith('>')).join('\n');
+    return lines;
+  }
+
+  static String _friendlyError(Object e) {
+    final s = e.toString();
+    if (s.contains('Failed host lookup')) return '域名解析失败：请检查网络后重试（GitHub 与镜像均无法解析）';
+    if (s.contains('Connection timed out') || s.contains('timed out')) return '下载超时：网络不稳定，建议稍后重试或用浏览器打开下载页';
+    if (s.contains('SocketException')) return '网络连接中断：请检查网络后重试';
+    return s.replaceFirst('Bad state: ', '').replaceFirst('Exception: ', '');
+  }
+
   static Future<void> showDialogFor(BuildContext context, UpdateInfo info) async {
     final open = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text('发现新版本 ${info.version}'),
         content: SingleChildScrollView(
-          child: Text(info.notes.isEmpty ? '修复问题并改进体验。' : info.notes, style: const TextStyle(height: 1.5)),
+          child: Text(_plainNotes(info.notes), style: const TextStyle(height: 1.5)),
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('稍后')),
@@ -200,7 +222,10 @@ class UpdateService {
         Navigator.of(context, rootNavigator: true).pop();
         dialogOpen = false;
       }
-      await const MethodChannel('com.hsu.hsu_schedule/install').invokeMethod('installApk', {'path': file.path});
+      final launched = await const MethodChannel('com.hsu.hsu_schedule/install').invokeMethod<bool>('installApk', {'path': file.path});
+      if (launched == false && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('下载完成；回到前台会自动打开安装器')));
+      }
     } on PlatformException catch (e) {
       if (dialogOpen && context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
@@ -220,7 +245,7 @@ class UpdateService {
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text('下载失败'),
-          content: Text('$e\n\n可以改用浏览器打开下载页。'),
+          content: Text('${_friendlyError(e)}\n\n可以改用浏览器打开下载页。'),
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
             FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('打开下载页')),
@@ -289,7 +314,15 @@ class UpdateService {
   }
 
   static Future<void> maybeCheck(BuildContext context) async {
-    final info = await check();
+    // Startup check must never crash the app: every source timing out is a
+    // normal outcome on flaky CN networks, and check() signals that with a
+    // StateError. Manual checks (About page) surface the error to the user.
+    UpdateInfo? info;
+    try {
+      info = await check();
+    } catch (_) {
+      return;
+    }
     if (info == null || !context.mounted) return;
     await showDialogFor(context, info);
   }

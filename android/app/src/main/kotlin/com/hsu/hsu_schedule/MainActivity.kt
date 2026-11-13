@@ -40,9 +40,17 @@ class MainActivity : FlutterActivity() {
     private var pendingEvents: List<Map<String, Any>>? = null
     private var pendingCalendarId: Long? = null
 
+    /// Install/settings intent dropped by Android 14+ BAL while backgrounded;
+    /// fired on the next resume.
+    private var pendingLaunch: Intent? = null
+
     override fun onResume() {
         super.onResume()
         runCatching { ScheduleWidgetProvider.updateAll(this) }
+        pendingLaunch?.let {
+            pendingLaunch = null
+            runCatching { startActivity(it) }
+        }
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -162,27 +170,39 @@ class MainActivity : FlutterActivity() {
         // this package; send the user to the exact settings page and let them
         // retry afterwards instead of silently failing on startActivity.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !packageManager.canRequestPackageInstalls()) {
-            try {
-                startActivity(
-                    Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:$packageName"))
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-                )
-                result.error("NEED_PERMISSION", "请在系统设置中允许课程表安装应用，然后重新点击下载", null)
-            } catch (t: Throwable) {
-                result.error("NEED_PERMISSION", "需要允许安装未知应用的权限", null)
-            }
+            val settings = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:$packageName"))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            val immediate = launchNowOrDefer(settings)
+            result.error(
+                "NEED_PERMISSION",
+                if (immediate) "请在系统设置中允许课程表安装应用，然后重新点击下载" else "下载已完成；回到应用后将引导你允许安装",
+                null,
+            )
             return
         }
         try {
             val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
-            startActivity(
-                Intent(Intent.ACTION_VIEW)
-                    .setDataAndType(uri, "application/vnd.android.package-archive")
-                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK),
-            )
-            result.success(true)
+            val intent = Intent(Intent.ACTION_VIEW)
+                .setDataAndType(uri, "application/vnd.android.package-archive")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+            // Android 14+ blocks background activity starts (BAL): a download
+            // that finishes while the screen is off would be silently dropped
+            // (START result -91). Launch only when resumed, otherwise defer to
+            // the next onResume so the installer still appears.
+            result.success(launchNowOrDefer(intent))
         } catch (t: Throwable) {
             result.error("INSTALL_FAILED", "没有可用的安装程序：${t.message}", null)
+        }
+    }
+
+    /// True when started immediately; false when deferred to the next resume.
+    private fun launchNowOrDefer(intent: Intent): Boolean {
+        val foreground = lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED) && !isFinishing
+        return if (foreground) {
+            runCatching { startActivity(intent) }.isSuccess
+        } else {
+            pendingLaunch = intent
+            false
         }
     }
 
