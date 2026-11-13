@@ -1,7 +1,0 @@
-{
-  "version": "3.1.6",
-  "build": 51,
-  "notes": "修复更新后仍提示旧版本的问题（版本号改为读取安装包实际版本）；修复下载完成后无法拉起系统安装器；新增下载取消与超时；大网页导入不再报“网页内容过大”；桌面小组件每 30 分钟自行重算下一节课与周数；页面切换与周切换动画升级。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.6/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.6"
-}
