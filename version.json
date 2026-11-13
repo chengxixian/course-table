@@ -1,7 +1,7 @@
 {
-  "version": "3.1.7",
-  "build": 52,
-  "notes": "修复息屏时下载完成后安装器不出现（Android 14+ 后台启动限制）；更新说明改为纯文本；下载失败提示中文化。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.7/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.7"
+  "version": "3.1.8",
+  "build": 53,
+  "notes": "修复更新检查被 CDN 旧缓存卡住的问题（缓存参数改为时间戳）；3.1.7 的安装器后台拉起修复也包含在此版。",
+  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.8/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.8"
 }

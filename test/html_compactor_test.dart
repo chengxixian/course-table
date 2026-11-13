@@ -70,7 +70,15 @@ void main() {
       AppMeta.applyPackageInfo(version: '9.9.9', buildNumber: '123');
       expect(AppMeta.version, '9.9.9');
       expect(AppMeta.build, 123);
-      expect(AppMeta.versionUrl, contains('b=123'));
+    });
+
+    test('version URLs carry a time buster, not the frozen build number', () {
+      // The old `?b=<build>` let CDNs serve stale manifests forever, because
+      // the build only changes after an update. Guard the new format.
+      expect(AppMeta.versionUrl, contains('?t='));
+      expect(AppMeta.versionUrl, isNot(contains('?b=')));
+      expect(AppMeta.versionUrlFallback, contains('?t='));
+      expect(AppMeta.versionUrlMirror, contains('?t='));
     });
 
     test('ignores empty or unparsable values', () {
