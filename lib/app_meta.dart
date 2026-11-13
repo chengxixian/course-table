@@ -8,8 +8,8 @@ class AppMeta {
   /// user had installed: a 3.1.5 build still said 3.1.4 and kept offering
   /// itself as an update forever. [applyPackageInfo] fills them in during
   /// bootstrap; the fallbacks only cover a package_info failure.
-  static String version = '3.1.8';
-  static int build = 53;
+  static String version = '3.1.9';
+  static int build = 54;
 
   static void applyPackageInfo({required String version, required String buildNumber}) {
     if (version.trim().isNotEmpty) AppMeta.version = version.trim();

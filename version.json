@@ -1,7 +1,7 @@
 {
-  "version": "3.1.8",
-  "build": 53,
-  "notes": "修复更新检查被 CDN 旧缓存卡住的问题（缓存参数改为时间戳）；3.1.7 的安装器后台拉起修复也包含在此版。",
-  "apk": "https://github.com/chengxixian/course-table/releases/download/v3.1.8/course-table.apk",
-  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.8"
+  "version": "3.1.9",
+  "build": 54,
+  "notes": "更新检查改为多源取最新，单个 CDN 缓存过期不再提示已是最新；下载默认走国内高速镜像（gh-proxy），慢源 20 秒自动切换。包含 3.1.7/3.1.8 的安装器与缓存修复。",
+  "apk": "https://gh-proxy.com/https://github.com/chengxixian/course-table/releases/download/v3.1.9/course-table.apk",
+  "page": "https://github.com/chengxixian/course-table/releases/tag/v3.1.9"
 }

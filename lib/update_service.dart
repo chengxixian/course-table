@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -75,27 +76,61 @@ class UpdateService {
     } catch (e) {
       lastError = e;
     }
-    for (final url in [AppMeta.versionUrl, AppMeta.versionUrlFastly, AppMeta.versionUrlGcore, AppMeta.versionUrlFallback, AppMeta.versionUrlMirror]) {
+    // Collect from every manifest source and take the newest answer.
+    // A single stale CDN must not mask a newer version: jsdelivr keys its
+    // branch cache by path and ignores query strings, so the `?t=` buster does
+    // not force it fresh — a poisoned edge can serve an old snapshot for
+    // hours, which is exactly how a 3.1.6 install was told 3.1.5 was latest.
+    // raw.githubusercontent (5-minute TTL) leads the list; the rest are
+    // CN-reachable fallbacks.
+    String? bestVersion;
+    int bestBuild = 0;
+    String bestNotes = '';
+    String bestApk = '${AppMeta.releasesUrl}/latest';
+    String bestPage = AppMeta.releasesUrl;
+    var anySuccess = false;
+    for (final url in [AppMeta.versionUrlFallback, AppMeta.versionUrl, AppMeta.versionUrlFastly, AppMeta.versionUrlGcore, AppMeta.versionUrlMirror]) {
       try {
         final body = await _get(url);
         final data = jsonDecode(body) as Map<String, dynamic>;
         final version = data['version']?.toString() ?? '';
+        if (version.isEmpty) continue;
+        anySuccess = true;
         final build = (data['build'] as num?)?.toInt() ?? 0;
-        final notes = data['notes']?.toString() ?? '';
-        final apk = data['apk']?.toString() ?? '${AppMeta.releasesUrl}/latest';
-        final page = data['page']?.toString() ?? AppMeta.releasesUrl;
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(_lastCheckKey, DateTime.now().toIso8601String());
-        if (_isNewer(version, build)) {
-          return UpdateInfo(version: version, build: build, notes: notes, apkUrl: apk, pageUrl: page);
+        if (_versionIsNewer(version, build, bestVersion, bestBuild)) {
+          bestVersion = version;
+          bestBuild = build;
+          bestNotes = data['notes']?.toString() ?? '';
+          bestApk = data['apk']?.toString() ?? bestApk;
+          bestPage = data['page']?.toString() ?? bestPage;
         }
-        return null;
       } catch (e) {
         lastError = e;
       }
     }
+    if (anySuccess) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_lastCheckKey, DateTime.now().toIso8601String());
+      if (bestVersion != null && _isNewer(bestVersion, bestBuild)) {
+        return UpdateInfo(version: bestVersion, build: bestBuild, notes: bestNotes, apkUrl: bestApk, pageUrl: bestPage);
+      }
+      return null;
+    }
     debugPrint('update check failed: $lastError');
     throw UpdateCheckException('无法连接更新服务器，请检查网络后重试');
+  }
+
+  /// Semver-ish compare used to pick the freshest manifest across sources.
+  static bool _versionIsNewer(String version, int build, String? than, int thanBuild) {
+    if (than == null) return true;
+    final a = version.replaceAll('v', '').split('.').map((e) => int.tryParse(e.split('-').first) ?? 0).toList();
+    final b = than.replaceAll('v', '').split('.').map((e) => int.tryParse(e.split('-').first) ?? 0).toList();
+    for (var i = 0; i < 3; i++) {
+      final x = i < a.length ? a[i] : 0;
+      final y = i < b.length ? b[i] : 0;
+      if (x != y) return x > y;
+    }
+    return build > thanBuild;
   }
 
   static Future<String> _get(String url) async {
@@ -180,11 +215,13 @@ class UpdateService {
     }
   }
 
+  // Ordered by measured throughput from CN mobile networks (2026-11):
+  // gh-proxy.com ~900KB/s, ghfast.top ~430KB/s, ghproxy.net ~30KB/s.
+  // mirror.ghproxy.com / github.moeyy.xyz / gh.llkk.cc were dead at test time.
   static const _mirrors = <String>[
-    'https://ghproxy.net/',
     'https://gh-proxy.com/',
-    'https://mirror.ghproxy.com/',
-    'https://github.moeyy.xyz/',
+    'https://ghfast.top/',
+    'https://ghproxy.net/',
   ];
 
   static Future<void> _downloadAndInstall(BuildContext context, UpdateInfo info) async {
@@ -265,9 +302,16 @@ class UpdateService {
     final dir = await getTemporaryDirectory();
     final file = File('${dir.path}/course-table-${info.version}.apk');
     if (await file.exists()) await file.delete();
+    // Normalize: version.json may already hand us a mirror URL; strip known
+    // prefixes so fallback variants are built from the canonical GitHub URL.
+    var canonical = info.apkUrl;
+    for (final m in _mirrors) {
+      if (canonical.startsWith(m)) canonical = canonical.substring(m.length);
+    }
     final urls = <String>[info.apkUrl];
     for (final mirror in _mirrors) {
-      if (!info.apkUrl.startsWith(mirror)) urls.add('$mirror${info.apkUrl}');
+      final variant = '$mirror$canonical';
+      if (!urls.contains(variant)) urls.add(variant);
     }
     Object? lastError;
     for (final url in urls) {
@@ -281,6 +325,11 @@ class UpdateService {
         final total = response.contentLength;
         final sink = file.openWrite();
         var received = 0;
+        // Two fallback triggers, because a slow-but-alive connection never
+        // hits the idle timeout: GitHub direct trickles ~85KB/s on CN mobile
+        // (81MB in 16 minutes) while gh-proxy.com delivers ~900KB/s. The
+        // watchdog aborts any source that has not moved 1.5MB within 20s.
+        final watch = Stopwatch()..start();
         // Stream.timeout fires between chunks, not on the total: a stalled
         // connection aborts after 30s of silence and falls through to the next
         // mirror, while a slow-but-alive download continues indefinitely.
@@ -294,6 +343,11 @@ class UpdateService {
           sink.add(chunk);
           received += chunk.length;
           if (total > 0) progress.value = (received / total).clamp(0.0, 1.0);
+          if (watch.elapsed.inSeconds > 20 && received < 1500000) {
+            await sink.flush();
+            await sink.close();
+            throw TimeoutException('源速度过慢，已切换');
+          }
         }
         await sink.close();
         final length = await file.length();
